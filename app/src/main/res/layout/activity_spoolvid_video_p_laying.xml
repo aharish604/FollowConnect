@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".spoolvid.SpoolvidVideoPLayingActivity">
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/imgbtn_backvideoplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/todo"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="17dp"
+            android:layout_toEndOf="@id/imgbtn_backvideoplay"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.025"
+            android:text="@string/videoPlay"
+
+            android:textColor="@color/textColorthick"
+            android:textSize="20sp"
+            tools:targetApi="lollipop" />
+
+
+    </RelativeLayout>
+
+
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/ic_exoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="@bool/bool_true"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:resize_mode="fill"
+        app:show_buffering="when_playing"
+        />
+
+</RelativeLayout>

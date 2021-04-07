@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_barLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <ImageButton
+                android:id="@+id/imgbtn_searchuserprofile"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:layout_marginStart="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/todo"
+                android:foregroundGravity="center"
+                android:src="@drawable/ic_cross_black" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/imgbtn_searchuserprofile"
+                android:gravity="center"
+                android:text="Post"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_uploadimages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_barLayout"
+        android:layout_marginTop="15dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_india"
+            app:civ_border_color="#F4F2F2"
+            app:civ_border_width="2dp" />
+
+
+        <TextView
+            android:id="@+id/profilename_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/profile_image"
+            android:text="David Mike"
+            android:textColor="@color/myview_textcolor"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_privicy"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittext_bg"
+            android:gravity="center"
+            android:text="Edit Profile"
+            tools:targetApi="lollipop"
+
+            >
+
+            <Spinner
+                android:id="@+id/sp_privicy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:padding="5dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:rotation="90"
+                android:src="@drawable/ic_forwardarrow" />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_dispusername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profilename_tv"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/profile_image"
+            android:text="david03"
+            android:textColor="@color/textColor"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/et_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_uploadimages"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="Write Something.."
+        android:inputType="textMultiLine"
+        android:paddingStart="10dp"
+        android:textColorHint="@color/textColor"
+        android:textSize="16sp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/et_comment"
+        android:id="@+id/rl_imagepreview"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="70dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_imagepreview"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginBottom="10dp">
+
+            <ImageButton
+                android:id="@+id/camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_camera" />
+
+            <ImageButton
+                android:id="@+id/video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_toEndOf="@id/camera"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_video" />
+
+
+            <ImageButton
+                android:id="@+id/gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_toEndOf="@id/video"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_gallery" />
+
+
+            <TextView
+                android:id="@+id/tv_post"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/signinbtnbackground"
+                android:gravity="center"
+                android:text="Post"
+                android:textColor="@color/WHITE"
+                android:textSize="14sp"
+                tools:targetApi="lollipop" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

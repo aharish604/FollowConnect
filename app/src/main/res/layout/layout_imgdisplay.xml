@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_imagedisplay"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardimg1"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="30dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_marginBottom="30dp"
+                app:contentPadding="2dp"
+                app:cardCornerRadius="5dp">
+
+                <ImageView
+                    android:id="@+id/ivChapter"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:src="@color/black" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardimg2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimary"
+
+                app:cardCornerRadius="5dp"
+                app:contentPadding="2dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/ivChapter1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@color/blue" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardimg3"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/colorPrimary"
+
+                app:cardCornerRadius="5dp"
+                app:contentPadding="2dp">
+
+                <ImageView
+                    android:id="@+id/ivChapter2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@color/RED" />
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_videodisplay"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_toRightOf="@id/rl_imagedisplay">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:id="@+id/cardvid1"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="30dp"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    layout="@layout/img_displayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_thumblain"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/RED"
+                        android:scaleType="fitXY"></ImageView>
+
+                    <ImageButton
+                        android:id="@+id/videoplaybtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="@bool/bool_true"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_play_circle_outline_24" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/cardvid2"
+
+android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    layout="@layout/img_displayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_thumblain1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/blue"
+                        android:scaleType="fitXY"></ImageView>
+
+                    <ImageButton
+                        android:id="@+id/videoplaybtn1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="@bool/bool_true"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_play_circle_outline_24" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/cardvid3"
+
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    layout="@layout/img_displayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_thumblain2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:scaleType="fitXY"></ImageView>
+
+                    <ImageButton
+                        android:id="@+id/videoplaybtn2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="@bool/bool_true"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_play_circle_outline_24" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_private"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            android:layout_toRightOf="@id/rl_videodisplay"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_gallery_intoto" />
+
+
+        <ImageView
+            android:id="@+id/video_private"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            android:layout_toRightOf="@id/img_private"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_video_intoto" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

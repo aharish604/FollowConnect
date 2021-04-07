@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "412623227560",
+    "project_id": "followconnect-7ba3e",
+    "storage_bucket": "followconnect-7ba3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412623227560:android:99e821ef2e95ad6b42509d",
+        "android_client_info": {
+          "package_name": "com.appcare.followconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412623227560-bs6goa4k6jt3g6953r2r9a30k7antiic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9YhD9yutXsBuBGTvv7cacOEqu7HpG23w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412623227560-bs6goa4k6jt3g6953r2r9a30k7antiic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
