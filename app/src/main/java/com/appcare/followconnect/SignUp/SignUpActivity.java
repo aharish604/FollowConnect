@@ -125,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         img_counryflag = findViewById(R.id.img_counryflag);
 
         et_mobilenumber = findViewById(R.id.et_mobilenumber);
-        et_mobilenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+        et_mobilenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
 
         et_countrycode = findViewById(R.id.et_countrycode);
 
@@ -133,9 +133,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         eyevisable_password = findViewById(R.id.eye_visable);
         eyevisbale_cpassword = findViewById(R.id.eye_visablecpassword);
         eyeoff_cpassword = findViewById(R.id.eye_offcpassword);
-
-
-
 
         et_countrycode.setEnabled(false);
 
@@ -404,6 +401,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             country = parent.getItemAtPosition(position).toString();
+
+                            et_countrycode.setText("+" + countrylist.get(position).getCallingcode());
+                            Constants.fetchSvg(SignUpActivity.this, countrylist.get(position).getFlag_url(), img_counryflag);
+
                         }
 
                         @Override

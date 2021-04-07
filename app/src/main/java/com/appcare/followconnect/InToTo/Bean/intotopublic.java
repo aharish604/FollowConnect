@@ -1,9 +1,14 @@
 package com.appcare.followconnect.InToTo.Bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class intotopublic {
+import java.io.Serializable;
+
+public class intotopublic implements Serializable {
 
     @SerializedName("_id")
     @Expose
@@ -73,23 +78,23 @@ public class intotopublic {
     private String uotp;
     @SerializedName("flag")
     @Expose
-    private String flag;
+    private String flag="";
     @SerializedName("feed_list")
     @Expose
-    private intotoFeedList feedList;
+    private transient intotoFeedList feedList;
     @SerializedName("af_thumb")
     @Expose
-    private String afThumb;
+    private String afThumb="";
     @SerializedName("vf_thumb")
     @Expose
-    private String vfThumb;
+    private String vfThumb="";
 
     @SerializedName("vf")
     @Expose
-    private String vf;
+    private String vf="";
     @SerializedName("imgf")
     @Expose
-    private String imgf;
+    private String imgf="";
 
     public String getId() {
         return id;
@@ -314,6 +319,7 @@ public class intotopublic {
     public void setImgf(String imgf) {
         this.imgf = imgf;
     }
+
 
 
 }

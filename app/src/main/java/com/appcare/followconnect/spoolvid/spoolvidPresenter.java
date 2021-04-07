@@ -132,7 +132,7 @@ public class spoolvidPresenter {
 
         try {
             if (Constants.isNetworkAvailable(mcontext)) {
-                Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpost(uid, comment, address, ispoolvid, privicy, multipartImages, videosarray);
+                Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).spoolvideopost(uid, comment, address, ispoolvid, privicy, videosarray);
                 call.enqueue(new Callback<UploadPostResponse>() {
                     @Override
                     public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {

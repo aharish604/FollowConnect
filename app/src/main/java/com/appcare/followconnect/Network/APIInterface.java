@@ -124,4 +124,15 @@ public interface APIInterface {
     Call<ChangePasswordResponseBean> changePassword(@Body ChangePasswordRequestBean bean);
 
 
+    @Multipart
+    @POST("Feed/spoolVideoUpload")
+    Call<UploadPostResponse> spoolvideopost(@Part("uid") RequestBody uid,
+                                            @Part("feedtext") RequestBody comment,
+                                            @Part("address") RequestBody address,
+                                            @Part("isspoolvid") RequestBody ispoolvid,
+                                            @Part("privicy") RequestBody privicy,
+                                            @Part MultipartBody.Part videosarray);
+
+
+
 }

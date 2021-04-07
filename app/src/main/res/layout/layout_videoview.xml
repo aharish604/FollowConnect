@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_videodisplay"
+            android:layout_width="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardvid1"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    layout="@layout/img_displayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_thumblain"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/RED"
+                        android:scaleType="fitXY"></ImageView>
+
+                    <ImageButton
+                        android:id="@+id/videoplaybtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="@bool/bool_true"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_play_circle_outline_24" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

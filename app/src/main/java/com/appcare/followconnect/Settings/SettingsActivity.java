@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.appcare.followconnect.Common.Constants;
+import com.appcare.followconnect.Home.HomeActivity;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Profile.ProfileActivity;
 import com.appcare.followconnect.R;
@@ -27,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
     LinearLayout ll_blockerlist=null;
     LinearLayout ll_deleteaccount=null;
     LinearLayout ll_privacypolicy=null;
+    ImageButton imgbtn_searchuserprofile=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -40,6 +43,8 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
         InitUI();
 
         InitializeObjects();
+
+
     }
 
     private void InitUI() {
@@ -49,12 +54,14 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
         ll_blockerlist=findViewById(R.id.ll_blockerlist);
         ll_deleteaccount=findViewById(R.id.ll_deleteaccount);
         ll_privacypolicy=findViewById(R.id.ll_privacypolicy);
+        imgbtn_searchuserprofile=findViewById(R.id.imgbtn_searchuserprofile);
 
         ll_passwordchnage.setOnClickListener(SettingsActivity.this);
         ll_helpandsupport.setOnClickListener(SettingsActivity.this);
         ll_blockerlist.setOnClickListener(SettingsActivity.this);
         ll_deleteaccount.setOnClickListener(SettingsActivity.this);
         ll_privacypolicy.setOnClickListener(SettingsActivity.this);
+        imgbtn_searchuserprofile.setOnClickListener(SettingsActivity.this);
 
 
     }
@@ -122,6 +129,11 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
 
             case R.id.ll_privacypolicy:
 
+                break;
+ case R.id.imgbtn_searchuserprofile:
+
+
+     finish();
                 break;
 
         }

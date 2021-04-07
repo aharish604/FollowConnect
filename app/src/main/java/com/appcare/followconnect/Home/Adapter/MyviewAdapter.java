@@ -62,11 +62,15 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
         holder.profilename_tv.setText("" + bean.getFullname());
         holder.tv_posttime.setText("" + bean.getCd());
-        holder.post_heading.setText("" + feedListbean.getFeed());
+        holder.post_content.setText("" + feedListbean.getFeed());
 
+        imagesarray = null;
         if (!bean.getImgfFile().equalsIgnoreCase("")) {
             imagesarray = bean.getImgfFile().split(",");
         }
+
+
+
 
        /* SpoolvidResponseBeanfeedlist list=bean.getFeedList();
 
@@ -106,6 +110,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         ImageView imageView43 = new ImageView(mContext);
         ImageView imageView44 = new ImageView(mContext);
         TextView textView = new TextView(mContext);
+
 
         int i = 0;
         if (imagesarray != null) {
@@ -308,6 +313,16 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         return feedList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public class viewHolder extends RecyclerView.ViewHolder {
 
         FrameLayout imgframe = null;
@@ -318,7 +333,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
         TextView tv_posttime = null;
-        TextView post_heading = null;
         TextView post_content = null;
         RelativeLayout img_layout = null;
 
@@ -334,7 +348,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             profile_image = itemView.findViewById(R.id.profile_image);
             profilename_tv = itemView.findViewById(R.id.profilename_tv);
             tv_posttime = itemView.findViewById(R.id.tv_posttime);
-            post_heading = itemView.findViewById(R.id.post_heading);
             post_content = itemView.findViewById(R.id.post_content);
             img_layout = itemView.findViewById(R.id.img_layout);
 

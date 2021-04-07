@@ -87,7 +87,7 @@
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content">
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/post_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 android:textColor="@color/myview_textcolor"
                 android:textSize="16dp"
                 />
-
+-->
          <!--   <LinearLayout
                 android:layout_width="match_parent"
                 android:id="@+id/img_ll"
@@ -216,7 +216,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="24dp"
-                android:text=""
+                android:text="heloo"
                 android:layout_below="@id/img_layout"
                 android:textColor="@color/myview_textcolor"
                 android:textSize="14dp"

@@ -78,8 +78,6 @@ public class IntotoFragment extends Fragment implements APIResponse {
 
                 IntotoResponse bean= (IntotoResponse) object;
 
-                Constants.displayLongToast(getActivity(),""+bean.getData().size());
-
                 adapter=new IntotoAdapter(getActivity(),bean.getData());
 
                 recyclerview_intoto.setAdapter(adapter);

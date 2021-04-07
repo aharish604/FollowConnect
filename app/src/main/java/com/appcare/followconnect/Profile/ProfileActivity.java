@@ -77,9 +77,7 @@ public class ProfileActivity extends AppCompatActivity  implements APIResponse, 
         ProfileBeanResponse bean = (ProfileBeanResponse) object;
           profileResponseBean1 = bean.getData().get(0);
 
-        if (!bean.getMessage().equalsIgnoreCase("")) {
-            Constants.displayLongToast(ProfileActivity.this, bean.getMessage());
-        }
+
 
         tv_fullname.setText(""+ profileResponseBean1.getFullname());
         tv_username.setText(""+ profileResponseBean1.getUsername());

@@ -235,10 +235,11 @@ public class Constants {
         ArrayList<intotopublic> list=new ArrayList<>();
         for(int i=0;i<aPublic.size();i++)
         {
-            if(!aPublic.get(i).getImgf().isEmpty())
-            {
-                list.add(aPublic.get(i));
+            if(aPublic.get(i).getImgf()!=null) {
+                if (!aPublic.get(i).getImgf().isEmpty()) {
+                    list.add(aPublic.get(i));
 
+                }
             }
 
         }
@@ -252,10 +253,12 @@ public class Constants {
         ArrayList<intotopublic> list=new ArrayList<>();
         for(int i=0;i<aPublic.size();i++)
         {
-            if(!aPublic.get(i).getVf().isEmpty())
-            {
-                list.add(aPublic.get(i));
+            if(aPublic.get(i).getVfThumb()!=null) {
 
+                if (!aPublic.get(i).getVfThumb().isEmpty()) {
+                    list.add(aPublic.get(i));
+
+                }
             }
 
         }

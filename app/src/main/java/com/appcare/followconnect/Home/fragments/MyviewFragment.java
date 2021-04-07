@@ -104,7 +104,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
     @Override
     public void onSuccess(Object object) {
         GetPostFeedResponse bean = (GetPostFeedResponse) object;
-        Constants.displayLongToast(getActivity(), bean.getMessage());
+        //Constants.displayLongToast(getActivity(), bean.getMessage());
         setadapter(bean.getData());
     }
 

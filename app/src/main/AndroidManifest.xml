@@ -34,7 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Settings.PrivicyPolicyActivity"></activity>
+        <activity android:name=".InToTo.VideodisplayIntotoActivity"></activity>
+        <activity android:name=".InToTo.ImageDisplayIntotoActivity" />
+        <activity android:name=".Settings.PrivicyPolicyActivity" />
         <activity android:name=".Settings.PasswordChangeActivity" />
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".spoolvid.SpoolvidUploadPostActivity" />
