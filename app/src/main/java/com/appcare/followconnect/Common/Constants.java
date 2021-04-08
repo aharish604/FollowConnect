@@ -23,8 +23,11 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.appcare.followconnect.InToTo.Bean.intotoprivate;
 import com.appcare.followconnect.InToTo.Bean.intotopublic;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryResponseBean1;
+import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.Settings.PasswordChangeActivity;
 import com.appcare.followconnect.SignUp.CountrySpinner.CountryBean;
 import com.google.android.exoplayer2.extractor.ogg.OggExtractor;
@@ -76,8 +79,9 @@ public class Constants {
     public static String loginStatus = "loginstatus";
     public static String countryAPI = "https://restcountries.eu/rest/v2/all";
 
-    //  http://13.126.39.225/socialmedia/index.php/register/register
+    public static SearchHistoryResponseBean1 searchFriendsListData;
 
+    //  http://13.126.39.225/socialmedia/index.php/register/register
 
     public static boolean isNetworkAvailable(Context context) {
         @SuppressLint("WrongConstant") ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
@@ -264,6 +268,45 @@ public class Constants {
         }
 
         return list;
+
+    }
+
+    public static Boolean isPrivateImagesSpoolvid(ArrayList<intotoprivate> aPrivate) {
+
+
+        if(aPrivate!=null) {
+            for (int i = 0; i < aPrivate.size(); i++) {
+                if (aPrivate.get(i).getImgf() != null) {
+
+                    if (!aPrivate.get(i).getImgf().isEmpty()) {
+
+                        return true;
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    public static Boolean isPrivateVideosSpoolvid(ArrayList<intotoprivate> aPrivate) {
+        if(aPrivate!=null) {
+
+            for (int i = 0; i < aPrivate.size(); i++) {
+                if (aPrivate.get(i).getVfThumb() != null) {
+
+                    if (!aPrivate.get(i).getVfThumb().isEmpty()) {
+
+                        return true;
+                    }
+                }
+
+            }
+        }
+
+
+        return false;
 
     }
 

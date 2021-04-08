@@ -1,12 +1,10 @@
-package com.appcare.followconnect.Home.Adapter;
+package com.appcare.followconnect.Chat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -24,43 +22,42 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appcare.followconnect.Home.Adapter.MyviewAdapter;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
-import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
+import com.appcare.followconnect.Profile.Bean.UserfeedResponseBean1;
 import com.appcare.followconnect.R;
-import com.appcare.followconnect.spoolvid.Bean.SpoolvidResponseBeanfeedlist;
 import com.appcare.followconnect.spoolvid.SpoolvidVideoPLayingActivity;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import proj.me.bitframe.BeanImage;
-import proj.me.bitframe.ViewFrame;
-import proj.me.bitframe.helper.FrameType;
 
-public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder> {
+public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeedAdapter.viewHolder> {
 
     private Context mContext;
     String[] imagesarray = null;
 
-    List<GetPostFeedBean> feedList = null;
+    ArrayList<UserfeedResponseBean1> feedList = null;
 
-    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList) {
+    public ProfileUserFeedAdapter(Context activity, ArrayList<UserfeedResponseBean1> feedList) {
         mContext = activity;
         this.feedList = feedList;
     }
 
     @NonNull
     @Override
-    public MyviewAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_myview, parent, false);
-        return new viewHolder(view);
+    public ProfileUserFeedAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_userfeedprofile, parent, false);
+        return new ProfileUserFeedAdapter.viewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyviewAdapter.viewHolder holder, int position) {
-        GetPostFeedBean bean = feedList.get(position);
+    public void onBindViewHolder(@NonNull ProfileUserFeedAdapter.viewHolder holder, int position) {
+
+        UserfeedResponseBean1 bean = feedList.get(position);
         FeedList feedListbean = bean.getFeedList();
 
         holder.profilename_tv.setText("" + bean.getFullname());
@@ -75,19 +72,19 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
 
         imagesarray = null;
-        if (!bean.getImgfFile().equalsIgnoreCase("")) {
-            imagesarray = bean.getImgfFile().split(",");
+        if (!bean.getImgf().equalsIgnoreCase("")) {
+            imagesarray = bean.getImgf().split(",");
         }
 
 
-        if(!bean.getVfThumbFile().isEmpty())
+        if(!feedListbean.getVfThumb().isEmpty())
         {
             holder.video_layout.setVisibility(View.VISIBLE);
             holder.btn_imgdisLike.setVisibility(View.VISIBLE);
             holder.tv_dislikecount.setVisibility(View.VISIBLE);
 
             Glide.with(mContext)
-                    .load(bean.getVfThumbFile())
+                    .load("http://13.126.39.225/socialmedia/uploads/feed/"+feedListbean.getVfThumb())
                     //  .placeholder(R.drawable.img3)
                     .into(holder.img_thumblain  );
         }
@@ -103,7 +100,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, SpoolvidVideoPLayingActivity.class);
-                intent.putExtra("videourl",bean.getVfFile());
+                intent.putExtra("videourl",bean.getVf());
                 mContext.startActivity(intent);
             }
         });
@@ -149,23 +146,12 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         } else {
             holder.img_layout.setVisibility(View.GONE);
 
-           /* imageView.setPadding(0, 5, 0, 0);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
-            frameLayout.addView(imageView);
-
-            Glide.with(mContext)
-                    .load(bean.getVfFile())
-                    .placeholder(R.drawable.img3)
-                    .into(imageView);*/
-
         }
 
 
 
 
         if (i == 1 ) {
-            // imageView.setImageResource(R.drawable.img3);
             imageView.setPadding(0, 5, 0, 0);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
@@ -248,35 +234,17 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                     .into(imageView33);
         }
         if (i >= 4) {
-            //x=0,y=0
 
-           /* imageView.setVisibility(View.GONE);
-            imageView21.setVisibility(View.GONE);
-            imageView22.setVisibility(View.GONE);
-
-
-            imageView.setImageResource(android.R.color.transparent);
-            imageView21.setImageResource(android.R.color.transparent);
-            imageView22.setImageResource(android.R.color.transparent);
-            imageView31.setImageResource(android.R.color.transparent);
-            imageView32.setImageResource(android.R.color.transparent);
-            imageView33.setImageResource(android.R.color.transparent);*/
-
-
-            //  imageView41.setImageResource(R.drawable.img3);
             imageView41.setPadding(0, 5, 0, 0);
             imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
             imageView41.setScaleType(ImageView.ScaleType.FIT_XY);
-            //x=200,y==0
 
-            //  imageView42.setImageResource(R.drawable.img3);
             imageView42.setY(height / 2);
             imageView42.setPadding(0, 5, 5, 0);
             imageView42.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
             imageView42.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
-            //  imageView43.setImageResource(R.drawable.img3);
             imageView43.setX(width / 3);
             imageView43.setY(height / 2);
             imageView43.setPadding(0, 5, 5, 0);
@@ -284,7 +252,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             imageView43.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
-            //  imageView44.setImageResource(R.drawable.img3);
             int w1 = width / 3;
             int w2 = width / 3;
             imageView44.setX(w1 + w2);

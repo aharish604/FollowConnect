@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -48,11 +47,8 @@
                 android:layout_marginTop="5dp"
                 android:background="?attr/selectableItemBackground"
                 android:src="@drawable/ic_3_dot_menu" />
-
-
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <RelativeLayout
         android:id="@+id/rl_profile_background"
@@ -71,8 +67,6 @@
             android:src="@drawable/ic_india"
             app:civ_border_color="#F4F2F2"
             app:civ_border_width="2dp" />
-
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -81,7 +75,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_profile_background"
         android:layout_marginTop="15dp">
-
 
         <TextView
             android:id="@+id/profile_name"
@@ -95,60 +88,61 @@
             tools:targetApi="lollipop" />
 
         <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/signinbtnbackground"
-            android:gravity="center|start"
-            android:layout_toLeftOf="@+id/btnimg_Comments"
-            android:orientation="horizontal">
-
-
-            <ImageView
-                android:id="@+id/rightmark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_right" />
-
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_horizontal"
-                android:text="Friends"
-                android:textColor="@color/WHITE"
-                android:textSize="14dp"
-                tools:targetApi="lollipop" />
-
-        </LinearLayout>
-
-        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnimg_Comments"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_baseline_mode_comment_24" />
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/signinbtnbackground"
+                android:gravity="center|start"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/rightmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_right" />
+
+                <TextView
+                    android:id="@+id/tv_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="Friends"
+                    android:textColor="@color/WHITE"
+                    android:textSize="14dp"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnimg_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_baseline_mode_comment_24"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/profile_name"
             android:layout_marginStart="25dp"
             android:layout_marginTop="7dp"
-            android:text="ranadeepai78"
-            android:layout_below="@id/profile_name"
             android:layout_toEndOf="@+id/profile_image"
+            android:text="ranadeepai78"
             android:textColor="@color/textColor"
-            android:textSize="14dp"
-            />
-
-
+            android:textSize="14dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -159,10 +153,6 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp">
-
-
-
-
 
         <ImageView
             android:id="@+id/img2"
@@ -182,7 +172,7 @@
             android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/tv2"
+            android:id="@+id/tv_followers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -190,9 +180,6 @@
             android:gravity="center"
             android:text="Followers"
             android:textColor="@color/textColor" />
-
-
-
     </RelativeLayout>
 
     <TextView
@@ -206,14 +193,12 @@
         android:text="Posts"
         android:textColor="@color/textColorthick"
         android:textSize="20sp"
-        tools:targetApi="lollipop"/>
+        tools:targetApi="lollipop" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/tv_postsheading"
+        android:id="@+id/rv_profilefeed"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
         android:layout_height="match_parent"
-        android:id="@+id/rv_profilefeed"/>
-
-
+        android:layout_below="@id/tv_postsheading"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

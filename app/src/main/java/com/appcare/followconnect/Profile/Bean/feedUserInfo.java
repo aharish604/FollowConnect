@@ -1,9 +1,9 @@
-package com.appcare.followconnect.InToTo.Bean;
+package com.appcare.followconnect.Profile.Bean;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class intotoprivate {
+public class feedUserInfo {
 
     @SerializedName("_id")
     @Expose
@@ -11,8 +11,6 @@ public class intotoprivate {
     @SerializedName("lng")
     @Expose
     private String lng;
-
-
     @SerializedName("CountryCode")
     @Expose
     private String countryCode;
@@ -64,34 +62,6 @@ public class intotoprivate {
     @SerializedName("account_status")
     @Expose
     private String accountStatus;
-    @SerializedName("profile_pic")
-    @Expose
-    private String profilePic;
-    @SerializedName("cd")
-    @Expose
-    private String cd;
-    @SerializedName("uotp")
-    @Expose
-    private String uotp;
-    @SerializedName("flag")
-    @Expose
-    private String flag;
-    @SerializedName("feed_list")
-    @Expose
-    private intotoFeedList feedList;
-    @SerializedName("af_thumb")
-    @Expose
-    private String afThumb;
-    @SerializedName("vf_thumb")
-    @Expose
-    private String vfThumb;
-    @SerializedName("vf")
-    @Expose
-    private String vf;
-    @SerializedName("imgf")
-    @Expose
-    private String imgf;
-
 
     public String getId() {
         return id;
@@ -277,46 +247,17 @@ public class intotoprivate {
         this.flag = flag;
     }
 
-    public intotoFeedList getFeedList() {
-        return feedList;
-    }
-
-    public void setFeedList(intotoFeedList feedList) {
-        this.feedList = feedList;
-    }
-
-    public String getAfThumb() {
-        return afThumb;
-    }
-
-    public void setAfThumb(String afThumb) {
-        this.afThumb = afThumb;
-    }
-
-    public String getVfThumb() {
-        return vfThumb;
-    }
-
-    public void setVfThumb(String vfThumb) {
-        this.vfThumb = vfThumb;
-    }
-
-    public String getVf() {
-        return vf;
-    }
-
-    public void setVf(String vf) {
-        this.vf = vf;
-    }
-
-    public String getImgf() {
-        return imgf;
-    }
-
-    public void setImgf(String imgf) {
-        this.imgf = imgf;
-    }
-
-
+    @SerializedName("profile_pic")
+    @Expose
+    private String profilePic;
+    @SerializedName("cd")
+    @Expose
+    private String cd;
+    @SerializedName("uotp")
+    @Expose
+    private String uotp;
+    @SerializedName("flag")
+    @Expose
+    private String flag;
 
 }

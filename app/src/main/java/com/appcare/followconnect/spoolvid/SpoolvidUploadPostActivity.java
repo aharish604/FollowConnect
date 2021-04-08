@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,7 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
     FileCompressor mCompressor = null;
     spoolvidPresenter presenter = null;
     String privicy = "";
+    RelativeLayout rl_imagepreview ;
     ImageView img_thumblain=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -104,9 +106,10 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
         tv_dispusername = findViewById(R.id.tv_dispusername);
         video = findViewById(R.id.video);
         gallery = findViewById(R.id.gallery);
+        rl_imagepreview = findViewById(R.id.rl_imagepreview);
         tv_post = findViewById(R.id.tv_post);
         img_thumblain = findViewById(R.id.img_thumblain);
-        img_thumblain.setVisibility(View.GONE);
+        rl_imagepreview.setVisibility(View.GONE);
         imgbtn_searchuserprofile = findViewById(R.id.imgbtn_searchuserprofile);
         sp_privacy = findViewById(R.id.sp_privicy);
 
@@ -327,7 +330,7 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
             if (requestCode == REQUEST_Video_CAPTURE) {
                 if (photoFile != null) {
 
-                    img_thumblain.setVisibility(View.VISIBLE);
+                    rl_imagepreview.setVisibility(View.VISIBLE);
                     videopath=photoFile.toString();
 
                     Glide.with( SpoolvidUploadPostActivity.this )
@@ -338,7 +341,7 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
             } else if (requestCode == PICK_Videos) {
                 if (data.getData() != null) {
 
-                    img_thumblain.setVisibility(View.VISIBLE);
+                    rl_imagepreview.setVisibility(View.VISIBLE);
                     Uri uri = data.getData();
                  videopath= Utility.getFilePathFromURI(SpoolvidUploadPostActivity.this, uri);
 

@@ -190,23 +190,60 @@
 
             </LinearLayout>-->
 
-
             <RelativeLayout
-                android:id="@+id/img_layout"
-                android:layout_below="@+id/post_heading"
-                layout="@layout/img_displayout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                >
-                <FrameLayout
-                    android:id="@+id/imgframe"
+                android:layout_height="wrap_content"
+                android:id="@+id/rl_imgvideo"
+                android:layout_below="@+id/post_heading">
+
+                <RelativeLayout
+                    android:id="@+id/video_layout"
+                    layout="@layout/img_displayout"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="match_parent">
-                </FrameLayout>
+                    android:layout_height="250dp"
+                    >
+                    <ImageView
+                        android:id="@+id/img_thumblain"
+                        android:layout_width="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="fitXY"
+                        android:layout_height="match_parent">
+                    </ImageView>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_play_circle_outline_24"
+                        android:layout_centerInParent="@bool/bool_true"
+                        android:background="?attr/selectableItemBackground"
+                        android:id="@+id/videoplaybtn"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/img_layout"
+                    android:layout_below="@+id/post_heading"
+                    layout="@layout/img_displayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    >
+                    <FrameLayout
+                        android:id="@+id/imgframe"
+                        android:layout_width="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="match_parent">
+                    </FrameLayout>
+                </RelativeLayout>
+
+
             </RelativeLayout>
+
+
 
 
             <TextView
@@ -217,7 +254,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="24dp"
                 android:text="heloo"
-                android:layout_below="@id/img_layout"
+                android:layout_below="@id/rl_imgvideo"
                 android:textColor="@color/myview_textcolor"
                 android:textSize="14dp"
 

@@ -135,6 +135,8 @@ public class SearchFriendsActivity extends AppCompatActivity implements APIRespo
 
                 presenter.insertSearchData();*/
 
+                Constants.searchFriendsListData = bean;
+
                 Intent i1 = new Intent(SearchFriendsActivity.this, SearchUserProfileActivity.class);
                 startActivity(i1);
 

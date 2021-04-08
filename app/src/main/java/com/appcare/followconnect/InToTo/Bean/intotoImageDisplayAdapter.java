@@ -30,8 +30,8 @@ import java.util.ArrayList;
 public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageDisplayAdapter.viewHolder> {
 
     private Context mContext;
-    ArrayList<intotopublic> aPublic;
-    ArrayList<intotoprivate> aPrivate;
+    ArrayList<intotopublic> aPublic=new ArrayList<>();
+    ArrayList<intotoprivate> aPrivate=new ArrayList<>();
 
     String imagesarray[];
     String videosarray[];
@@ -57,8 +57,28 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
         intotopublic bean = aPublic.get(position);
 
-        holder.img_private.setVisibility(View.VISIBLE);
-        holder.video_private.setVisibility(View.VISIBLE);
+
+        Boolean isPrivateImages = Constants.isPrivateImagesSpoolvid(aPrivate);
+        Boolean isPrivateVideos = Constants.isPrivateVideosSpoolvid(aPrivate);
+
+        if (isPrivateImages) {
+            holder.img_private.setVisibility(View.VISIBLE);
+
+
+        } else {
+            holder.img_private.setVisibility(View.GONE);
+
+
+        }
+
+        if (isPrivateVideos) {
+            holder.video_private.setVisibility(View.VISIBLE);
+
+        } else {
+            holder.video_private.setVisibility(View.GONE);
+
+
+        }
 
 
         ArrayList<intotopublic> list1 = Constants.getImageArrayintoto(aPublic);
@@ -148,21 +168,21 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
                 Intent i = new Intent(mContext, ImageDisplayIntotoActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("imagelistintoto",(Serializable)list1);
-                i.putExtra("BUNDLE",args);
-                  mContext.startActivity(i);
+                args.putSerializable("imagelistintoto", (Serializable) list1);
+                i.putExtra("BUNDLE", args);
+                mContext.startActivity(i);
 
             }
         });
- holder.videoplaybtn2.setOnClickListener(new View.OnClickListener() {
+        holder.videoplaybtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent i = new Intent(mContext, VideodisplayIntotoActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("imagelistintoto",(Serializable)list2);
-                i.putExtra("BUNDLE",args);
-                  mContext.startActivity(i);
+                args.putSerializable("imagelistintoto", (Serializable) list2);
+                i.putExtra("BUNDLE", args);
+                mContext.startActivity(i);
 
             }
         });
@@ -173,8 +193,8 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
                 Intent i = new Intent(mContext, VideodisplayIntotoActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("imagelistintoto",(Serializable)list2);
-                i.putExtra("BUNDLE",args);
+                args.putSerializable("imagelistintoto", (Serializable) list2);
+                i.putExtra("BUNDLE", args);
                 mContext.startActivity(i);
 
             }
@@ -186,8 +206,8 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
                 Intent i = new Intent(mContext, VideodisplayIntotoActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("imagelistintoto",(Serializable)list2);
-                i.putExtra("BUNDLE",args);
+                args.putSerializable("imagelistintoto", (Serializable) list2);
+                i.putExtra("BUNDLE", args);
                 mContext.startActivity(i);
 
             }
@@ -202,9 +222,9 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
     public class viewHolder extends RecyclerView.ViewHolder {
         ImageView ivChapter, ivChapter2, ivChapter1, img_thumblain, img_thumblain2, img_thumblain1, img_private, video_private;
-        RelativeLayout img_layout, rl_imagedisplay,rl_videodisplay;
-        CardView cardimg3, cardimg2, cardimg1,cardvid1,cardvid2,cardvid3;
-        ImageButton videoplaybtn2,videoplaybtn1,videoplaybtn;
+        RelativeLayout img_layout, rl_imagedisplay, rl_videodisplay;
+        CardView cardimg3, cardimg2, cardimg1, cardvid1, cardvid2, cardvid3;
+        ImageButton videoplaybtn2, videoplaybtn1, videoplaybtn;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

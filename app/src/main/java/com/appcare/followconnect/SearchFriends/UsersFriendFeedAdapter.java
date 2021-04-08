@@ -1,12 +1,10 @@
-package com.appcare.followconnect.Home.Adapter;
+package com.appcare.followconnect.SearchFriends;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -19,49 +17,43 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
-import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
 import com.appcare.followconnect.R;
-import com.appcare.followconnect.spoolvid.Bean.SpoolvidResponseBeanfeedlist;
+import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.spoolvid.SpoolvidVideoPLayingActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
-import proj.me.bitframe.BeanImage;
-import proj.me.bitframe.ViewFrame;
-import proj.me.bitframe.helper.FrameType;
 
-public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder> {
+public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeedAdapter.viewHolder> {
 
     private Context mContext;
     String[] imagesarray = null;
 
-    List<GetPostFeedBean> feedList = null;
+    List<UserFriendsFeedResponse.Datum> feedList = null;
 
-    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList) {
+    public UsersFriendFeedAdapter(FragmentActivity activity, List<UserFriendsFeedResponse.Datum> feedList) {
         mContext = activity;
         this.feedList = feedList;
     }
 
     @NonNull
     @Override
-    public MyviewAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_myview, parent, false);
+    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.userfriends_feed_row, parent, false);
         return new viewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyviewAdapter.viewHolder holder, int position) {
-        GetPostFeedBean bean = feedList.get(position);
-        FeedList feedListbean = bean.getFeedList();
+    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+        UserFriendsFeedResponse.Datum bean = feedList.get(position);
+        UserFriendsFeedResponse.FeedList feedListbean = bean.getFeedList();
 
         holder.profilename_tv.setText("" + bean.getFullname());
         holder.tv_posttime.setText("" + bean.getCd());
@@ -75,19 +67,19 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
 
         imagesarray = null;
-        if (!bean.getImgfFile().equalsIgnoreCase("")) {
-            imagesarray = bean.getImgfFile().split(",");
+        if (!bean.getImgf().equalsIgnoreCase("")) {
+            imagesarray = bean.getImgf().split(",");
         }
 
 
-        if(!bean.getVfThumbFile().isEmpty())
+        if(!feedListbean.getVfThumb().isEmpty())
         {
             holder.video_layout.setVisibility(View.VISIBLE);
             holder.btn_imgdisLike.setVisibility(View.VISIBLE);
             holder.tv_dislikecount.setVisibility(View.VISIBLE);
 
             Glide.with(mContext)
-                    .load(bean.getVfThumbFile())
+                    .load(feedListbean.getVfThumb())
                     //  .placeholder(R.drawable.img3)
                     .into(holder.img_thumblain  );
         }
@@ -103,7 +95,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, SpoolvidVideoPLayingActivity.class);
-                intent.putExtra("videourl",bean.getVfFile());
+                intent.putExtra("videourl",bean.getVf());
                 mContext.startActivity(intent);
             }
         });

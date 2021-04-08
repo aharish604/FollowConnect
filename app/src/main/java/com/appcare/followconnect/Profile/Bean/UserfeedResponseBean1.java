@@ -1,9 +1,10 @@
-package com.appcare.followconnect.InToTo.Bean;
+package com.appcare.followconnect.Profile.Bean;
 
+import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class intotoprivate {
+public class UserfeedResponseBean1 {
 
     @SerializedName("_id")
     @Expose
@@ -11,8 +12,6 @@ public class intotoprivate {
     @SerializedName("lng")
     @Expose
     private String lng;
-
-
     @SerializedName("CountryCode")
     @Expose
     private String countryCode;
@@ -78,20 +77,40 @@ public class intotoprivate {
     private String flag;
     @SerializedName("feed_list")
     @Expose
-    private intotoFeedList feedList;
+    private FeedList feedList;
+    @SerializedName("whosename")
+    @Expose
+    private String whosename;
+    @SerializedName("comments_count")
+    @Expose
+    private Integer commentsCount;
+    @SerializedName("share_count")
+    @Expose
+    private Integer shareCount;
+    @SerializedName("likes_count")
+    @Expose
+    private Integer likesCount;
+    @SerializedName("friend_status")
+    @Expose
+    private String friendStatus;
+    @SerializedName("dislike_count")
+    @Expose
+    private Integer dislikeCount;
+    @SerializedName("viwes")
+    @Expose
+    private Integer viwes;
+    @SerializedName("isdisLike")
+    @Expose
+    private Integer isdisLike;
+    @SerializedName("likes")
+    @Expose
+    private Integer likes;
+    @SerializedName("dislike")
+    @Expose
+    private Integer dislike;
     @SerializedName("af_thumb")
     @Expose
     private String afThumb;
-    @SerializedName("vf_thumb")
-    @Expose
-    private String vfThumb;
-    @SerializedName("vf")
-    @Expose
-    private String vf;
-    @SerializedName("imgf")
-    @Expose
-    private String imgf;
-
 
     public String getId() {
         return id;
@@ -277,12 +296,92 @@ public class intotoprivate {
         this.flag = flag;
     }
 
-    public intotoFeedList getFeedList() {
+    public FeedList getFeedList() {
         return feedList;
     }
 
-    public void setFeedList(intotoFeedList feedList) {
+    public void setFeedList(FeedList feedList) {
         this.feedList = feedList;
+    }
+
+    public String getWhosename() {
+        return whosename;
+    }
+
+    public void setWhosename(String whosename) {
+        this.whosename = whosename;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Integer commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public Integer getShareCount() {
+        return shareCount;
+    }
+
+    public void setShareCount(Integer shareCount) {
+        this.shareCount = shareCount;
+    }
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public String getFriendStatus() {
+        return friendStatus;
+    }
+
+    public void setFriendStatus(String friendStatus) {
+        this.friendStatus = friendStatus;
+    }
+
+    public Integer getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(Integer dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
+    public Integer getViwes() {
+        return viwes;
+    }
+
+    public void setViwes(Integer viwes) {
+        this.viwes = viwes;
+    }
+
+    public Integer getIsdisLike() {
+        return isdisLike;
+    }
+
+    public void setIsdisLike(Integer isdisLike) {
+        this.isdisLike = isdisLike;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(Integer dislike) {
+        this.dislike = dislike;
     }
 
     public String getAfThumb() {
@@ -291,14 +390,6 @@ public class intotoprivate {
 
     public void setAfThumb(String afThumb) {
         this.afThumb = afThumb;
-    }
-
-    public String getVfThumb() {
-        return vfThumb;
-    }
-
-    public void setVfThumb(String vfThumb) {
-        this.vfThumb = vfThumb;
     }
 
     public String getVf() {
@@ -317,6 +408,10 @@ public class intotoprivate {
         this.imgf = imgf;
     }
 
-
-
+    @SerializedName("vf")
+    @Expose
+    private String vf;
+    @SerializedName("imgf")
+    @Expose
+    private String imgf;
 }

@@ -259,7 +259,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:letterSpacing="0.025"
-            android:text="18 Posts"
+            android:text="0 Posts"
             android:layout_alignParentRight="true"
             android:textColor="@color/textColor"
             android:textSize="16sp"
@@ -268,7 +268,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_myprofile"
+        android:id="@+id/rv_userfeed"
         android:layout_below="@id/rl_myview"/>
 
 

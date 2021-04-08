@@ -18,6 +18,8 @@ import com.appcare.followconnect.Notifications.Bean.NotificationRequestBean;
 import com.appcare.followconnect.Notifications.Bean.NotificationResponsebean;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanRequest;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
+import com.appcare.followconnect.Profile.Bean.UserFeedRequest;
+import com.appcare.followconnect.Profile.Bean.UserFeedResponseBean;
 import com.appcare.followconnect.ProfileUpdate.ProfileUpdateBeanResponse;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileBean;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfilePhotoResponse;
@@ -25,6 +27,8 @@ import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanResponse;
+import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
+import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanResponse;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordRequestBean;
@@ -70,7 +74,6 @@ public interface APIInterface {
 
     @POST("Register/profile_update")
     Call<ProfileUpdateBeanResponse> updateprofiledata(@Body UpdateProfileBean updateProfileBean);
-
 
     @Multipart
     @POST("Feed/feedPost")
@@ -133,6 +136,13 @@ public interface APIInterface {
                                             @Part("privicy") RequestBody privicy,
                                             @Part MultipartBody.Part videosarray);
 
+
+    @POST("Feed/getUserFeed")
+    Call<UserFeedResponseBean> getUserFeed(@Body UserFeedRequest userFeedRequest);
+
+
+    @POST("Feed/getUserFriendStaus")
+    Call<UserFriendsFeedResponse> friendsUserFeed(@Body UserFriendsInuts userFriendWrapper);
 
 
 }
