@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appcare.followconnect.Chat.ProfileUserFeedAdapter;
@@ -29,6 +30,7 @@ import com.appcare.followconnect.Profile.Bean.UserFeedRequest;
 import com.appcare.followconnect.Profile.Bean.UserFeedResponseBean;
 import com.appcare.followconnect.Profile.Bean.UserfeedResponseBean1;
 import com.appcare.followconnect.Profile.Bean.feedUserInfo;
+import com.appcare.followconnect.Profile.FriendsList.FriendsListActivity;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileActivity;
 import com.appcare.followconnect.R;
 import com.bumptech.glide.Glide;
@@ -45,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
     TextView tv_username = null, tvcount_1, tvcount_2, tvcount_3;
     TextView tv_editprofile = null, tv_postCount;
     CircleImageView profile_img = null;
+    ImageView img1,img2;
     ImageButton imgbtn_searchuserprofile = null;
     ProfileResponseBean1 profileResponseBean1 = null;
     RecyclerView rv_userfeed = null;
@@ -78,9 +81,14 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
         tv_postCount = findViewById(R.id.tv_postCount);
         rv_userfeed = findViewById(R.id.rv_userfeed);
 
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
+
 
         imgbtn_searchuserprofile.setOnClickListener(ProfileActivity.this);
         tv_editprofile.setOnClickListener(ProfileActivity.this);
+        img1.setOnClickListener(ProfileActivity.this);
+        img2.setOnClickListener(ProfileActivity.this);
 
     }
 
@@ -176,7 +184,29 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
             case R.id.tv_editprofile:
                 openeditProfileActivity();
                 break;
+                case R.id.img1:
+                openFriendsListActivity();
+                break;
+                case R.id.img2:
+                    openFollowersListActivity();
+                break;
         }
+
+    }
+
+    private void openFriendsListActivity() {
+
+        Intent i = new Intent(ProfileActivity.this, FriendsListActivity.class);
+        i.putExtra("commingfrom", "FriendsList");
+        startActivity(i);
+
+    }
+
+    private void openFollowersListActivity() {
+
+        Intent i = new Intent(ProfileActivity.this, FriendsListActivity.class);
+        i.putExtra("commingfrom", "FollowersList");
+        startActivity(i);
 
     }
 

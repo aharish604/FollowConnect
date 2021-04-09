@@ -7,11 +7,13 @@ import com.appcare.followconnect.Chat.Bean.ChatListBeanResponse;
 import com.appcare.followconnect.Chat.Bean.MessageSendRequest;
 import com.appcare.followconnect.Chat.Bean.MessageSendResponse;
 import com.appcare.followconnect.ForgotPassword.ForgotResponse;
+import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
 import com.appcare.followconnect.InToTo.Bean.IntotoRequestBean;
 import com.appcare.followconnect.InToTo.Bean.IntotoResponse;
 import com.appcare.followconnect.Login.LoginResponse;
 import com.appcare.followconnect.LoginWithGoogle.Bean.LoginWithGoogleBeanRequest;
 import com.appcare.followconnect.LoginWithGoogle.Bean.LoginWithGoogleResponseBean1;
+import com.appcare.followconnect.MyviewPostdisplay.FeedLikeResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostRequestBean;
 import com.appcare.followconnect.Notifications.Bean.NotificationRequestBean;
@@ -20,6 +22,10 @@ import com.appcare.followconnect.Profile.Bean.ProfileBeanRequest;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
 import com.appcare.followconnect.Profile.Bean.UserFeedRequest;
 import com.appcare.followconnect.Profile.Bean.UserFeedResponseBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersRequestBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersResponseBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FriendsListRequestBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FriendsListResponseBean;
 import com.appcare.followconnect.ProfileUpdate.ProfileUpdateBeanResponse;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileBean;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfilePhotoResponse;
@@ -31,8 +37,12 @@ import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanResponse;
+import com.appcare.followconnect.Settings.AccountDeleteRequestBean;
+import com.appcare.followconnect.Settings.AccountDeleteResponseBean;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordRequestBean;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordResponseBean;
+import com.appcare.followconnect.Settings.ChnagePassword.HelpandSupportResponseBean;
+import com.appcare.followconnect.Settings.PrivacyPolicyResponeseBean;
 import com.appcare.followconnect.SignUp.Beans.RandomUsernameBeanResponse;
 import com.appcare.followconnect.SignUp.Beans.RandomusernameBeanRequest;
 import com.appcare.followconnect.ForgotPassword.ForgotPasswordBean;
@@ -47,6 +57,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -144,5 +155,23 @@ public interface APIInterface {
     @POST("Feed/getUserFriendStaus")
     Call<UserFriendsFeedResponse> friendsUserFeed(@Body UserFriendsInuts userFriendWrapper);
 
+   @POST("Networks/FriendsList")
+    Call<FriendsListResponseBean> getFreindsList(@Body FriendsListRequestBean friendsListRequestBean);
+
+@POST("Networks/FollowingList")
+    Call<FollowersResponseBean> getFollowersList(@Body FollowersRequestBean followersRequestBean);
+
+    @POST("Feed/userFeddactivity")
+    Call<FeedLikeResponse> postLikes(@Body FeedLikeInputs inputs);
+
+
+    @GET("Register/privacy_policy")
+    Call<PrivacyPolicyResponeseBean> getPrivacyPolicy();
+
+    @GET("Register/help_support")
+    Call<HelpandSupportResponseBean> getHelpandSupport();
+
+    @POST("Register/account_delete")
+    Call<AccountDeleteResponseBean> deleteAccount(@Body AccountDeleteRequestBean bean);
 
 }

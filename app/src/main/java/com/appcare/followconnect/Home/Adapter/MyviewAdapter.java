@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appcare.followconnect.Home.fragments.MyviewFragment;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
@@ -45,10 +46,13 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
     String[] imagesarray = null;
 
     List<GetPostFeedBean> feedList = null;
+    MyviewFragment myviewFragment;
 
-    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList) {
+
+    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList, MyviewFragment myviewFragment) {
         mContext = activity;
         this.feedList = feedList;
+        this.myviewFragment = myviewFragment;
     }
 
     @NonNull
@@ -334,6 +338,34 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
         }
 
+        holder.btn_imgdisLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+                myviewFragment.disLikes(position, feedid, postid, count);
+            }
+        });
+
+        holder.btn_imgLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+
+                myviewFragment.likes(position, feedid, postid, count);
+            }
+        });
+
+        holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 
@@ -358,7 +390,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
         TextView tv_posttime = null,tv_likecount,tv_dislikecount,tv_viewcounts,tv_commentscount;
-        ImageButton videoplaybtn,btn_imgdisLike;
+        ImageButton videoplaybtn,btn_imgdisLike, btn_imgLike, imgbtn_more;
         TextView post_content = null;
         RelativeLayout img_layout = null,video_layout;
 
@@ -378,6 +410,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             tv_viewcounts = itemView.findViewById(R.id.tv_viewcounts);
             tv_commentscount = itemView.findViewById(R.id.tv_commentscount);
             btn_imgdisLike = itemView.findViewById(R.id.btn_imgdisLike);
+            btn_imgLike = itemView.findViewById(R.id.btn_imgLike);
+            imgbtn_more = itemView.findViewById(R.id.imgbtn_more);
 
 
 

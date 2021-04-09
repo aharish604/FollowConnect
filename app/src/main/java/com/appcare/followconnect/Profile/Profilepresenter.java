@@ -12,6 +12,10 @@ import com.appcare.followconnect.Profile.Bean.ProfileBeanRequest;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
 import com.appcare.followconnect.Profile.Bean.UserFeedRequest;
 import com.appcare.followconnect.Profile.Bean.UserFeedResponseBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersRequestBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersResponseBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FriendsListRequestBean;
+import com.appcare.followconnect.Profile.FriendsList.Bean.FriendsListResponseBean;
 import com.appcare.followconnect.R;
 
 import retrofit2.Call;
@@ -22,7 +26,7 @@ public class Profilepresenter {
 
     Context mcontext;
     APIResponse apiResponse;
-    public Profilepresenter(ProfileActivity profileActivity, APIResponse apiResponse) {
+    public Profilepresenter(Context profileActivity, APIResponse apiResponse) {
         this.mcontext = profileActivity;
         this.apiResponse = apiResponse;
     }
@@ -159,6 +163,126 @@ public class Profilepresenter {
     }
 
 
+    public void getFriendsList(FriendsListRequestBean bean, ResponseSucessCallback responseSucessCallback) {
+
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<FriendsListResponseBean> call = RequestClient.getClient().create(APIInterface.class).getFreindsList(bean);
+                call.enqueue(new Callback<FriendsListResponseBean>() {
+                    @Override
+                    public void onResponse(Call<FriendsListResponseBean> call, retrofit2.Response<FriendsListResponseBean> response) {
+                        try {
+                            FriendsListResponseBean friendsListResponseBean = response.body();
+                            apiResponse.dismissProgress();
+                            if (friendsListResponseBean.getStatus()) {
+                                responseSucessCallback.responseSucess(friendsListResponseBean);
+                            } else {
+                                apiResponse.onServerError(friendsListResponseBean.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FriendsListResponseBean> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
 
 
+
+    }
+
+    public void getFollowersList(FollowersRequestBean bean1, ResponseSucessCallback responseSucessCallback) {
+
+
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<FollowersResponseBean> call = RequestClient.getClient().create(APIInterface.class).getFollowersList(bean1);
+                call.enqueue(new Callback<FollowersResponseBean>() {
+                    @Override
+                    public void onResponse(Call<FollowersResponseBean> call, retrofit2.Response<FollowersResponseBean> response) {
+                        try {
+                            FollowersResponseBean followersResponseBean = response.body();
+                            apiResponse.dismissProgress();
+                            if (followersResponseBean.getStatus()) {
+                                responseSucessCallback.responseSucess(followersResponseBean);
+                            } else {
+                                apiResponse.onServerError(followersResponseBean.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FollowersResponseBean> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+
+    }
 }
