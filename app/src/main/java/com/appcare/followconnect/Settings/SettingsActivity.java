@@ -18,18 +18,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
-import com.appcare.followconnect.Home.HomeActivity;
 import com.appcare.followconnect.Login.LoginActivity;
 import com.appcare.followconnect.Network.APIResponse;
-import com.appcare.followconnect.Profile.FriendsList.FriendsListActivity;
-import com.appcare.followconnect.Profile.ProfileActivity;
+import com.appcare.followconnect.Profile.FriendsList.CommonListActivity;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteRequestBean;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteResponseBean;
+import com.appcare.followconnect.Settings.PrivacyPolicy.PrivicyPolicyActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -138,6 +138,7 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
                 break;
 
             case R.id.ll_blockerlist:
+                openBlockerList();
 
                 break;
 
@@ -163,6 +164,15 @@ public class SettingsActivity extends AppCompatActivity implements APIResponse, 
 
     }
 
+
+
+    private void openBlockerList() {
+
+        Intent i = new Intent(SettingsActivity.this, CommonListActivity.class);
+        i.putExtra("commingfrom", "BlockerList");
+        startActivity(i);
+
+    }
 
     public void showAlertDeleteAccount() {
 

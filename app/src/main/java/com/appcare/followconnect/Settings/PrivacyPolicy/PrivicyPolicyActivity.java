@@ -1,4 +1,4 @@
-package com.appcare.followconnect.Settings;
+package com.appcare.followconnect.Settings.PrivacyPolicy;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.Settings.ChnagePassword.HelpandSupportResponseBean;
+import com.appcare.followconnect.Settings.HelpandSupport.HelpandSuppordResponseBean1;
+import com.appcare.followconnect.Settings.SettingsPresenter;
 
 import java.util.ArrayList;
 

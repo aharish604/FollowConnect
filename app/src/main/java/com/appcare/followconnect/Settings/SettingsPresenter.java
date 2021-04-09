@@ -8,12 +8,13 @@ import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Network.APIInterface;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Network.RequestClient;
-import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
-import com.appcare.followconnect.Profile.ProfileActivity;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordRequestBean;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordResponseBean;
 import com.appcare.followconnect.Settings.ChnagePassword.HelpandSupportResponseBean;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteRequestBean;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteResponseBean;
+import com.appcare.followconnect.Settings.PrivacyPolicy.PrivacyPolicyResponeseBean;
 
 import retrofit2.Call;
 import retrofit2.Callback;

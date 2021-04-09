@@ -1,16 +1,21 @@
-package com.appcare.followconnect.Settings.ChnagePassword;
+package com.appcare.followconnect.Settings.PrivacyPolicy;
 
-import com.appcare.followconnect.Settings.HelpandSupport.HelpandSuppordResponseBean1;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class HelpandSupportResponseBean {
+public class PrivacyPolicyResponeseBean {
 
     @SerializedName("status")
     @Expose
     private Boolean status;
+    @SerializedName("message")
+    @Expose
+    private String message;
+    @SerializedName("data")
+    @Expose
+    private ArrayList<PrivacyPolicyResponseBean1> data = null;
 
     public Boolean getStatus() {
         return status;
@@ -28,19 +33,13 @@ public class HelpandSupportResponseBean {
         this.message = message;
     }
 
-    public ArrayList<HelpandSuppordResponseBean1> getData() {
+    public ArrayList<PrivacyPolicyResponseBean1> getData() {
         return data;
     }
 
-    public void setData(ArrayList<HelpandSuppordResponseBean1> data) {
+    public void setData(ArrayList<PrivacyPolicyResponseBean1> data) {
         this.data = data;
     }
 
-    @SerializedName("message")
-    @Expose
-    private String message;
-    @SerializedName("data")
-    @Expose
-    private ArrayList<HelpandSuppordResponseBean1> data = null;
 
 }

@@ -1,4 +1,4 @@
-package com.appcare.followconnect.Settings;
+package com.appcare.followconnect.Settings.DeleteAccount;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

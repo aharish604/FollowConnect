@@ -1,13 +1,13 @@
-package com.appcare.followconnect.Settings;
+package com.appcare.followconnect.Settings.BlockerList;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AccountDeleteRequestBean {
+public class BlockerListRequestBean {
 
     @SerializedName("uid")
     @Expose
-    private String uid;
+    public String uid= "";
 
     public String getUid() {
         return uid;

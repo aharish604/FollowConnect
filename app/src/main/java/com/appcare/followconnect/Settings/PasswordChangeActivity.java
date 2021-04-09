@@ -1,23 +1,34 @@
 package com.appcare.followconnect.Settings;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Common.Utility;
+import com.appcare.followconnect.ForgotPassword.ForgotPasswordActivity;
+import com.appcare.followconnect.ForgotPassword.ForgotPasswordBean;
+import com.appcare.followconnect.ForgotPassword.ForgotPasswordPresenter;
 import com.appcare.followconnect.Home.HomeActivity;
+import com.appcare.followconnect.Login.LoginResponse;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Notifications.NotificationActivity;
 import com.appcare.followconnect.R;
@@ -30,6 +41,7 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
     ImageButton img_backbutton;
     EditText current_password, new_password, c_password;
     Button btn_submit;
+    TextView forgetpassword_tv = null;
     ImageButton imgbtn_searchuserprofile = null;
     ProgressDialog progressDialog = null;
 
@@ -59,6 +71,7 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
         current_password = findViewById(R.id.edt_password);
         new_password = findViewById(R.id.edt_newpassword);
         c_password = findViewById(R.id.edt_cpassword);
+        forgetpassword_tv = findViewById(R.id.forgetpassword_tv);
         btn_submit = findViewById(R.id.btn_submit);
         imgbtn_searchuserprofile = findViewById(R.id.imgbtn_searchuserprofile);
 
@@ -82,6 +95,7 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
         eye_offnewpassword.setOnClickListener(this);
         eye_visablecpassword.setOnClickListener(this);
         eye_offcpassword.setOnClickListener(this);
+        forgetpassword_tv.setOnClickListener(this);
     }
 
 
@@ -142,7 +156,6 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
                 eye_visablecurrentpassword.setVisibility(View.VISIBLE);
                 eye_offcurrentpassword.setVisibility(View.GONE);
                 break;
-
             case R.id.eye_visablenewpassword:
                 new_password.setTransformationMethod(null);
                 eye_offnewpassword.setVisibility(View.VISIBLE);
@@ -153,7 +166,6 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
                 eye_visablenewpassword.setVisibility(View.VISIBLE);
                 eye_offnewpassword.setVisibility(View.GONE);
                 break;
-
             case R.id.eye_visablecpassword:
                 c_password.setTransformationMethod(null);
                 eye_offcpassword.setVisibility(View.VISIBLE);
@@ -164,21 +176,99 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
                 eye_visablecpassword.setVisibility(View.VISIBLE);
                 eye_offcpassword.setVisibility(View.GONE);
                 break;
-
-
             case R.id.imgbtn_searchuserprofile:
-
                 Intent i1 = new Intent(PasswordChangeActivity.this, SettingsActivity.class);
                 i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i1);
                 finish();
-
+                break;
+            case R.id.forgetpassword_tv:
+                showAlertForgetPassword();
                 break;
 
 
         }
 
     }
+
+    public void showAlertForgetPassword() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View customLayout = getLayoutInflater().inflate(R.layout.layout_forgetpassword, null);
+
+
+        AlertDialog mDialog = builder.create();
+        Window window = mDialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.setView(customLayout, 110, 0, 110, 0);
+        mDialog.setCanceledOnTouchOutside(false);//Clicking on the screen does not disappear
+        mDialog.show();
+        WindowManager.LayoutParams params = mDialog.getWindow().getAttributes();
+        mDialog.getWindow().setAttributes(params);
+
+        mDialog.show();
+
+        TextView tv_cancel = customLayout.findViewById(R.id.tv_cancel);
+        TextView tv_logout = customLayout.findViewById(R.id.tv_logout);
+        EditText et_email = customLayout.findViewById(R.id.et_email);
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDialog.dismiss();
+            }
+        });
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Constants.isNetworkAvailable(PasswordChangeActivity.this)) {
+                    mDialog.dismiss();
+
+                    validateemail(et_email.getText().toString().trim());
+
+                } else {
+
+                    Constants.displayLongToast(PasswordChangeActivity.this, getResources().getString(R.string.check_network));
+
+                }
+
+            }
+
+
+        });
+
+
+    }
+
+    private void validateemail(String email) {
+
+        if (email.isEmpty()) {
+            Constants.displayLongToast(PasswordChangeActivity.this, getString(R.string.alert_entereamil));
+        } else if (!Utility.isEmailValid(email)) {
+            Constants.displayLongToast(PasswordChangeActivity.this, getString(R.string.alert_entervalidemail));
+        } else {
+            passwordResetLink(email);
+        }
+
+
+    }
+
+    private void passwordResetLink(String email) {
+        ForgotPasswordPresenter presenter = new ForgotPasswordPresenter(PasswordChangeActivity.this, PasswordChangeActivity.this);
+        ForgotPasswordBean bean = new ForgotPasswordBean();
+        bean.setEmail(email);
+        presenter.sendForgetpasswordLink(bean, new ResponseSucessCallback() {
+            @Override
+            public void responseSucess(Object object) {
+                LoginResponse loginResponse = (LoginResponse) object;
+                Constants.displayLongToast(PasswordChangeActivity.this, loginResponse.getMessage());
+            }
+        });
+
+    }
+
 
     private void validate() {
 
@@ -195,17 +285,13 @@ public class PasswordChangeActivity extends AppCompatActivity implements APIResp
         } else if (!newpassword.equals(cpassword)) {
             Constants.displayLongToast(PasswordChangeActivity.this, getString(R.string.alert_passwordmissmatch));
         } else {
-
             ChangePasswordRequestBean bean = new ChangePasswordRequestBean();
             bean.setCpassword(cpassword);
             bean.setCurrentpassword(currentpassword);
             bean.setEmail(Constants.getEmail(PasswordChangeActivity.this));
             bean.setPassword(newpassword);
             bean.setUser_id(Constants.getUid(PasswordChangeActivity.this));
-
             presenter.chnagePassword(bean);
-
-
         }
 
 

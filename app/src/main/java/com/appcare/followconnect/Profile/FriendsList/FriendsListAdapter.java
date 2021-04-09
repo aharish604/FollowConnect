@@ -10,9 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appcare.followconnect.Notifications.Bean.NotificationList;
-import com.appcare.followconnect.Notifications.Bean.NotificationResponseBean1;
-import com.appcare.followconnect.Notifications.NotificationAdapter;
 import com.appcare.followconnect.Profile.FriendsList.Bean.FriendListResponseBean1;
 import com.appcare.followconnect.R;
 import com.bumptech.glide.Glide;
@@ -29,7 +26,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     private String searchText="";
     private SpannableStringBuilder sb;
 
-    public FriendsListAdapter(ArrayList<FriendListResponseBean1> list, FriendsListActivity activity) {
+    public FriendsListAdapter(ArrayList<FriendListResponseBean1> list, CommonListActivity activity) {
         mContext=activity;
         this.list=list;
     }

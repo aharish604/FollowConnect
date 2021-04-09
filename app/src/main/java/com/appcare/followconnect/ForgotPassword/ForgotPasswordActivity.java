@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Common.Utility;
 import com.appcare.followconnect.Login.LoginActivity;
@@ -89,14 +90,20 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         } else {
             ForgotPasswordBean bean = new ForgotPasswordBean();
             bean.setEmail(email);
-            presenter.sendForgetpasswordLink(bean);
+            presenter.sendForgetpasswordLink(bean,new ResponseSucessCallback(){
+                @Override
+                public void responseSucess(Object object) {
+                    LoginResponse loginResponse = (LoginResponse) object;
+                    Constants.displayLongToast(ForgotPasswordActivity.this, loginResponse.getMessage());
+
+                }
+            });
         }
     }
 
     @Override
     public void onSuccess(Object object) {
-        LoginResponse loginResponse = (LoginResponse) object;
-        Constants.displayLongToast(ForgotPasswordActivity.this, loginResponse.getMessage());
+
     }
 
     @Override

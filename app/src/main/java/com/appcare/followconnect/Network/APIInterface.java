@@ -37,12 +37,16 @@ import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanResponse;
-import com.appcare.followconnect.Settings.AccountDeleteRequestBean;
-import com.appcare.followconnect.Settings.AccountDeleteResponseBean;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteRequestBean;
+import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteResponseBean;
+import com.appcare.followconnect.Settings.BlockerList.UnblockRequestBean;
+import com.appcare.followconnect.Settings.BlockerList.UnblockResponseBean;
+import com.appcare.followconnect.Settings.BlockerList.BlockerListRequestBean;
+import com.appcare.followconnect.Settings.BlockerList.BlockerListResponseBean;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordRequestBean;
 import com.appcare.followconnect.Settings.ChnagePassword.ChangePasswordResponseBean;
 import com.appcare.followconnect.Settings.ChnagePassword.HelpandSupportResponseBean;
-import com.appcare.followconnect.Settings.PrivacyPolicyResponeseBean;
+import com.appcare.followconnect.Settings.PrivacyPolicy.PrivacyPolicyResponeseBean;
 import com.appcare.followconnect.SignUp.Beans.RandomUsernameBeanResponse;
 import com.appcare.followconnect.SignUp.Beans.RandomusernameBeanRequest;
 import com.appcare.followconnect.ForgotPassword.ForgotPasswordBean;
@@ -173,5 +177,13 @@ public interface APIInterface {
 
     @POST("Register/account_delete")
     Call<AccountDeleteResponseBean> deleteAccount(@Body AccountDeleteRequestBean bean);
+
+  @POST("Networks/blockerList")
+    Call<BlockerListResponseBean> getBlockerList(@Body BlockerListRequestBean bean);
+
+   @POST("Chat/unblock_user")
+    Call<UnblockResponseBean> unblockuser(@Body UnblockRequestBean bean);
+
+
 
 }

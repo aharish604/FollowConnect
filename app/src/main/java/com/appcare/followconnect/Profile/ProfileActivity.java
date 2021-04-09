@@ -19,24 +19,20 @@ import com.appcare.followconnect.Chat.ProfileUserFeedAdapter;
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
-import com.appcare.followconnect.Home.Adapter.MyviewAdapter;
 import com.appcare.followconnect.Home.HomeActivity;
-import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
 import com.appcare.followconnect.Network.APIResponse;
-import com.appcare.followconnect.Profile.Bean.ProfileBeanRequest;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
 import com.appcare.followconnect.Profile.Bean.ProfileResponseBean1;
 import com.appcare.followconnect.Profile.Bean.UserFeedRequest;
 import com.appcare.followconnect.Profile.Bean.UserFeedResponseBean;
 import com.appcare.followconnect.Profile.Bean.UserfeedResponseBean1;
 import com.appcare.followconnect.Profile.Bean.feedUserInfo;
-import com.appcare.followconnect.Profile.FriendsList.FriendsListActivity;
+import com.appcare.followconnect.Profile.FriendsList.CommonListActivity;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileActivity;
 import com.appcare.followconnect.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -196,7 +192,7 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
 
     private void openFriendsListActivity() {
 
-        Intent i = new Intent(ProfileActivity.this, FriendsListActivity.class);
+        Intent i = new Intent(ProfileActivity.this, CommonListActivity.class);
         i.putExtra("commingfrom", "FriendsList");
         startActivity(i);
 
@@ -204,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
 
     private void openFollowersListActivity() {
 
-        Intent i = new Intent(ProfileActivity.this, FriendsListActivity.class);
+        Intent i = new Intent(ProfileActivity.this, CommonListActivity.class);
         i.putExtra("commingfrom", "FollowersList");
         startActivity(i);
 

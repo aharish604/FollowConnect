@@ -3,6 +3,7 @@ package com.appcare.followconnect.ForgotPassword;
 import android.app.Activity;
 import android.content.Context;
 
+import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Network.APIInterface;
 import com.appcare.followconnect.Network.APIResponse;
@@ -17,14 +18,14 @@ public class ForgotPasswordPresenter {
     Context mcontext;
     APIResponse apiResponse;
 
-    public ForgotPasswordPresenter(ForgotPasswordActivity forgotPassword, APIResponse apiResponse) {
+    public ForgotPasswordPresenter(Context forgotPassword, APIResponse apiResponse) {
 
         this.mcontext = forgotPassword;
         this.apiResponse = apiResponse;
     }
 
 
-    public void sendForgetpasswordLink(ForgotPasswordBean bean) {
+    public void sendForgetpasswordLink(ForgotPasswordBean bean, ResponseSucessCallback responseSucessCallback) {
 
         ((Activity) mcontext).runOnUiThread(new Runnable() {
             @Override
@@ -43,7 +44,7 @@ public class ForgotPasswordPresenter {
                             ForgotResponse forgotResponse = response.body();
                             apiResponse.dismissProgress();
                             if (forgotResponse.getStatus()) {
-                                apiResponse.onSuccess(forgotResponse);
+                                responseSucessCallback.responseSucess(forgotResponse);
                             } else {
                                 apiResponse.onServerError(forgotResponse.getMessage());
                             }

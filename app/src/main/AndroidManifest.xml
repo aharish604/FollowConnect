@@ -34,10 +34,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Profile.FriendsList.FriendsListActivity"></activity>
+        <activity android:name=".Profile.FriendsList.CommonListActivity" />
         <activity android:name=".InToTo.VideodisplayIntotoActivity" />
         <activity android:name=".InToTo.ImageDisplayIntotoActivity" />
-        <activity android:name=".Settings.PrivicyPolicyActivity" />
+        <activity android:name=".Settings.PrivacyPolicy.PrivicyPolicyActivity" />
         <activity android:name=".Settings.PasswordChangeActivity" />
         <activity android:name=".Settings.SettingsActivity" />
         <activity android:name=".spoolvid.SpoolvidUploadPostActivity" />
