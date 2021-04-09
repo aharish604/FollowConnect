@@ -57,6 +57,10 @@
             android:name=".SearchFriends.SearchUserProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+          <activity
+            android:name=".Comments.CommentsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".SearchFriends.SearchFriendsActivity"
             android:screenOrientation="portrait"

@@ -35,6 +35,8 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
     String imagesarray[];
     String videosarray[];
+    ArrayList<intotopublic> list1=new ArrayList<>();
+    ArrayList<intotopublic> list2=new ArrayList<>();
 
 
     public intotoImageDisplayAdapter(Context mContext, ArrayList<intotopublic> aPublic, ArrayList<intotoprivate> aPrivate) {
@@ -55,8 +57,7 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
     @Override
     public void onBindViewHolder(@NonNull intotoImageDisplayAdapter.viewHolder holder, int position) {
 
-        intotopublic bean = aPublic.get(position);
-
+      //  intotopublic bean = aPublic.get(position);
 
         Boolean isPrivateImages = Constants.isPrivateImagesSpoolvid(aPrivate);
         Boolean isPrivateVideos = Constants.isPrivateVideosSpoolvid(aPrivate);
@@ -64,11 +65,8 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
         if (isPrivateImages) {
             holder.img_private.setVisibility(View.VISIBLE);
 
-
         } else {
             holder.img_private.setVisibility(View.GONE);
-
-
         }
 
         if (isPrivateVideos) {
@@ -80,9 +78,12 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
         }
 
+        if(aPublic!=null)
+        {
+            list1 = Constants.getImageArrayintoto(aPublic);
+            list2 = Constants.getVideoArrayintoto(aPublic);
 
-        ArrayList<intotopublic> list1 = Constants.getImageArrayintoto(aPublic);
-        ArrayList<intotopublic> list2 = Constants.getVideoArrayintoto(aPublic);
+        }
 
 
         if (list1.size() >= 3) {

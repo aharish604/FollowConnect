@@ -7,6 +7,10 @@ import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
 
 import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockResponse;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockerInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteFeedInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostRequestBean;
 import com.appcare.followconnect.Network.APIInterface;
@@ -89,8 +93,6 @@ public class MyviewPresenter {
 
 
     public void postLikes(FeedLikeInputs bean, ResponseSucessCallback responseSucessCallback) {
-
-
         ((Activity) mcontext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -149,6 +151,122 @@ public class MyviewPresenter {
 
     }
 
+    public void block(BlockerInputs bean, ResponseSucessCallback responseSucessCallback) {
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
 
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<BlockResponse> call = RequestClient.getClient().create(APIInterface.class).block(bean);
+                call.enqueue(new Callback<BlockResponse>() {
+                    @Override
+                    public void onResponse(Call<BlockResponse> call, retrofit2.Response<BlockResponse> response) {
+                        try {
+                            BlockResponse blockResponse = response.body();
+                            apiResponse.dismissProgress();
+                            if (blockResponse.isStatus()) {
+                                responseSucessCallback.responseSucess(blockResponse);
+                            } else {
+                                apiResponse.onServerError(blockResponse.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BlockResponse> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+    }
+
+    public void deleteFeed(DeleteFeedInputs bean, ResponseSucessCallback responseSucessCallback) {
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<DeleteResponse> call = RequestClient.getClient().create(APIInterface.class).deleteFeed(bean);
+                call.enqueue(new Callback<DeleteResponse>() {
+                    @Override
+                    public void onResponse(Call<DeleteResponse> call, retrofit2.Response<DeleteResponse> response) {
+                        try {
+                            DeleteResponse deleteResponse = response.body();
+                            apiResponse.dismissProgress();
+                            if (deleteResponse.isStatus()) {
+                                responseSucessCallback.responseSucess(deleteResponse);
+                            } else {
+                                apiResponse.onServerError(deleteResponse.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DeleteResponse> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+    }
 
 }

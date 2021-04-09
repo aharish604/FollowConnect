@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/WHITE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_india"
+            app:civ_border_color="#F4F2F2"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/profilename_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@id/profile_image"
+            android:text="Harish GMM"
+            android:textColor="@color/myview_textcolor"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profilename_tv"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/profile_image"
+            android:singleLine="true"
+            android:text="Hey Man! Did you get the groceries from the st..."
+            android:textColor="@color/black"
+            android:textSize="14dp" />
+
+
+        <TextView
+            android:id="@+id/tv_TimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_desc"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_more"
+            android:text="2m ago"
+            android:textColor="@color/textColor"
+            android:textSize="12dp" />
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

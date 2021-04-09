@@ -6,6 +6,8 @@ import com.appcare.followconnect.Chat.Bean.ChatHistoryBeanResponse;
 import com.appcare.followconnect.Chat.Bean.ChatListBeanResponse;
 import com.appcare.followconnect.Chat.Bean.MessageSendRequest;
 import com.appcare.followconnect.Chat.Bean.MessageSendResponse;
+import com.appcare.followconnect.Comments.model.CommentsListInputs;
+import com.appcare.followconnect.Comments.model.CommentsListResponse;
 import com.appcare.followconnect.ForgotPassword.ForgotResponse;
 import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
 import com.appcare.followconnect.InToTo.Bean.IntotoRequestBean;
@@ -14,6 +16,10 @@ import com.appcare.followconnect.Login.LoginResponse;
 import com.appcare.followconnect.LoginWithGoogle.Bean.LoginWithGoogleBeanRequest;
 import com.appcare.followconnect.LoginWithGoogle.Bean.LoginWithGoogleResponseBean1;
 import com.appcare.followconnect.MyviewPostdisplay.FeedLikeResponse;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockResponse;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockerInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteFeedInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostRequestBean;
 import com.appcare.followconnect.Notifications.Bean.NotificationRequestBean;
@@ -183,6 +189,16 @@ public interface APIInterface {
 
    @POST("Chat/unblock_user")
     Call<UnblockResponseBean> unblockuser(@Body UnblockRequestBean bean);
+
+
+    @POST("Chat/block_user")
+    Call<BlockResponse> block(@Body BlockerInputs blockWrapper);
+
+    @POST("Feed/deleteFeed")
+    Call<DeleteResponse> deleteFeed(@Body DeleteFeedInputs deleteInputs);
+
+    @POST("Feed/commentsList")
+    Call<CommentsListResponse> getCommentsList(@Body CommentsListInputs inputs);
 
 
 

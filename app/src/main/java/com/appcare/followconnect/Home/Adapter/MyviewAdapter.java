@@ -1,44 +1,39 @@
 package com.appcare.followconnect.Home.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.appcare.followconnect.Home.fragments.MyviewFragment;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
-import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedResponse;
 import com.appcare.followconnect.R;
-import com.appcare.followconnect.spoolvid.Bean.SpoolvidResponseBeanfeedlist;
 import com.appcare.followconnect.spoolvid.SpoolvidVideoPLayingActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import proj.me.bitframe.BeanImage;
-import proj.me.bitframe.ViewFrame;
-import proj.me.bitframe.helper.FrameType;
 
 public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder> {
 
@@ -47,12 +42,14 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
     List<GetPostFeedBean> feedList = null;
     MyviewFragment myviewFragment;
+    String userId = "";
 
 
-    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList, MyviewFragment myviewFragment) {
+    public MyviewAdapter(FragmentActivity activity, List<GetPostFeedBean> feedList, MyviewFragment myviewFragment, String userId) {
         mContext = activity;
         this.feedList = feedList;
         this.myviewFragment = myviewFragment;
+        this.userId = userId;
     }
 
     @NonNull
@@ -364,6 +361,62 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             @Override
             public void onClick(View view) {
 
+
+            }
+        });
+
+
+        holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu menu = new PopupMenu(view.getContext(), holder.imgbtn_more);
+                menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
+                if(userId.equals(feedListbean.getPuid())){
+                    menu.getMenu().removeItem(R.id.block_user);
+                }else{
+                    menu.getMenu().removeItem(R.id.edit);
+                    menu.getMenu().removeItem(R.id.delete);
+                }
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            // item.setVisible(false);
+
+
+                            case R.id.share_via:
+                                String fileuri = imagesarray[0];
+                                Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
+                                myviewFragment.whatsAppShare(fileuri, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
+
+                                break;
+                            case R.id.block_user:
+
+                                myviewFragment.blockuser(bean.getUserId());
+                                break;
+                            case R.id.edit:
+
+                                break;
+                            case R.id.delete:
+                                myviewFragment.deleteFeed(feedListbean.getSid(), position);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                menu.show();
+            }
+
+        });
+
+        holder.btn_comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+                myviewFragment.commentsClick(feedid, postid, count, position);
             }
         });
 
@@ -390,7 +443,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
         TextView tv_posttime = null,tv_likecount,tv_dislikecount,tv_viewcounts,tv_commentscount;
-        ImageButton videoplaybtn,btn_imgdisLike, btn_imgLike, imgbtn_more;
+        ImageButton videoplaybtn,btn_imgdisLike, btn_imgLike, imgbtn_more, btn_comments;
         TextView post_content = null;
         RelativeLayout img_layout = null,video_layout;
 
@@ -412,6 +465,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             btn_imgdisLike = itemView.findViewById(R.id.btn_imgdisLike);
             btn_imgLike = itemView.findViewById(R.id.btn_imgLike);
             imgbtn_more = itemView.findViewById(R.id.imgbtn_more);
+            btn_comments = itemView.findViewById(R.id.btn_comments);
 
 
 
