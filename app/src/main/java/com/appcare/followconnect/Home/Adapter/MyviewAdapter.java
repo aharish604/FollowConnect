@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.appcare.followconnect.Home.fragments.MyviewFragment;
+import com.appcare.followconnect.MyviewPostdisplay.ImageSliderActivity;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
 import com.appcare.followconnect.R;
@@ -63,6 +64,15 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
     public void onBindViewHolder(@NonNull MyviewAdapter.viewHolder holder, int position) {
         GetPostFeedBean bean = feedList.get(position);
         FeedList feedListbean = bean.getFeedList();
+
+        int likeStatus = bean.getLikes();
+
+
+        if(likeStatus == 1){
+            holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like_blue));
+        }else{
+            holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like));
+        }
 
         holder.profilename_tv.setText("" + bean.getFullname());
         holder.tv_posttime.setText("" + bean.getCd());
@@ -109,11 +119,21 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             }
         });
 
+        holder.img_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(mContext, ImageSliderActivity.class);
+                intent.putExtra("imageurl",bean.getImgfFile());
+                mContext.startActivity(intent);
+
+            }
+        });
 
 
         Glide.with(mContext)
                 .load(bean.getProfilePic())
-                .placeholder(R.drawable.img_loading)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
 
                 .into(holder.profile_image);
 
@@ -248,7 +268,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                     .placeholder(R.drawable.img3)
                     .into(imageView33);
         }
-        if (i >= 4) {
+        if (i > 4) {
             //x=0,y=0
 
            /* imageView.setVisibility(View.GONE);
@@ -333,6 +353,62 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                     .into(imageView44);
 
 
+        }else if (i == 4) {
+
+            imageView41.setPadding(0, 5, 0, 0);
+            imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
+            imageView41.setScaleType(ImageView.ScaleType.FIT_XY);
+
+               imageView42.setY(height / 2);
+            imageView42.setPadding(0, 5, 5, 0);
+            imageView42.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView42.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            imageView43.setX(width / 3);
+            imageView43.setY(height / 2);
+            imageView43.setPadding(0, 5, 5, 0);
+            imageView43.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView43.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            int w1 = width / 3;
+            int w2 = width / 3;
+            imageView44.setX(w1 + w2);
+            imageView44.setY(height / 2);
+            imageView44.setPadding(0, 5, 0, 0);
+            imageView44.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView44.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            frameLayout.removeAllViewsInLayout();
+
+            frameLayout.addView(imageView41);
+            frameLayout.addView(imageView42);
+            frameLayout.addView(imageView43);
+            frameLayout.addView(imageView44);
+
+
+            Glide.with(mContext)
+                    .load(imagesarray[0])
+                    //  .placeholder(R.drawable.img3)
+                    .into(imageView41);
+
+            Glide.with(mContext)
+                    .load(imagesarray[1])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView42);
+            Glide.with(mContext)
+                    .load(imagesarray[2])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView43);
+
+            Glide.with(mContext)
+                    .load(imagesarray[3])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView44);
+
+
         }
 
         holder.btn_imgdisLike.setOnClickListener(new View.OnClickListener() {
@@ -342,7 +418,13 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                 String feedid = feedListbean.getSid();
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
-                myviewFragment.disLikes(position, feedid, postid, count);
+                int likeStatus = bean.getLikes();
+                if(count == 0){
+
+                }else{
+                    myviewFragment.disLikes(position, feedid, postid, count, likeStatus);
+                }
+
             }
         });
 
@@ -353,7 +435,9 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
 
-                myviewFragment.likes(position, feedid, postid, count);
+                int likeStatus = bean.getLikes();
+
+                myviewFragment.likes(position, feedid, postid, count, likeStatus);
             }
         });
 
@@ -396,7 +480,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                                 myviewFragment.blockuser(bean.getUserId());
                                 break;
                             case R.id.edit:
-
+                                myviewFragment.edit(feedListbean.getSid());
                                 break;
                             case R.id.delete:
                                 myviewFragment.deleteFeed(feedListbean.getSid(), position);

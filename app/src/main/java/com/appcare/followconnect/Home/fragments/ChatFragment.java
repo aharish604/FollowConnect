@@ -3,6 +3,8 @@ package com.appcare.followconnect.Home.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,9 @@ public class ChatFragment extends Fragment implements APIResponse {
     private static final String ARG_PARAM2 = "param2";
     RecyclerView chat_recyclerview = null;
     EditText et_searchchat = null;
-    ChatListAdapter adapter = null;
     ProgressDialog progressDialog = null;
+    ChatListAdapter adapter = null;
+    ArrayList<ChatListBeanResponse1> list = null;
 
 
     // TODO: Rename and change types of parameters
@@ -87,7 +90,28 @@ public class ChatFragment extends Fragment implements APIResponse {
 
         InitializeObjects();
 
-        chat_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        et_searchchat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(list!=null)
+                {
+                    Filter(s.toString());
+
+                }
+            }
+        });
+
 
     }
 
@@ -100,22 +124,20 @@ public class ChatFragment extends Fragment implements APIResponse {
             @Override
             public void responseSucess(Object object) {
                 ChatListBeanResponse chatListBeanResponse = (ChatListBeanResponse) object;
-                ArrayList<ChatListBeanResponse1> list = chatListBeanResponse.getData();
-
+                list.clear();
+                list = chatListBeanResponse.getData();
                 if (list.size() != 0) {
-                    chat_recyclerview.setAdapter(new ChatListAdapter(getActivity(), list, new Adapterpositioncallback() {
+                    adapter = new ChatListAdapter(getActivity(), list, new Adapterpositioncallback() {
                         @Override
                         public void getadapterposition(Object object, int pos) {
 
-                            ChatListBeanResponse1 bean=  (ChatListBeanResponse1) object;
-                            Intent intent=new Intent(getActivity(),ChatActivity.class);
+                            ChatListBeanResponse1 bean = (ChatListBeanResponse1) object;
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
                             intent.putExtra("chatbean", bean);
-
                             startActivity(intent);
-
-
                         }
-                    }));
+                    });
+                    chat_recyclerview.setAdapter(adapter);
 
 
                 }
@@ -123,6 +145,17 @@ public class ChatFragment extends Fragment implements APIResponse {
             }
         });
     }
+
+    private void Filter(String text) {
+        ArrayList<ChatListBeanResponse1> filteredList = new ArrayList<>();
+        for (ChatListBeanResponse1 item : list) {
+            if (item.getFullname().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        adapter.filterList(filteredList, text);
+    }
+
 
     @Override
     public void onSuccess(Object object) {

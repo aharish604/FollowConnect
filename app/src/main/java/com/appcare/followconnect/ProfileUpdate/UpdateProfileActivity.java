@@ -45,6 +45,7 @@ import com.appcare.followconnect.R;
 import com.appcare.followconnect.SignUp.CountrySpinner.Adapterpositioncallback;
 import com.appcare.followconnect.SignUp.CountrySpinner.CountryAdapter;
 import com.appcare.followconnect.SignUp.CountrySpinner.CountryBean;
+import com.appcare.followconnect.SignUp.SignUpActivity;
 import com.appcare.followconnect.SignUp.SignupView;
 import com.appcare.followconnect.UploadPost.FileCompressor;
 import com.appcare.followconnect.UploadPost.SelectedImageAdapter;
@@ -173,6 +174,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     country = parent.getItemAtPosition(position).toString();
+
+                                    et_countrycode.setText("+" + countrylist.get(position).getCallingcode());
+                                    Constants.fetchSvg(UpdateProfileActivity.this, countrylist.get(position).getFlag_url(), img_counryflag);
+
+
                                 }
 
                                 @Override
@@ -253,6 +259,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
             }
         });
+
 
 
     }

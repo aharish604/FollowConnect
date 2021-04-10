@@ -144,6 +144,8 @@ public class SpooLvidFragment extends Fragment implements APIResponse {
 
                 Intent intent=new Intent(getActivity(), SpoolvidVideoPLayingActivity.class);
                intent.putExtra("videourl",bean.getVf());
+                intent.putExtra(Constants.ToolbarName,"SpoolVid");
+
                 startActivity(intent);
 
             }

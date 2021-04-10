@@ -35,7 +35,7 @@
             android:layout_toEndOf="@id/imgbtn_backvideoplay"
             android:gravity="center_horizontal"
             android:letterSpacing="0.025"
-            android:text="@string/videoPlay"
+            android:text="VideoPlay"
 
             android:textColor="@color/textColorthick"
             android:textSize="20sp"

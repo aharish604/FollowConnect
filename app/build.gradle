@@ -98,5 +98,9 @@ dependencies {
 
     implementation 'com.google.android.exoplayer:exoplayer:2.11.8'
 
+    /* Image Slider */
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+
+
 
 }

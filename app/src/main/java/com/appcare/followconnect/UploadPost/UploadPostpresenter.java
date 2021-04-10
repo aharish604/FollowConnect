@@ -60,36 +60,32 @@ public class UploadPostpresenter {
             Log.d("Upload request", "requestUploadSurvey: survey image " + index + "  " + bean.getImages()[index]);
             File file2 = new File(bean.getImages()[index]);
             RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
-            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath(), surveyBody);
+            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath()+".png", surveyBody);
         }
-
-
-  /* MultipartBody.Part[] multipartvideos = new MultipartBody.Part[bean.getImages().length];
-
-        for (int index = 0; index < bean.getImages().length; index++) {
-            Log.d("Upload request", "requestUploadSurvey: survey image " + index + "  " + bean.getImages()[index]);
-            File file2 = new File(bean.getImages()[index]);
-            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
-            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath(), surveyBody);
-        }
-*/
-
-
-
-
-
 
         MultipartBody.Part videosarray = null;
         for (int i = 0; i < bean.getVideos().length; i++) {
             try {
                 File file = new File(String.valueOf(bean.getVideos()[i]));
                 RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
-                videosarray = MultipartBody.Part.createFormData("videos[]", file.getName(), mFile1);
+                videosarray = MultipartBody.Part.createFormData("videos[]", file.getName()+".mp4", mFile1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
+
+        /*MultipartBody.Part[] videosarray = new MultipartBody.Part[bean.getVideos().length];
+        for (int i = 0; i < bean.getVideos().length; i++) {
+            try {
+                File file = new File(String.valueOf(bean.getVideos()[i]));
+                RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
+                videosarray[i] = MultipartBody.Part.createFormData("videos[]", file.getName()+".mp4", mFile1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+*/
 
 
 

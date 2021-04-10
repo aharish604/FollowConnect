@@ -3,6 +3,7 @@ package com.appcare.followconnect.Common;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.webkit.URLUtil;
@@ -54,6 +56,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static android.content.Context.ACTIVITY_SERVICE;
 import static com.appcare.followconnect.UploadPost.UploadPostActivity.STORAGE_PERMISSION;
 
 public class Constants {
@@ -62,6 +65,7 @@ public class Constants {
     public static final String KEY_MP3 = "mp3";
     public static final String KEY_OGG = "ogg";
     public static final String KEY_MP4 = "mp4";
+    public static final String ToolbarName = "toolbarname";
     public static final String KEY_MP4_CAPS = "MP4";
     public static final String KEY_HLS = "m3u8";
     public static final String KEY_USER_AGENT = "exoplayer-codelab";
@@ -121,10 +125,16 @@ public class Constants {
     }
 
     public static void displayLongToast(Context mContext, String message) {
-        try {
-            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        if(!message.equalsIgnoreCase("friend list")) {
+            try {
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            System.out.println("data toast:-"+mContext.getApplicationInfo().toString());
+
         }
     }
 
@@ -455,6 +465,22 @@ public class Constants {
         }
 
         return duration;
+    }
+
+    public static void clearAppData(Context mcontext) {
+        try {
+            // clearing app data
+            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                ((ActivityManager)mcontext.getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
+            } else {
+                String packageName = mcontext.getApplicationContext().getPackageName();
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("pm clear "+packageName);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

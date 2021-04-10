@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InToTo.ImageDisplayIntotoActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_barLayout"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:gravity="center|start"
                 android:minHeight="?actionBarSize"
                 android:padding="10dp"
-                android:text="Intoto Images"
+                android:text="Slide Images"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
             <ImageButton
@@ -55,12 +55,33 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
         android:layout_height="match_parent"
-        android:id="@+id/rv_intotoimagedisplay"
-        android:layout_below="@id/app_barLayout"/>
+        android:layout_below="@id/app_barLayout">
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_centerInParent="@bool/bool_true"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderIndicatorAnimationDuration="600"
+            app:sliderIndicatorEnabled="true"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1" />
+
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

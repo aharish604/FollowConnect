@@ -1,7 +1,10 @@
 package com.appcare.followconnect.Chat;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import com.appcare.followconnect.SignUp.CountrySpinner.CountryBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,6 +46,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.viewHo
     }
 
 
+    public void filterList(ArrayList<ChatListBeanResponse1> filteredList, String text) {
+        list = filteredList;
+        this.searchText = text;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -68,6 +78,27 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.viewHo
                 .load(bean.getProfilePic())
                 .placeholder(R.drawable.update_profile)
                 .into(holder.profile_image);
+
+        String fullname=bean.getFullname();
+
+
+        if(searchText.length()>0){
+            //color your text here
+            int index = fullname.indexOf(searchText);
+            sb = new SpannableStringBuilder(fullname);
+            Pattern word = Pattern.compile(searchText.toLowerCase());
+            Matcher match = word.matcher(fullname.toLowerCase());
+            while(match.find()){
+                ForegroundColorSpan fcs = new ForegroundColorSpan(Color.rgb(153,153,255)); //specify color here
+                sb.setSpan(fcs, match.start(), match.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                //index = stateName.indexOf(searchText,index+1);
+            }
+          //  holder.country_name.setText(sb);
+
+        }else{
+         //   holder.country_name.setText(fullname);
+        }
+
 
     }
 

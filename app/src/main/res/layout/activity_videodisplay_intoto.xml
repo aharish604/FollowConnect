@@ -37,7 +37,7 @@
                 android:gravity="center|start"
                 android:minHeight="?actionBarSize"
                 android:padding="10dp"
-                android:text=""
+                android:text="Intoto Videos"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
             <ImageButton

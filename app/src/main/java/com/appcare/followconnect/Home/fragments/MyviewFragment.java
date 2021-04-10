@@ -31,6 +31,7 @@ import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostRequestBean;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.UploadPost.UploadPostActivity;
+import com.appcare.followconnect.editfeed.EditFeedActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
     List<GetPostFeedBean> myViewList = new ArrayList<>();
 
     private String userid= "", api_TAG = "";
+    int itemPosition = 0;
     GetPostFeedResponse feedbean=new GetPostFeedResponse();
 
     public MyviewFragment() {
@@ -93,8 +95,6 @@ public class MyviewFragment extends Fragment implements APIResponse {
 
 
         IntializeObjetcs();
-
-
     }
 
     private void setadapter(List<GetPostFeedBean> feedList) {
@@ -144,7 +144,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
     }
 
 
-    public void likes(int position, String feedid, String postid, int count) {
+    public void likes(int position, String feedid, String postid, int count, int likeStatus) {
         FeedLikeInputs inputs = new FeedLikeInputs();
         inputs.setFeed_id(feedid);
         inputs.setPoster_id(postid);
@@ -155,11 +155,18 @@ public class MyviewFragment extends Fragment implements APIResponse {
         inputs.setShare("");
         inputs.setView("");
         api_TAG = "Likes";
-        int countvalu = count+1;
-        postLikes(inputs, position, api_TAG, countvalu);
+        int countvalu;
+        if(likeStatus == 0){
+            likeStatus = 1;
+            countvalu = count+1;
+        }else{
+            likeStatus = 0;
+            countvalu = count- 1;
+        }
+        postLikes(inputs, position, api_TAG, countvalu, likeStatus);
     }
 
-    private void postLikes(FeedLikeInputs inputs, int position, String likes, int countvalu) {
+    private void postLikes(FeedLikeInputs inputs, int position, String likes, int countvalu, int likeStatus) {
         presenter.postLikes(inputs, new ResponseSucessCallback() {
             @Override
             public void responseSucess(Object object) {
@@ -169,10 +176,13 @@ public class MyviewFragment extends Fragment implements APIResponse {
                 {
 
                     myViewList.get(position).setLikesCount(countvalu);
+                    myViewList.get(position).setLikes(likeStatus);
                     myviewAdapter.notifyDataSetChanged();
                 }else if(api_TAG.equals("DisLikes"))
                 {
-
+                    myViewList.get(position).setLikesCount(countvalu);
+                    myViewList.get(position).setLikes(likeStatus);
+                    myviewAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -180,7 +190,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
     }
 
 
-    public void disLikes(int position, String feedid, String postid, int count) {
+    public void disLikes(int position, String feedid, String postid, int count, int likeStatus) {
         FeedLikeInputs inputs = new FeedLikeInputs();
         inputs.setFeed_id(feedid);
         inputs.setPoster_id(postid);
@@ -192,7 +202,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
         inputs.setView("");
         api_TAG = "DisLikes";
         int countvalu = count-1;
-        postLikes(inputs, position, api_TAG, countvalu);
+        postLikes(inputs, position, api_TAG, countvalu, 0);
     }
 
     public void whatsAppShare(String fileuri, String sid, String feed) {
@@ -257,9 +267,16 @@ public class MyviewFragment extends Fragment implements APIResponse {
     }
 
     public void commentsClick(String feedid, String postid, int count, int position) {
+        itemPosition = position;
         Intent i = new Intent(getActivity(), CommentsActivity.class);
         i.putExtra("FEEDID", feedid);
         i.putExtra("POSTID", postid);
+        startActivity(i);
+    }
+
+    public void edit(String feedId) {
+        Intent i = new Intent(getActivity(), EditFeedActivity.class);
+        i.putExtra("FEEDID", feedId);
         startActivity(i);
     }
 

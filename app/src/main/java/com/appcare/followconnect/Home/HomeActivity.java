@@ -218,6 +218,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                         AppPreference.getInstance(HomeActivity.this).put(Constants.loginStatus,false);
                         AppPreference.getInstance(HomeActivity.this).put(Constants.User_ID,"");
+                        AppPreference.getInstance(HomeActivity.this).put(Constants.ProfilrURL,"");
+                       // Constants.clearAppData(HomeActivity.this);
 
                         new Handler().postDelayed(new Runnable() {
                             @Override

@@ -119,7 +119,7 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
 
         Glide.with(SpoolvidUploadPostActivity.this)
                 .load(prfile_url)
-                .placeholder(R.drawable.update_profile)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .into(profile_image);
 
         profilename_tv.setText(fullname);
@@ -151,6 +151,8 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
     public void onSuccess(Object object) {
         UploadPostResponse signUpResponse = (UploadPostResponse) object;
         Constants.displayLongToast(SpoolvidUploadPostActivity.this, signUpResponse.getMessage());
+
+
 
     }
 

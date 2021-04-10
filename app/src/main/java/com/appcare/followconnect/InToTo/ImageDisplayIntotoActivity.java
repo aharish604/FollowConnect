@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.appcare.followconnect.InToTo.Bean.intotopublic;
 import com.appcare.followconnect.R;
@@ -24,6 +25,7 @@ public class ImageDisplayIntotoActivity extends AppCompatActivity {
 
     RecyclerView rv_intotoimgdisplay;
 ArrayList<intotopublic> imagelist=null;
+ImageButton imgbtn_searchuserprofile=null;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,16 @@ ArrayList<intotopublic> imagelist=null;
     private void InitUI() {
 
         rv_intotoimgdisplay=findViewById(R.id.rv_intotoimagedisplay);
+        imgbtn_searchuserprofile=findViewById(R.id.imgbtn_searchuserprofile);
         rv_intotoimgdisplay.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         rv_intotoimgdisplay.setAdapter(new ImageViewAdapter(ImageDisplayIntotoActivity.this,imagelist));
 
-
+        imgbtn_searchuserprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
 

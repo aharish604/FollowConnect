@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Home.Adapter.MyviewAdapter;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
@@ -101,6 +102,8 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, SpoolvidVideoPLayingActivity.class);
                 intent.putExtra("videourl",bean.getVf());
+                intent.putExtra(Constants.ToolbarName,"Profile");
+
                 mContext.startActivity(intent);
             }
         });

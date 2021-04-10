@@ -201,5 +201,17 @@ public interface APIInterface {
     Call<CommentsListResponse> getCommentsList(@Body CommentsListInputs inputs);
 
 
+    @Multipart
+    @POST("Feed/feedEdit")
+    Call<UploadPostResponse> feeEditdpost(@Part("uid") RequestBody uid,
+                                          @Part("feedtext") RequestBody comment,
+                                          @Part("isspoolvid") RequestBody ispoolvid,
+                                          @Part("privicy") RequestBody privicy,
+                                          @Part("feed_id") RequestBody feed_id,
+                                          @Part MultipartBody.Part[] multipartImages,
+                                          @Part MultipartBody.Part videosarray);
+
+
+
 
 }

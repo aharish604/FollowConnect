@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
 
         Glide.with(ProfileActivity.this)
                 .load(profileResponseBean1.getProfile_pic())
-                .placeholder(R.drawable.update_profile)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .into(profile_img);
 
         getUserfeeds();

@@ -41,6 +41,7 @@ public class SpoolvidVideoPLayingActivity extends AppCompatActivity  {
     private long playbackPosition = 0;
     private boolean currPlayWhenReady = true;
     String videourl=null;
+    String toolbarname=null;
     ImageButton imgbtn_backvideoplay=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,6 +64,7 @@ public class SpoolvidVideoPLayingActivity extends AppCompatActivity  {
         if(bd != null)
         {
              videourl = (String) bd.get("videourl");
+             toolbarname = (String) bd.get(Constants.ToolbarName);
         }
 
         initializePlayer();

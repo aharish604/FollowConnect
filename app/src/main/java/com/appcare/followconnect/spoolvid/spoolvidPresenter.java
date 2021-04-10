@@ -114,18 +114,12 @@ public class spoolvidPresenter {
 
         MultipartBody.Part[] multipartImages = new MultipartBody.Part[0];
 
-       /* for (int index = 0; index < bean.getImages().length; index++) {
-            Log.d("Upload request", "requestUploadSurvey: survey image " + index + "  " + bean.getImages()[index]);
-            File file2 = new File(bean.getImages()[index]);
-            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
-            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath(), surveyBody);
-        }
-*/
+
 
         MultipartBody.Part videosarray = null;
         File file2 = new File(bean.getVideopath());
         RequestBody surveyBody = RequestBody.create(MediaType.parse("video/*"), file2);
-        videosarray= MultipartBody.Part.createFormData("videos[]", file2.getPath(), surveyBody);
+        videosarray= MultipartBody.Part.createFormData("videos[]", file2.getPath()+".mp4", surveyBody);
 
 
 

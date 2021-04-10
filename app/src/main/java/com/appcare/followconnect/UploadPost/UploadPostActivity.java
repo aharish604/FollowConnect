@@ -104,7 +104,7 @@ public class UploadPostActivity extends AppCompatActivity implements View.OnClic
 
         Glide.with(UploadPostActivity.this)
                 .load(prfile_url)
-                .placeholder(R.drawable.update_profile)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
                 //.centerCrop()
                 .into(profile_image);
         profilename_tv.setText(fullname);
@@ -258,7 +258,10 @@ public class UploadPostActivity extends AppCompatActivity implements View.OnClic
             } else if (requestCode == PICK_Videos) {
 
                 Uri uri = data.getData();
-                // videopath = Utility.getFilePathFromURI(UploadPostActivity.this, uri);
+
+                 videopath = Utility.getFilePathFromURI(UploadPostActivity.this, uri);
+
+
 
                 checkImage(Utility.getFilePathFromURI(UploadPostActivity.this, uri), "video");
 
