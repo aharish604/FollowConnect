@@ -19,6 +19,8 @@ import com.appcare.followconnect.Network.RequestClient;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
+import com.appcare.followconnect.View.ViewBeanRequest;
+import com.appcare.followconnect.View.ViewBeanResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -331,4 +333,63 @@ public class MyviewPresenter {
     }
 
 
+    public void viewpost(ViewBeanRequest bean, ResponseSucessCallback responseSucessCallback) {
+
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<ViewBeanResponse> call = RequestClient.getClient().create(APIInterface.class).feedview(bean);
+                call.enqueue(new Callback<ViewBeanResponse>() {
+                    @Override
+                    public void onResponse(Call<ViewBeanResponse> call, retrofit2.Response<ViewBeanResponse> response) {
+                        try {
+                            ViewBeanResponse viewBeanResponse = response.body();
+                            apiResponse.dismissProgress();
+                            if (viewBeanResponse.getStatus()) {
+                                responseSucessCallback.responseSucess(viewBeanResponse);
+                            } else {
+                                apiResponse.onServerError(viewBeanResponse.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ViewBeanResponse> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+    }
 }

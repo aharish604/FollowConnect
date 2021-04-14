@@ -29,7 +29,6 @@ import com.appcare.followconnect.InToTo.Bean.intotoprivate;
 import com.appcare.followconnect.InToTo.Bean.intotopublic;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryResponseBean1;
-import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.Settings.PasswordChangeActivity;
 import com.appcare.followconnect.SignUp.CountrySpinner.CountryBean;
 import com.google.android.exoplayer2.extractor.ogg.OggExtractor;
@@ -68,6 +67,7 @@ public class Constants {
     public static final String ToolbarName = "toolbarname";
     public static final String KEY_MP4_CAPS = "MP4";
     public static final String KEY_HLS = "m3u8";
+    public static final int MyviewAdapterPosition =0;
     public static final String KEY_USER_AGENT = "exoplayer-codelab";
 
     public static final int RC_SIGN_IN = 101;

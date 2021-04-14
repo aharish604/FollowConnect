@@ -1,4 +1,4 @@
-package com.appcare.followconnect.SearchFriends.Bean;
+package com.appcare.followconnect.SearchFriends;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

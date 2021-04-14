@@ -46,8 +46,8 @@ import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanResponse
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryResponseBean1;
-import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
+import com.appcare.followconnect.SearchFriends.followandunfollow.followrequestbean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
 import com.appcare.followconnect.editfeed.EditFeedActivity;
@@ -72,6 +72,8 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
     UserFriendsPresenter presenter;
     List<UserFriendsFeedResponse.UserInfo> userinformation=new ArrayList<>();
 
+    ImageView rightmark=null;
+    LinearLayout ll_follow;
     String api_TAG="";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -99,8 +101,9 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
         tvcount_2=findViewById(R.id.tvcount_2);
         edit_profilepicture=findViewById(R.id.edit_profilepicture);
         tv_friends=findViewById(R.id.tv_friends);
-        tv_friends=findViewById(R.id.tv_friends);
         rv_profilefeed=findViewById(R.id.rv_profilefeed);
+        ll_follow=findViewById(R.id.ll_follow);
+        rightmark=findViewById(R.id.rightmark);
 
         imgbtn_searchuserprofile.setOnClickListener(this);
         option_Menu.setOnClickListener(this);
@@ -111,6 +114,45 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
         usersFriendFeedAdapter = new UsersFriendFeedAdapter(SearchUserProfileActivity.this,usersFeeddata,SearchUserProfileActivity.this);
 
         presenter = new UserFriendsPresenter(SearchUserProfileActivity.this, SearchUserProfileActivity.this);
+
+
+
+        getuserFeed();
+
+
+        ll_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(!tv_friends.getText().toString().equalsIgnoreCase("Friends"))
+                {
+                    followrequestbean inputbean=new followrequestbean();
+                    inputbean.setUid(Constants.getUid(  SearchUserProfileActivity.this));
+                    inputbean.setFid(usersFeeddata.get(0).getUserId());
+
+                    presenter.sendunfollowrequest(inputbean,new ResponseSucessCallback(){
+
+                        @Override
+                        public void responseSucess(Object object) {
+
+                            getuserFeed();
+
+
+
+
+                        }
+                    });
+                }
+
+            }
+        });
+
+        setData();
+
+    }
+
+    private void getuserFeed() {
 
         UserFriendsInuts inuts = new UserFriendsInuts();
         String uid = AppPreference.getInstance().getString(Constants.User_ID);
@@ -136,16 +178,6 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
                     String resp = usersFeeddata.get(0).getFriendStatus();
 
 
-                    if(usersFeeddata.get(0).getConnectionStatus().equalsIgnoreCase("noFollowing")) {
-                        tv_friends.setText("Follow");
-                    }else {
-                        tv_friends.setText("UnFollow");
-                        if(usersFeeddata.get(0).getFriendStatus().equalsIgnoreCase("noFriend")) {
-                        }else {
-                            tv_friends.setText("Friends");
-                            btnimg_chat.setVisibility(View.VISIBLE);
-                        }
-                    }
 
                     Glide.with(SearchUserProfileActivity.this)
                             .load(userinformation.get(i).getProfilePic())
@@ -156,13 +188,42 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
 
                 }
 
+
+                if(usersFeeddata.get(0).getFriendStatus().equalsIgnoreCase("noFriend")) {
+
+                    if(usersFeeddata.get(0).getConnectionStatus().equalsIgnoreCase("noFollowing")) {
+                        tv_friends.setText("Follow");
+                        rightmark.setVisibility(View.VISIBLE);
+                    }else {
+                        tv_friends.setText("UnFollow");
+                        rightmark.setVisibility(View.GONE);
+
+                    }
+                    if(usersFeeddata.get(0).getConnectionStatus().equalsIgnoreCase("inFollowing"))
+                    {
+                        tv_friends.setText("Following");
+                        rightmark.setVisibility(View.GONE);
+
+                    }
+
+
+                }else {
+
+                    tv_friends.setText("Friends");
+                    btnimg_chat.setVisibility(View.VISIBLE);
+                    rightmark.setVisibility(View.GONE);
+
+                }
+
+
+
+
+
                 usersFriendFeedAdapter = new UsersFriendFeedAdapter(SearchUserProfileActivity.this,usersFeeddata,SearchUserProfileActivity.this);
                 rv_profilefeed.setAdapter(usersFriendFeedAdapter);
             }
         });
 
-
-        setData();
 
     }
 

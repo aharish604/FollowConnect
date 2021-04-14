@@ -82,6 +82,11 @@ public class UploadPostActivity extends AppCompatActivity implements View.OnClic
     UploadPostpresenter presenter = null;
     String privicy = "";
 
+    String feedid="";
+    String imgurls="";
+    String comingfrom="";
+    String imagesarray[];
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +97,29 @@ public class UploadPostActivity extends AppCompatActivity implements View.OnClic
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
 
-        mCompressor = new FileCompressor(this);
+        Intent myIntent = getIntent();
+        if(myIntent!=null)
+        {
+            feedid = myIntent.getStringExtra("FEEDID");
+            imgurls = myIntent.getStringExtra("Imageurls");
+            comingfrom = myIntent.getStringExtra("commingfrom");
+        }
 
+
+        imagesarray = null;
+        if (!imgurls.equalsIgnoreCase("")) {
+            imagesarray = imgurls.split(",");
+        }
+
+        for(String str:imagesarray)
+        {
+            selectedImageList.add(str);
+        }
+
+
+
+
+        mCompressor = new FileCompressor(this);
         profile_image = findViewById(R.id.profile_image);
         profilename_tv = findViewById(R.id.profilename_tv);
         tv_dispusername = findViewById(R.id.tv_dispusername);
@@ -117,17 +143,14 @@ public class UploadPostActivity extends AppCompatActivity implements View.OnClic
         video = findViewById(R.id.video);
         video.setVisibility(View.VISIBLE);
         imgbtn_searchuserprofile = findViewById(R.id.imgbtn_searchuserprofile);
-
         camera = findViewById(R.id.camera);
         gallery = findViewById(R.id.gallery);
         rv_imagepreview = findViewById(R.id.rv_imagepreview);
-
         camera.setOnClickListener(UploadPostActivity.this);
         gallery.setOnClickListener(UploadPostActivity.this);
         imgbtn_searchuserprofile.setOnClickListener(UploadPostActivity.this);
         tv_post.setOnClickListener(UploadPostActivity.this);
         video.setOnClickListener(UploadPostActivity.this);
-
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(UploadPostActivity.this, android.R.layout.simple_spinner_item, Constants.getPrivacy());
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_privacy.setAdapter(arrayAdapter);

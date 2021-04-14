@@ -34,7 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyviewPostdisplay.ImageSliderActivity"></activity>
+        <activity android:name=".MyviewPostdisplay.ImageSliderActivity" />
         <activity android:name=".Profile.FriendsList.CommonListActivity" />
         <activity android:name=".InToTo.VideodisplayIntotoActivity" />
         <activity android:name=".InToTo.ImageDisplayIntotoActivity" />
@@ -54,7 +54,7 @@
             android:name=".Profile.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-         <activity
+        <activity
             android:name=".editfeed.EditFeedActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

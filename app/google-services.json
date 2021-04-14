@@ -1,34 +1,50 @@
 {
   "project_info": {
-    "project_number": "412623227560",
-    "project_id": "followconnect-7ba3e",
-    "storage_bucket": "followconnect-7ba3e.appspot.com"
+    "project_number": "7871621202",
+    "firebase_url": "https://followandconnect-66664.firebaseio.com",
+    "project_id": "followandconnect-66664",
+    "storage_bucket": "followandconnect-66664.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:412623227560:android:99e821ef2e95ad6b42509d",
+        "mobilesdk_app_id": "1:7871621202:android:3b2761c77558400c28d78b",
         "android_client_info": {
           "package_name": "com.appcare.followconnect"
         }
       },
       "oauth_client": [
         {
-          "client_id": "412623227560-bs6goa4k6jt3g6953r2r9a30k7antiic.apps.googleusercontent.com",
+          "client_id": "7871621202-hsag3ail98gh9ihn1c561eibau1l90gd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appcare.followconnect",
+            "certificate_hash": "df50a6c25736e7503c1583e45df2317679227f15"
+          }
+        },
+        {
+          "client_id": "7871621202-bka1lkig0so7hjdj3oqrad1fpefkk0f2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB9YhD9yutXsBuBGTvv7cacOEqu7HpG23w"
+          "current_key": "AIzaSyDaCmCdzvs9sEoj9c00c3qGx3UlAM_7GPs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "412623227560-bs6goa4k6jt3g6953r2r9a30k7antiic.apps.googleusercontent.com",
+              "client_id": "7871621202-a22b6j4m23rq11jl8fe24v5847a07m4h.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "7871621202-id6sdoc58pqn66u9vie1h0r1vau4csl0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "appcare.Follow-Connect"
+              }
             }
           ]
         }

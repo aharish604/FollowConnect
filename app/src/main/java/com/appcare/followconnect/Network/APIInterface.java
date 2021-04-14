@@ -39,10 +39,12 @@ import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanResponse;
-import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanResponse;
+import com.appcare.followconnect.SearchFriends.UserFriendsFeedResponse;
+import com.appcare.followconnect.SearchFriends.followandunfollow.followResponseBean;
+import com.appcare.followconnect.SearchFriends.followandunfollow.followrequestbean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
 import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteRequestBean;
@@ -62,6 +64,8 @@ import com.appcare.followconnect.Login.LoginBean;
 import com.appcare.followconnect.SignUp.Beans.SignUpBeanResponse;
 import com.appcare.followconnect.SignUp.Beans.SignupBeanRequest;
 import com.appcare.followconnect.UploadPost.UploadPostResponse;
+import com.appcare.followconnect.View.ViewBeanRequest;
+import com.appcare.followconnect.View.ViewBeanResponse;
 import com.appcare.followconnect.spoolvid.Bean.SpoolvidRequestBean;
 import com.appcare.followconnect.spoolvid.Bean.SpoolvidResponseBean;
 
@@ -225,6 +229,12 @@ public interface APIInterface {
 
 @POST("Networks/unFriend")
     Call<UnfriendResponseBean> unfriend(@Body UnfriendRequestBean inputs);
+
+    @POST("Networks/sendRequest")
+    Call<followResponseBean> sendunfollowrequest(@Body followrequestbean inputs);
+  @POST("Feed/feedView")
+    Call<ViewBeanResponse> feedview(@Body ViewBeanRequest inputs);
+
 
 
     @Multipart

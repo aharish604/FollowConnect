@@ -123,6 +123,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             @Override
             public void onClick(View v) {
 
+                myviewFragment.view(feedListbean.getSid(), position);
+
                 Intent intent=new Intent(mContext, ImageSliderActivity.class);
                 intent.putExtra("imageurl",bean.getImgfFile());
                 mContext.startActivity(intent);
@@ -447,7 +449,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                                 myviewFragment.blockuser(bean.getUserId());
                                 break;
                             case R.id.edit:
-                                myviewFragment.edit(feedListbean.getSid());
+                                myviewFragment.edit(feedListbean.getSid(),bean.getImgfFile());
                                 break;
                             case R.id.delete:
                                 myviewFragment.deleteFeed(feedListbean.getSid(), position);

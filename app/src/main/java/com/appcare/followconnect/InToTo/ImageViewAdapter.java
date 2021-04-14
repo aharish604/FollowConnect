@@ -22,10 +22,10 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.view
     private Context mContext;
   //  private ArrayList<IntotoResponseBean1> list;
 
-    ArrayList<intotopublic> data=null;
+    String[] data=null;
 
 
-    public ImageViewAdapter(FragmentActivity activity, ArrayList<intotopublic> data) {
+    public ImageViewAdapter(FragmentActivity activity, String[] data) {
         mContext = activity;
         this.data = data;
     }
@@ -39,17 +39,17 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.view
     @Override
     public void onBindViewHolder(@NonNull ImageViewAdapter.viewHolder holder, int position) {
 
-        intotopublic bean=data.get(position);
+       // intotopublic bean=data.get(position);
 
         Glide.with(mContext)
-                .load(bean.getImgf())
+                .load(data[position])
                 .into(holder.ivChapter);
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.length;
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {

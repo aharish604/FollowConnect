@@ -26,6 +26,7 @@ public class ImageDisplayIntotoActivity extends AppCompatActivity {
     RecyclerView rv_intotoimgdisplay;
 ArrayList<intotopublic> imagelist=null;
 ImageButton imgbtn_searchuserprofile=null;
+String imagesarray[];
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,10 @@ ImageButton imgbtn_searchuserprofile=null;
 
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
-        imagelist = (ArrayList<intotopublic>) args.getSerializable("imagelistintoto");
+      //  imagelist = (ArrayList<intotopublic>) args.getSerializable("imagelistintoto");
 
 
+        imagesarray=args.getStringArray("imagelistintoto");
 
         InitUI();
 
@@ -51,7 +53,7 @@ ImageButton imgbtn_searchuserprofile=null;
         rv_intotoimgdisplay=findViewById(R.id.rv_intotoimagedisplay);
         imgbtn_searchuserprofile=findViewById(R.id.imgbtn_searchuserprofile);
         rv_intotoimgdisplay.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        rv_intotoimgdisplay.setAdapter(new ImageViewAdapter(ImageDisplayIntotoActivity.this,imagelist));
+        rv_intotoimgdisplay.setAdapter(new ImageViewAdapter(ImageDisplayIntotoActivity.this,imagesarray));
 
         imgbtn_searchuserprofile.setOnClickListener(new View.OnClickListener() {
             @Override

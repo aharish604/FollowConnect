@@ -22,6 +22,7 @@ public class VideodisplayIntotoActivity extends AppCompatActivity {
 
     ArrayList<intotopublic> videolist=null;
     RecyclerView rv_intotovideodisplay;
+    String imagesarray[];
     ImageButton imgbtn_searchuserprofile=null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

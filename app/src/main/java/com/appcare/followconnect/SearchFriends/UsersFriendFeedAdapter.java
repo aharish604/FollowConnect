@@ -26,7 +26,6 @@ import com.appcare.followconnect.MyviewPostdisplay.ImageSliderActivity;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
 import com.appcare.followconnect.R;
-import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.spoolvid.SpoolvidVideoPLayingActivity;
 import com.bumptech.glide.Glide;
 

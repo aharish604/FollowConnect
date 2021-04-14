@@ -80,87 +80,128 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
         if(aPublic!=null)
         {
-            list1 = Constants.getImageArrayintoto(aPublic);
+             list1= Constants.getImageArrayintoto(aPublic);
             list2 = Constants.getVideoArrayintoto(aPublic);
 
         }
 
+        if(list1.size()>0)
+        {
+            holder.rl_imagedisplay.setVisibility(View.VISIBLE);
 
-        if (list1.size() >= 3) {
-            holder.cardimg1.setVisibility(View.VISIBLE);
-            holder.cardimg2.setVisibility(View.VISIBLE);
-            holder.cardimg3.setVisibility(View.VISIBLE);
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 1).getImgf())
-                    .into(holder.ivChapter);
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 2).getImgf())
-                    .into(holder.ivChapter1);
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 3).getImgf())
-                    .into(holder.ivChapter2);
-        } else if (list1.size() == 2) {
-            holder.cardimg1.setVisibility(View.VISIBLE);
-            holder.cardimg2.setVisibility(View.VISIBLE);
-            holder.cardimg3.setVisibility(View.GONE);
-
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 1).getImgf())
-                    .into(holder.ivChapter);
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 2).getImgf())
-                    .into(holder.ivChapter1);
-        } else if (list1.size() == 1) {
-            holder.cardimg1.setVisibility(View.VISIBLE);
-            holder.cardimg2.setVisibility(View.GONE);
-            holder.cardimg3.setVisibility(View.GONE);
-            Glide.with(mContext)
-                    .load(list1.get(list1.size() - 1).getImgf())
-                    .into(holder.ivChapter);
-        } else {
-            holder.cardimg1.setVisibility(View.GONE);
-            holder.cardimg2.setVisibility(View.GONE);
-            holder.cardimg3.setVisibility(View.GONE);
+        }else {
             holder.rl_imagedisplay.setVisibility(View.GONE);
+
+        }
+
+        if(list2.size()>0)
+        {
+            holder.rl_videodisplay.setVisibility(View.VISIBLE);
+
+        }else {
+            holder.rl_videodisplay.setVisibility(View.GONE);
+
         }
 
 
-        if (list2.size() >= 3) {
-            holder.cardvid1.setVisibility(View.VISIBLE);
-            holder.cardvid2.setVisibility(View.VISIBLE);
-            holder.cardvid3.setVisibility(View.VISIBLE);
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 1).getVfThumb())
-                    .into(holder.img_thumblain);
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 2).getVfThumb())
-                    .into(holder.img_thumblain1);
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 3).getVfThumb())
-                    .into(holder.img_thumblain2);
-        } else if (list2.size() == 2) {
-            holder.cardvid1.setVisibility(View.VISIBLE);
-            holder.cardvid2.setVisibility(View.VISIBLE);
-            holder.cardvid3.setVisibility(View.GONE);
+        if(list1.size()!=0) {
+            imagesarray = null;
+            if (!list1.get(0).getImgf().equalsIgnoreCase("")) {
+                imagesarray = list1.get(0).getImgf().split(",");
+            }
+        }
 
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 1).getVfThumb())
-                    .into(holder.img_thumblain);
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 2).getVfThumb())
-                    .into(holder.img_thumblain1);
-        } else if (list2.size() == 1) {
-            holder.cardvid1.setVisibility(View.VISIBLE);
-            holder.cardvid2.setVisibility(View.GONE);
-            holder.cardvid3.setVisibility(View.GONE);
-            Glide.with(mContext)
-                    .load(list2.get(list2.size() - 1).getVfThumb())
-                    .into(holder.img_thumblain);
-        } else {
-            holder.cardvid1.setVisibility(View.GONE);
-            holder.cardvid2.setVisibility(View.GONE);
-            holder.cardvid3.setVisibility(View.GONE);
-            holder.rl_videodisplay.setVisibility(View.GONE);
+        if(list2.size()!=0) {
+            videosarray = null;
+            if (!list2.get(0).getVfThumb().equalsIgnoreCase("")) {
+                videosarray = list2.get(0).getVfThumb().split(",");
+            }
+        }
+
+
+
+        if(imagesarray!=null) {
+
+            if (imagesarray.length >= 3) {
+                holder.cardimg1.setVisibility(View.VISIBLE);
+                holder.cardimg2.setVisibility(View.VISIBLE);
+                holder.cardimg3.setVisibility(View.VISIBLE);
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 1])
+                        .into(holder.ivChapter);
+
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 2])
+                        .into(holder.ivChapter1);
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 3])
+                        .into(holder.ivChapter2);
+            } else if (imagesarray.length == 2) {
+                holder.cardimg1.setVisibility(View.VISIBLE);
+                holder.cardimg2.setVisibility(View.VISIBLE);
+                holder.cardimg3.setVisibility(View.GONE);
+
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 1])
+                        .into(holder.ivChapter);
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 2])
+                        .into(holder.ivChapter1);
+            } else if (imagesarray.length == 1) {
+                holder.cardimg1.setVisibility(View.VISIBLE);
+                holder.cardimg2.setVisibility(View.GONE);
+                holder.cardimg3.setVisibility(View.GONE);
+                Glide.with(mContext)
+                        .load(imagesarray[imagesarray.length - 1])
+                        .into(holder.ivChapter);
+            } else {
+                holder.cardimg1.setVisibility(View.GONE);
+                holder.cardimg2.setVisibility(View.GONE);
+                holder.cardimg3.setVisibility(View.GONE);
+                holder.rl_imagedisplay.setVisibility(View.GONE);
+            }
+
+        }
+
+        if(videosarray!=null) {
+
+            if (videosarray.length >= 3) {
+                holder.cardvid1.setVisibility(View.VISIBLE);
+                holder.cardvid2.setVisibility(View.VISIBLE);
+                holder.cardvid3.setVisibility(View.VISIBLE);
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 1])
+                        .into(holder.img_thumblain);
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 2])
+                        .into(holder.img_thumblain1);
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 3])
+                        .into(holder.img_thumblain2);
+            } else if (videosarray.length == 2) {
+                holder.cardvid1.setVisibility(View.VISIBLE);
+                holder.cardvid2.setVisibility(View.VISIBLE);
+                holder.cardvid3.setVisibility(View.GONE);
+
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 1])
+                        .into(holder.img_thumblain);
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 2])
+                        .into(holder.img_thumblain1);
+            } else if (videosarray.length == 1) {
+                holder.cardvid1.setVisibility(View.VISIBLE);
+                holder.cardvid2.setVisibility(View.GONE);
+                holder.cardvid3.setVisibility(View.GONE);
+                Glide.with(mContext)
+                        .load(videosarray[videosarray.length - 1])
+                        .into(holder.img_thumblain);
+            } else {
+                holder.cardvid1.setVisibility(View.GONE);
+                holder.cardvid2.setVisibility(View.GONE);
+                holder.cardvid3.setVisibility(View.GONE);
+                holder.rl_videodisplay.setVisibility(View.GONE);
+            }
         }
 
         holder.rl_imagedisplay.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +210,8 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
 
                 Intent i = new Intent(mContext, ImageDisplayIntotoActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable("imagelistintoto", (Serializable) list1);
+                args.putStringArray("imagelistintoto",imagesarray);
+              //  args.putSerializable("imagelistintoto", (Serializable) list1);
                 i.putExtra("BUNDLE", args);
                 mContext.startActivity(i);
 
