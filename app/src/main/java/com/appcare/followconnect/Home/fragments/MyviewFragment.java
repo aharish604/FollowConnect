@@ -44,6 +44,7 @@ public class MyviewFragment extends Fragment implements APIResponse {
     MyviewPresenter presenter=null;
     ProgressDialog progressDialog = null;
     List<GetPostFeedBean> myViewList = new ArrayList<>();
+    String toid="";
 
     private String userid= "", api_TAG = "";
     int itemPosition = 0;
@@ -55,6 +56,8 @@ public class MyviewFragment extends Fragment implements APIResponse {
     public static MyviewFragment newInstance(String param1, String param2) {
         MyviewFragment fragment = new MyviewFragment();
         Bundle args = new Bundle();
+
+
         fragment.setArguments(args);
         return fragment;
     }

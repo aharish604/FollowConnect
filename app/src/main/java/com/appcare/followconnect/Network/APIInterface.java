@@ -43,6 +43,8 @@ import com.appcare.followconnect.SearchFriends.Bean.UserFriendsFeedResponse;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.UserNameSearchBeanResponse;
+import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
+import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
 import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteRequestBean;
 import com.appcare.followconnect.Settings.DeleteAccount.AccountDeleteResponseBean;
 import com.appcare.followconnect.Settings.BlockerList.UnblockRequestBean;
@@ -97,14 +99,35 @@ public interface APIInterface {
     Call<ProfileUpdateBeanResponse> updateprofiledata(@Body UpdateProfileBean updateProfileBean);
 
     @Multipart
-    @POST("Feed/feedPost")
-    Call<UploadPostResponse> uploadpost(@Part("uid") RequestBody uid,
+        @POST("Feed/feedPost")
+    Call<UploadPostResponse> uploadpostwithvideos(@Part("uid") RequestBody uid,
                                         @Part("feedtext") RequestBody comment,
                                         @Part("address") RequestBody address,
                                         @Part("isspoolvid") RequestBody ispoolvid,
                                         @Part("privicy") RequestBody privicy,
-                                        @Part MultipartBody.Part[] multipartImages,
-                                        @Part MultipartBody.Part videosarray);
+                                        @Part MultipartBody.Part[] videosarray);
+
+
+    @Multipart
+    @POST("Feed/feedPost")
+    Call<UploadPostResponse> uploadpostwithimages(@Part("uid") RequestBody uid,
+                                                  @Part("feedtext") RequestBody comment,
+                                                  @Part("address") RequestBody address,
+                                                  @Part("isspoolvid") RequestBody ispoolvid,
+                                                  @Part("privicy") RequestBody privicy,
+                                                  @Part MultipartBody.Part[] multipartImages);
+
+
+    @Multipart
+    @POST("Feed/feedPost")
+    Call<UploadPostResponse> uploadpost(@Part("uid") RequestBody uid,
+                                                  @Part("feedtext") RequestBody comment,
+                                                  @Part("address") RequestBody address,
+                                                  @Part("isspoolvid") RequestBody ispoolvid,
+                                                  @Part("privicy") RequestBody privicy,
+                                                  @Part MultipartBody.Part[] multipartImages,
+                                                  @Part MultipartBody.Part[] videosarray);
+
 
 
     @POST("Feed/getFeed")
@@ -199,6 +222,9 @@ public interface APIInterface {
 
     @POST("Feed/commentsList")
     Call<CommentsListResponse> getCommentsList(@Body CommentsListInputs inputs);
+
+@POST("Networks/unFriend")
+    Call<UnfriendResponseBean> unfriend(@Body UnfriendRequestBean inputs);
 
 
     @Multipart

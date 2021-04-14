@@ -32,6 +32,7 @@ public class UploadPostpresenter {
 
     Context mcontext;
     APIResponse apiResponse;
+
     public UploadPostpresenter(UploadPostActivity activity, APIResponse apiResponse) {
         this.mcontext = activity;
         this.apiResponse = apiResponse;
@@ -53,97 +54,180 @@ public class UploadPostpresenter {
         RequestBody ispoolvid = RequestBody.create(MediaType.parse("text/plain"), bean.getIsspoolvid());
 
 
-
         MultipartBody.Part[] multipartImages = new MultipartBody.Part[bean.getImages().length];
 
         for (int index = 0; index < bean.getImages().length; index++) {
             Log.d("Upload request", "requestUploadSurvey: survey image " + index + "  " + bean.getImages()[index]);
             File file2 = new File(bean.getImages()[index]);
             RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
-            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath()+".png", surveyBody);
+            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath() + ".png", surveyBody);
         }
 
-        MultipartBody.Part videosarray = null;
+
+        MultipartBody.Part[] videosarray = new MultipartBody.Part[bean.getVideos().length];
         for (int i = 0; i < bean.getVideos().length; i++) {
-            try {
-                File file = new File(String.valueOf(bean.getVideos()[i]));
-                RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
-                videosarray = MultipartBody.Part.createFormData("videos[]", file.getName()+".mp4", mFile1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            File file = new File(String.valueOf(bean.getVideos()[i]));
+            RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
+            videosarray[i] = MultipartBody.Part.createFormData("videos[]", file.getName() + ".mp4", mFile1);
         }
 
 
-        /*MultipartBody.Part[] videosarray = new MultipartBody.Part[bean.getVideos().length];
-        for (int i = 0; i < bean.getVideos().length; i++) {
+        if (bean.getVideos().length != 0) {
+
             try {
-                File file = new File(String.valueOf(bean.getVideos()[i]));
-                RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
-                videosarray[i] = MultipartBody.Part.createFormData("videos[]", file.getName()+".mp4", mFile1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-*/
-
-
-
-
-
-        try {
-            if (Constants.isNetworkAvailable(mcontext)) {
-                Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpost(uid,comment,address,ispoolvid,privicy,multipartImages,videosarray);
-                call.enqueue(new Callback<UploadPostResponse>() {
-                    @Override
-                    public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
-                        try {
-                            UploadPostResponse uploadPostResponse = response.body();
-                            apiResponse.dismissProgress();
-                            if (uploadPostResponse.getStatus()) {
-                                apiResponse.onSuccess(uploadPostResponse);
-                            } else {
-                                apiResponse.onServerError(uploadPostResponse.getMessage());
-                            }
-
-                        } catch (Exception e) {
-                            apiResponse.dismissProgress();
-                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error)+""+e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UploadPostResponse> call, Throwable t) {
-                        call.cancel();
-
-                        ((Activity) mcontext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                if (apiResponse != null) {
-                                    apiResponse.dismissProgress();
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpostwithvideos(uid, comment, address, ispoolvid, privicy, videosarray);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
                                 }
 
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
                             }
-                        });
+                        }
 
-                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
-                        System.out.println("updateprofiledata is 11===  " +t.getMessage());
-                    }
-                });
-            } else {
-                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+
+
+        } else if (bean.getImages().length != 0) {
+            try {
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpostwithimages(uid, comment, address, ispoolvid, privicy, multipartImages);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+            }
+
+
+        } else {
+
+            try {
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpost(uid, comment, address, ispoolvid, privicy, multipartImages, videosarray);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+            }
+
+
         }
-
-
 
 
     }
-
 
 
 }

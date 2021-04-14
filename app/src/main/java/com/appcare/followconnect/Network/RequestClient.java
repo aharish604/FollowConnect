@@ -28,9 +28,6 @@ public class RequestClient {
             }
         }).build();
 
-        /*Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();*/
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)

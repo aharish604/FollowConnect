@@ -3,6 +3,9 @@ package com.appcare.followconnect.Profile.FriendsList;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +17,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.appcare.followconnect.Chat.ChatActivity;
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
+import com.appcare.followconnect.Home.fragments.ChatFragment;
+import com.appcare.followconnect.Home.fragments.MyviewFragment;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersRequestBean;
 import com.appcare.followconnect.Profile.FriendsList.Bean.FollowersResponseBean;
@@ -90,7 +96,25 @@ public class CommonListActivity extends AppCompatActivity implements APIResponse
 
                     FriendsListResponseBean bean = (FriendsListResponseBean) object;
                     ArrayList<FriendListResponseBean1> data = bean.getData();
-                    rv_friendslist.setAdapter(new FriendsListAdapter(data, CommonListActivity.this));
+                    rv_friendslist.setAdapter(new FriendsListAdapter(data, CommonListActivity.this,new Adapterpositioncallback(){
+
+                        @Override
+                        public void getadapterposition(Object object, int pos) {
+
+                            FriendListResponseBean1 bean=(FriendListResponseBean1) object;
+
+                            Intent intent=new Intent(CommonListActivity.this,ChatActivity.class);
+
+                            intent.putExtra(Constants.Toid,bean.getUserId());
+                            intent.putExtra(Constants.ProfilrURL,bean.getProfilePic());
+                            intent.putExtra(Constants.UserName,bean.getFullname());
+
+                            startActivity(intent);
+
+
+
+                        }
+                    }));
 
 
                 }
@@ -195,5 +219,21 @@ public class CommonListActivity extends AppCompatActivity implements APIResponse
     public void networkError(String error) {
         dismissProgress();
         Constants.displayLongToast(CommonListActivity.this, error.toString());
+    }
+
+    public void openFragment(Fragment mainMenuFragment) {
+        try {
+            try {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.view_pager, mainMenuFragment, mainMenuFragment.getClass().getName());
+                //        fragmentTransaction.commit();
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }

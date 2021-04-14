@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -121,7 +123,9 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
             public void responseSucess(Object object) {
                 FeedLikeResponse feedLikeResponse =  (FeedLikeResponse) object;
                 Toast.makeText(CommentsActivity.this, ""+feedLikeResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
                finish();
+
             }
         });
     }

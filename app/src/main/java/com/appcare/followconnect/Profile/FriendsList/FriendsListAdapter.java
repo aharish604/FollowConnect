@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appcare.followconnect.Profile.FriendsList.Bean.FriendListResponseBean1;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.SignUp.CountrySpinner.Adapterpositioncallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -26,9 +28,11 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     private String searchText="";
     private SpannableStringBuilder sb;
 
-    public FriendsListAdapter(ArrayList<FriendListResponseBean1> list, CommonListActivity activity) {
+    Adapterpositioncallback adapterpositioncallback;
+    public FriendsListAdapter(ArrayList<FriendListResponseBean1> list, CommonListActivity activity, Adapterpositioncallback adapterpositioncallback) {
         mContext=activity;
         this.list=list;
+        this.adapterpositioncallback=adapterpositioncallback;
     }
 
 
@@ -53,6 +57,12 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         holder.profilename_tv.setText(""+bean.getFullname());
 
         holder.tv_username.setText(""+bean.getUsername());
+        holder.rl_chatitem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterpositioncallback.getadapterposition(bean,position);
+            }
+        });
     }
 
     @Override
@@ -68,6 +78,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         TextView tv_username;
         TextView profilename_tv;
         CircleImageView profile_image;
+        RelativeLayout rl_chatitem;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -75,6 +86,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
             tv_username=itemView.findViewById(R.id.tv_username);
             profile_image=itemView.findViewById(R.id.profile_image);
             profilename_tv=itemView.findViewById(R.id.profilename_tv);
+            rl_chatitem=itemView.findViewById(R.id.rl_chatitem);
 
         }
     }

@@ -9,14 +9,17 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -24,9 +27,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Home.Adapter.MyviewAdapter;
+import com.appcare.followconnect.MyviewPostdisplay.ImageSliderActivity;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
 import com.appcare.followconnect.MyviewPostdisplay.bean.GetPostFeedBean;
 import com.appcare.followconnect.Profile.Bean.UserfeedResponseBean1;
+import com.appcare.followconnect.Profile.ProfileActivity;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.spoolvid.SpoolvidVideoPLayingActivity;
 import com.bumptech.glide.Glide;
@@ -42,10 +47,12 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
     String[] imagesarray = null;
 
     ArrayList<UserfeedResponseBean1> feedList = null;
+    ProfileActivity activity=null;
 
-    public ProfileUserFeedAdapter(Context activity, ArrayList<UserfeedResponseBean1> feedList) {
-        mContext = activity;
+    public ProfileUserFeedAdapter(Context context, ArrayList<UserfeedResponseBean1> feedList, ProfileActivity activity) {
+        mContext = context;
         this.feedList = feedList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -69,6 +76,19 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
         holder.tv_likecount.setText(""+bean.getLikesCount());
         holder.tv_dislikecount.setText(""+bean.getDislikeCount());
         holder.tv_viewcounts.setText(""+bean.getViwes());
+
+
+
+        holder.img_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(mContext, ImageSliderActivity.class);
+                intent.putExtra("imageurl",bean.getImgf());
+                mContext.startActivity(intent);
+
+            }
+        });
 
 
 
@@ -96,6 +116,101 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
 
 
         }
+
+        int likeStatus = bean.getLikes();
+
+
+        if(likeStatus == 1){
+            holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like_blue));
+        }else{
+            holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like));
+        }
+
+
+        holder.btn_imgdisLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+                int likeStatus = bean.getLikes();
+                if(count == 0){
+
+                }else{
+                    activity.disLikes(position, feedid, postid, count, likeStatus);
+                }
+
+            }
+        });
+
+        holder.btn_imgLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+
+                int likeStatus = bean.getLikes();
+
+                activity.likes(position, feedid, postid, count, likeStatus);
+            }
+        });
+
+
+
+
+        holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu menu = new PopupMenu(view.getContext(), holder.imgbtn_more);
+                menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
+                if(Constants.getUid(mContext).equals(feedListbean.getPuid())){
+                    menu.getMenu().removeItem(R.id.block_user);
+                }else{
+                    menu.getMenu().removeItem(R.id.edit);
+                    menu.getMenu().removeItem(R.id.delete);
+                }
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            // item.setVisible(false);
+                            case R.id.share_via:
+                                String fileuri = imagesarray[0];
+                                Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
+                                activity.whatsAppShare(fileuri, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
+                                break;
+                            case R.id.block_user:
+                                activity.blockuser(bean.getUserId());
+                                break;
+                            case R.id.edit:
+                                activity.edit(feedListbean.getSid());
+                                break;
+                            case R.id.delete:
+                                activity.deleteFeed(feedListbean.getSid(), position);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                menu.show();
+            }
+
+        });
+
+        holder.btn_comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String feedid = feedListbean.getSid();
+                String postid = feedListbean.getPuid();
+                int count = bean.getLikesCount();
+                activity.commentsClick(feedid, postid, count, position);
+            }
+        });
+
+
 
         holder.videoplaybtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +351,65 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
                     .placeholder(R.drawable.img3)
                     .into(imageView33);
         }
-        if (i >= 4) {
+        if (i == 4) {
+
+            imageView41.setPadding(0, 5, 0, 0);
+            imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
+            imageView41.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            imageView42.setY(height / 2);
+            imageView42.setPadding(0, 5, 5, 0);
+            imageView42.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView42.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            imageView43.setX(width / 3);
+            imageView43.setY(height / 2);
+            imageView43.setPadding(0, 5, 5, 0);
+            imageView43.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView43.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            int w1 = width / 3;
+            int w2 = width / 3;
+            imageView44.setX(w1 + w2);
+            imageView44.setY(height / 2);
+            imageView44.setPadding(0, 5, 0, 0);
+            imageView44.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
+            imageView44.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+            frameLayout.removeAllViewsInLayout();
+
+            frameLayout.addView(imageView41);
+            frameLayout.addView(imageView42);
+            frameLayout.addView(imageView43);
+            frameLayout.addView(imageView44);
+
+
+            Glide.with(mContext)
+                    .load(imagesarray[0])
+                    //  .placeholder(R.drawable.img3)
+                    .into(imageView41);
+
+            Glide.with(mContext)
+                    .load(imagesarray[1])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView42);
+            Glide.with(mContext)
+                    .load(imagesarray[2])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView43);
+
+            Glide.with(mContext)
+                    .load(imagesarray[3])
+                    // .placeholder(R.drawable.img3)
+                    .into(imageView44);
+
+
+        }
+
+        if (i > 4) {
 
             imageView41.setPadding(0, 5, 0, 0);
             imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
@@ -305,6 +478,7 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
         }
 
 
+
     }
 
     @Override
@@ -328,7 +502,7 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
         TextView tv_posttime = null,tv_likecount,tv_dislikecount,tv_viewcounts,tv_commentscount;
-        ImageButton videoplaybtn,btn_imgdisLike;
+        ImageButton videoplaybtn,btn_imgdisLike,imgbtn_more,btn_comments,btn_imgLike;
         TextView post_content = null;
         RelativeLayout img_layout = null,video_layout;
 
@@ -348,6 +522,11 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
             tv_viewcounts = itemView.findViewById(R.id.tv_viewcounts);
             tv_commentscount = itemView.findViewById(R.id.tv_commentscount);
             btn_imgdisLike = itemView.findViewById(R.id.btn_imgdisLike);
+            imgbtn_more = itemView.findViewById(R.id.ic_more);
+
+            btn_comments = itemView.findViewById(R.id.btn_comments);
+            btn_imgLike = itemView.findViewById(R.id.btn_imgLike);
+
 
 
 

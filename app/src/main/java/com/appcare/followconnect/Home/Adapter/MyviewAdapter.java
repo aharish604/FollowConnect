@@ -170,31 +170,19 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         } else {
             holder.img_layout.setVisibility(View.GONE);
 
-           /* imageView.setPadding(0, 5, 0, 0);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
-            frameLayout.addView(imageView);
-
-            Glide.with(mContext)
-                    .load(bean.getVfFile())
-                    .placeholder(R.drawable.img3)
-                    .into(imageView);*/
-
         }
 
 
 
 
         if (i == 1 ) {
-            // imageView.setImageResource(R.drawable.img3);
             imageView.setPadding(0, 5, 0, 0);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
             frameLayout.addView(imageView);
-
             Glide.with(mContext)
                     .load(imagesarray[0])
-                    .placeholder(R.drawable.img3)
+                    .placeholder(R.drawable.load_image)
                     .into(imageView);
         }
         if (i == 2) {
@@ -269,22 +257,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                     .into(imageView33);
         }
         if (i > 4) {
-            //x=0,y=0
 
-           /* imageView.setVisibility(View.GONE);
-            imageView21.setVisibility(View.GONE);
-            imageView22.setVisibility(View.GONE);
-
-
-            imageView.setImageResource(android.R.color.transparent);
-            imageView21.setImageResource(android.R.color.transparent);
-            imageView22.setImageResource(android.R.color.transparent);
-            imageView31.setImageResource(android.R.color.transparent);
-            imageView32.setImageResource(android.R.color.transparent);
-            imageView33.setImageResource(android.R.color.transparent);*/
-
-
-            //  imageView41.setImageResource(R.drawable.img3);
             imageView41.setPadding(0, 5, 0, 0);
             imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
             imageView41.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -441,13 +414,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             }
         });
 
-        holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-            }
-        });
 
 
         holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {

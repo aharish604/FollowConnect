@@ -36,13 +36,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.viewHo
     ArrayList<ChatListBeanResponse1>   list=null;
     private String searchText="";
     private SpannableStringBuilder sb;
-    Adapterpositioncallback adapterpositioncallback;
+    Adapterpositioncallback adapterpositioncallback=null;
 
     public ChatListAdapter(Context activity, ArrayList<ChatListBeanResponse1> list, Adapterpositioncallback adapterpositioncallback) {
         mContext=activity;
         this.list=list;
-        this.adapterpositioncallback=adapterpositioncallback;
-
+       this.adapterpositioncallback=adapterpositioncallback;
     }
 
 
@@ -67,6 +66,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.viewHo
         holder.profilename_tv.setText(bean.getFullname());
         holder.tv_TimeStamp.setText(bean.getCd());
         holder.tv_chatdesc.setText(bean.getDescription());
+
         holder.rl_chatitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatActivity extends AppCompatActivity implements  APIResponse {
+public class ChatActivity extends AppCompatActivity implements APIResponse {
     ChatListBeanResponse1 chatListBeanResponse1;
 
     CircleImageView profile_image = null;
@@ -58,7 +58,10 @@ public class ChatActivity extends AppCompatActivity implements  APIResponse {
     EditText et_msgview = null;
     SimpleRecyclerViewAdapter recyclerViewAdapter = null;
     ChatPresenter presenter = null;
-    ChatHistoryAdapter adapter=null;
+    ChatHistoryAdapter adapter = null;
+    String toid = "";
+    String profileurl = "";
+    String fullname = "";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -74,6 +77,10 @@ public class ChatActivity extends AppCompatActivity implements  APIResponse {
 
         Intent intent = getIntent();
         if (intent != null) {
+            toid = intent.getStringExtra(Constants.Toid);
+            profileurl = intent.getStringExtra(Constants.ProfilrURL);
+            fullname = intent.getStringExtra(Constants.UserName);
+
             if (intent.getSerializableExtra("chatbean") != null) {
                 chatListBeanResponse1 = (ChatListBeanResponse1) intent.getSerializableExtra("chatbean");
             }
@@ -86,21 +93,34 @@ public class ChatActivity extends AppCompatActivity implements  APIResponse {
     private void GetChatHistory(String commingfrom) {
         presenter = new ChatPresenter(ChatActivity.this, this);
         ChatHistoryBeanRequest charBeanRequest = new ChatHistoryBeanRequest();
-        charBeanRequest.setFrom_id(chatListBeanResponse1.getFromId());
-        charBeanRequest.setTo_id(chatListBeanResponse1.getToId());
-        presenter.getChatHistory(charBeanRequest,commingfrom, new ResponseSucessCallback() {
+
+        if (chatListBeanResponse1 != null) {
+            charBeanRequest.setFrom_id(chatListBeanResponse1.getFromId());
+            charBeanRequest.setTo_id(chatListBeanResponse1.getToId());
+
+        } else {
+            charBeanRequest.setFrom_id(toid);
+            charBeanRequest.setTo_id(Constants.getUid(ChatActivity.this));
+        }
+
+
+        presenter.getChatHistory(charBeanRequest, commingfrom, new ResponseSucessCallback() {
             @Override
             public void responseSucess(Object object) {
                 ChatHistoryBeanResponse chatHistoryBeanResponse = (ChatHistoryBeanResponse) object;
                 ArrayList<ChatHistoryBeanResponse1> chatlist = chatHistoryBeanResponse.getData();
 
-                        adapter=new ChatHistoryAdapter(ChatActivity.this,chatlist,chatListBeanResponse1.getProfilePic());
-                        rv_chat.setAdapter(adapter);
-                        rv_chat.smoothScrollToPosition(chatlist.size());
-                       // adapter.notifyDataSetChanged();
+                if (chatListBeanResponse1 != null) {
+                    adapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, chatListBeanResponse1.getProfilePic());
 
+                } else {
+                    adapter = new ChatHistoryAdapter(ChatActivity.this, chatlist, profileurl);
 
+                }
 
+                rv_chat.setAdapter(adapter);
+                rv_chat.smoothScrollToPosition(chatlist.size());
+                // adapter.notifyDataSetChanged();
             }
         });
 
@@ -117,13 +137,22 @@ public class ChatActivity extends AppCompatActivity implements  APIResponse {
         tv_norecordsFound = findViewById(R.id.tv_norecordsFound);
 
 
-        if (!chatListBeanResponse1.getProfilePic().equalsIgnoreCase("")) {
+        if (chatListBeanResponse1 != null) {
             Glide.with(ChatActivity.this)
                     .load(chatListBeanResponse1.getProfilePic())
                     .placeholder(R.drawable.update_profile)
                     .into(profile_image);
+            profilename_tv.setText(chatListBeanResponse1.getFullname());
+
+        } else {
+            Glide.with(ChatActivity.this)
+                    .load(profileurl)
+                    .placeholder(R.drawable.update_profile)
+                    .into(profile_image);
+            profilename_tv.setText(fullname);
+
         }
-        profilename_tv.setText(chatListBeanResponse1.getFullname());
+
 
         imgbtn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +167,14 @@ public class ChatActivity extends AppCompatActivity implements  APIResponse {
 
                 MessageSendRequest bean = new MessageSendRequest();
                 bean.setFrom_id(Constants.getUid(ChatActivity.this));
-                bean.setTo_id(chatListBeanResponse1.getFromId());
+
+                if (chatListBeanResponse1 != null) {
+                    bean.setTo_id(chatListBeanResponse1.getFromId());
+
+                } else {
+                    bean.setTo_id(toid);
+
+                }
                 bean.setMessage("" + et_msgview.getText().toString());
                 presenter.sendmsg(bean, new ResponseSucessCallback() {
                     @Override

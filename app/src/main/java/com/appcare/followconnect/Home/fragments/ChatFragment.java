@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.appcare.followconnect.Chat.ChatPresenter;
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Network.APIResponse;
+import com.appcare.followconnect.Profile.FriendsList.CommonListActivity;
 import com.appcare.followconnect.Profile.ProfileActivity;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.SignUp.CountrySpinner.Adapterpositioncallback;
@@ -41,8 +43,10 @@ public class ChatFragment extends Fragment implements APIResponse {
     EditText et_searchchat = null;
     ProgressDialog progressDialog = null;
     ChatListAdapter adapter = null;
-    ArrayList<ChatListBeanResponse1> list = null;
+    String toid="";
+    ArrayList<ChatListBeanResponse1> list = new ArrayList<>();
 
+    ImageView fab_addchatlist=null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,8 +62,7 @@ public class ChatFragment extends Fragment implements APIResponse {
     public static ChatFragment newInstance(String param1, String param2) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(param1,Constants.Toid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,8 +71,7 @@ public class ChatFragment extends Fragment implements APIResponse {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            toid = getArguments().getString(Constants.Toid);
         }
     }
 
@@ -86,9 +88,19 @@ public class ChatFragment extends Fragment implements APIResponse {
         Bundle bundle = getArguments();
 
         chat_recyclerview = view.findViewById(R.id.chat_recyclerview);
+        fab_addchatlist = view.findViewById(R.id.fab_addchatlist);
+        chat_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         et_searchchat = view.findViewById(R.id.et_searchchat);
 
         InitializeObjects();
+
+        fab_addchatlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CommonListActivity.class);
+                intent.putExtra("commingfrom", "FriendsList");
+                startActivity(intent);            }
+        });
 
         et_searchchat.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,7 +116,7 @@ public class ChatFragment extends Fragment implements APIResponse {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if(list!=null)
+                if(list.size()!=0)
                 {
                     Filter(s.toString());
 
@@ -130,7 +142,6 @@ public class ChatFragment extends Fragment implements APIResponse {
                     adapter = new ChatListAdapter(getActivity(), list, new Adapterpositioncallback() {
                         @Override
                         public void getadapterposition(Object object, int pos) {
-
                             ChatListBeanResponse1 bean = (ChatListBeanResponse1) object;
                             Intent intent = new Intent(getActivity(), ChatActivity.class);
                             intent.putExtra("chatbean", bean);

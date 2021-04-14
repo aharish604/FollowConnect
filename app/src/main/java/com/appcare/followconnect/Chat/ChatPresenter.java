@@ -112,7 +112,7 @@ public class ChatPresenter {
                                 apiResponse.dismissProgress();
                                 responseSucessCallback.responseSucess(chatListBeanResponse);
                             } else {
-                                apiResponse.onServerError(chatListBeanResponse.getMessage());
+                               // apiResponse.onServerError(chatListBeanResponse.getMessage());
                             }
 
                         } catch (Exception e) {

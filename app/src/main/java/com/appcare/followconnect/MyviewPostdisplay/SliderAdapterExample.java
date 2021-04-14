@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.appcare.followconnect.R;
 import com.bumptech.glide.Glide;
+import com.jsibbold.zoomage.ZoomageView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import java.util.ArrayList;
@@ -24,8 +25,6 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
     String[] imagesarray;
     private ScaleGestureDetector scaleGestureDetector;
     private float mScaleFactor = 1.0f;
-
-    View itemViewnew;
 
     public SliderAdapterExample(Context context, String[] imagesarray) {
         this.context = context;
@@ -44,9 +43,6 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
         String imguri=imagesarray[position];
-       // viewHolder.textViewDescription.setText(sliderItem.getDescription());
-       // viewHolder.textViewDescription.setTextSize(16);
-      //  viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
                 .load(imguri)
                 .fitCenter()
@@ -67,15 +63,11 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
     class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
 
         View itemView;
-        ImageView imageViewBackground;
-        ImageView imageGifContainer;
-        TextView textViewDescription;
+        ZoomageView imageViewBackground;
 
         public SliderAdapterVH(View itemView) {
             super(itemView);
             imageViewBackground = itemView.findViewById(R.id.iv_auto_image_slider);
-            imageGifContainer = itemView.findViewById(R.id.iv_gif_container);
-            textViewDescription = itemView.findViewById(R.id.tv_auto_image_slider);
             this.itemView = itemView;
         }
     }

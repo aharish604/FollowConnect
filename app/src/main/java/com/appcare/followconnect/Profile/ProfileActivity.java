@@ -14,12 +14,21 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appcare.followconnect.Chat.ProfileUserFeedAdapter;
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
+import com.appcare.followconnect.Comments.CommentsActivity;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Home.HomeActivity;
+import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
+import com.appcare.followconnect.MyviewPostdisplay.FeedLikeResponse;
+import com.appcare.followconnect.MyviewPostdisplay.MyviewPresenter;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockResponse;
+import com.appcare.followconnect.MyviewPostdisplay.bean.BlockerInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteFeedInputs;
+import com.appcare.followconnect.MyviewPostdisplay.bean.DeleteResponse;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Profile.Bean.ProfileBeanResponse;
 import com.appcare.followconnect.Profile.Bean.ProfileResponseBean1;
@@ -30,6 +39,7 @@ import com.appcare.followconnect.Profile.Bean.feedUserInfo;
 import com.appcare.followconnect.Profile.FriendsList.CommonListActivity;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileActivity;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.editfeed.EditFeedActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -47,6 +57,9 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
     ImageButton imgbtn_searchuserprofile = null;
     ProfileResponseBean1 profileResponseBean1 = null;
     RecyclerView rv_userfeed = null;
+    String api_TAG="";
+    ArrayList<UserfeedResponseBean1> feedlist=new ArrayList<>();
+
     ProfileUserFeedAdapter profileUserFeedAdapter;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -126,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
             @Override
             public void responseSucess(Object object) {
                 UserFeedResponseBean bean = (UserFeedResponseBean) object;
-                ArrayList<UserfeedResponseBean1> feedlist = bean.getData();
+                 feedlist = bean.getData();
                 ArrayList<feedUserInfo> userInfo = bean.getUserInfo();
 
                 tvcount_1.setText("" + bean.getFriends());
@@ -222,9 +235,154 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
     }
 
     private void setadapter(ArrayList<UserfeedResponseBean1> feedList) {
-
         rv_userfeed.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
-        profileUserFeedAdapter = new ProfileUserFeedAdapter(ProfileActivity.this,feedList);
+        profileUserFeedAdapter = new ProfileUserFeedAdapter(ProfileActivity.this,feedList,ProfileActivity.this);
         rv_userfeed.setAdapter(profileUserFeedAdapter);
     }
+
+
+
+    public void whatsAppShare(String fileuri, String sid, String feed) {
+
+        String imageurl = fileuri;
+        String  postid = sid;
+        try {
+            //   Uri uri = Uri.parse(downloadImage(false));
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            String shareMessage = feed;
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            //    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            //  shareIntent.setType("image/jpeg");
+            shareIntent.setType("text/plain");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(ProfileActivity.this, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public void blockuser(String blockerId) {
+        BlockerInputs inputs = new BlockerInputs();
+
+        inputs.setBlock_id(blockerId);
+        inputs.setUser_id(Constants.getUid(ProfileActivity.this));
+
+        block(inputs);
+    }
+
+    private void block(BlockerInputs inputs) {
+
+        MyviewPresenter presenter=new MyviewPresenter(this,ProfileActivity.this);
+        presenter.block(inputs, new ResponseSucessCallback() {
+            @Override
+            public void responseSucess(Object object) {
+                BlockResponse blockResponse =  (BlockResponse) object;
+                Constants.displayLongToast(ProfileActivity.this,blockResponse.getMessage());
+            }
+        });
+    }
+
+
+    public void deleteFeed(String feedid, int position) {
+        DeleteFeedInputs inputs = new DeleteFeedInputs();
+
+        inputs.setUid(Constants.getUid(ProfileActivity.this));
+        inputs.setFeed_id(feedid);
+
+        MyviewPresenter presenter=new MyviewPresenter(this,ProfileActivity.this);
+
+        presenter.deleteFeed(inputs, new ResponseSucessCallback() {
+            @Override
+            public void responseSucess(Object object) {
+                DeleteResponse deleteResponse =  (DeleteResponse) object;
+             //   Toast.makeText(getActivity(), ""+deleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                Constants.displayLongToast(ProfileActivity.this,deleteResponse.getMessage());
+                feedlist.remove(position);
+                profileUserFeedAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void commentsClick(String feedid, String postid, int count, int position) {
+        Intent i = new Intent(ProfileActivity.this, CommentsActivity.class);
+        i.putExtra("FEEDID", feedid);
+        i.putExtra("POSTID", postid);
+        startActivity(i);
+    }
+
+    public void edit(String feedId) {
+        Intent i = new Intent(ProfileActivity.this, EditFeedActivity.class);
+        i.putExtra("FEEDID", feedId);
+        startActivity(i);
+    }
+
+    public void likes(int position, String feedid, String postid, int count, int likeStatus) {
+        FeedLikeInputs inputs = new FeedLikeInputs();
+        inputs.setFeed_id(feedid);
+        inputs.setPoster_id(postid);
+        inputs.setCommenter_id(Constants.getUid(ProfileActivity.this));
+        inputs.setComment("");
+        inputs.setLike("1");
+        inputs.setDislike("");
+        inputs.setShare("");
+        inputs.setView("");
+        api_TAG = "Likes";
+        int countvalu;
+        if(likeStatus == 0){
+            likeStatus = 1;
+            countvalu = count+1;
+        }else{
+            likeStatus = 0;
+            countvalu = count- 1;
+        }
+        postLikes(inputs, position, api_TAG, countvalu, likeStatus);
+    }
+
+    private void postLikes(FeedLikeInputs inputs, int position, String likes, int countvalu, int likeStatus) {
+
+        MyviewPresenter presenter=new MyviewPresenter(this,ProfileActivity.this);
+
+        presenter.postLikes(inputs, new ResponseSucessCallback() {
+            @Override
+            public void responseSucess(Object object) {
+                FeedLikeResponse feedLikeResponse =  (FeedLikeResponse) object;
+                Toast.makeText(ProfileActivity.this, ""+feedLikeResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                if(api_TAG.equals("Likes"))
+                {
+
+                    feedlist.get(position).setLikesCount(countvalu);
+                    feedlist.get(position).setLikes(likeStatus);
+                    profileUserFeedAdapter.notifyDataSetChanged();
+                }else if(api_TAG.equals("DisLikes"))
+                {
+                    feedlist.get(position).setLikesCount(countvalu);
+                    feedlist.get(position).setLikes(likeStatus);
+                    profileUserFeedAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+
+    public void disLikes(int position, String feedid, String postid, int count, int likeStatus) {
+        FeedLikeInputs inputs = new FeedLikeInputs();
+        inputs.setFeed_id(feedid);
+        inputs.setPoster_id(postid);
+        inputs.setCommenter_id(Constants.getUid(ProfileActivity.this));
+        inputs.setComment("");
+        inputs.setLike("0");
+        inputs.setDislike("");
+        inputs.setShare("");
+        inputs.setView("");
+        api_TAG = "DisLikes";
+        int countvalu = count-1;
+        postLikes(inputs, position, api_TAG, countvalu, 0);
+    }
+
+
 }

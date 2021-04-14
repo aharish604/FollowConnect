@@ -84,6 +84,7 @@ public class Constants {
     public static String countryAPI = "https://restcountries.eu/rest/v2/all";
 
     public static SearchHistoryResponseBean1 searchFriendsListData;
+    public static String Toid="toid";
 
     //  http://13.126.39.225/socialmedia/index.php/register/register
 
@@ -133,7 +134,7 @@ public class Constants {
                 e.printStackTrace();
             }
         }else {
-            System.out.println("data toast:-"+mContext.getApplicationInfo().toString());
+            System.out.println("data toast:-"+mContext.getClass().toString());
 
         }
     }

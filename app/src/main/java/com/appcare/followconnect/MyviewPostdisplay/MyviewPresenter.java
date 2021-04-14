@@ -17,6 +17,8 @@ import com.appcare.followconnect.Network.APIInterface;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Network.RequestClient;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
+import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -268,5 +270,65 @@ public class MyviewPresenter {
 
 
     }
+
+    public void unfriend(UnfriendRequestBean bean, ResponseSucessCallback responseSucessCallback) {
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<UnfriendResponseBean> call = RequestClient.getClient().create(APIInterface.class).unfriend(bean);
+                call.enqueue(new Callback<UnfriendResponseBean>() {
+                    @Override
+                    public void onResponse(Call<UnfriendResponseBean> call, retrofit2.Response<UnfriendResponseBean> response) {
+                        try {
+                            UnfriendResponseBean unfriendResponseBean = response.body();
+                            apiResponse.dismissProgress();
+                            if (unfriendResponseBean.getStatus()) {
+                                responseSucessCallback.responseSucess(unfriendResponseBean);
+                            } else {
+                                apiResponse.onServerError(unfriendResponseBean.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UnfriendResponseBean> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("profiledata is 11===  " +t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+    }
+
 
 }
