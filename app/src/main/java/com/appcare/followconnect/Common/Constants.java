@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.webkit.URLUtil;
@@ -42,6 +43,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.pixplicity.sharp.Sharp;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -484,4 +486,18 @@ public class Constants {
         }
     }
 
+    public static String Device_Token = "deviceToken";
+
+    public static void deleteFileFromFolder() {
+        File dir = new File(Environment.getExternalStorageDirectory()+"/Pictures/FollowConnect");
+
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
 }

@@ -70,11 +70,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
         getSupportActionBar().hide();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         TabsPagerAdapter tabsPagerAdapter = new TabsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(tabsPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -87,6 +90,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         title.setOnClickListener(HomeActivity.this);
 
         requestPermission();
+
+        final Intent intent=getIntent();
+        if(intent!=null)
+        {
+            if(intent.hasExtra("TabNumber"))
+            {
+                String tab = intent.getExtras().getString("TabNumber");
+                switchToTab(tab);
+
+            }
+
+        }
+
 
     }
 
@@ -309,5 +325,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }*/
 
+    public void switchToTab(String tab){
+        if(tab.equals("0")){
+            viewPager.setCurrentItem(0);
+        }else if(tab.equals("1")){
+            viewPager.setCurrentItem(1);
+        }else if(tab.equals("2")){
+            viewPager.setCurrentItem(2);
+        }else if(tab.equals("3")){
+            viewPager.setCurrentItem(2);
+        }
+    }
 
 }

@@ -41,6 +41,11 @@ import com.appcare.followconnect.ProfileUpdate.UpdateProfileActivity;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.editfeed.EditFeedActivity;
 import com.bumptech.glide.Glide;
+import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -244,26 +249,39 @@ public class ProfileActivity extends AppCompatActivity implements APIResponse, V
 
     public void whatsAppShare(String fileuri, String sid, String feed) {
 
-        String imageurl = fileuri;
-        String  postid = sid;
-        try {
-            //   Uri uri = Uri.parse(downloadImage(false));
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            String shareMessage = feed;
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            //    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            //  shareIntent.setType("image/jpeg");
-            shareIntent.setType("text/plain");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(ProfileActivity.this, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+        showProgress();
 
+        String[] imagesarray=null;
+        ArrayList<String> list=new ArrayList<>();
+        list.clear();
+        if (!fileuri.equalsIgnoreCase("")) {
+            imagesarray = fileuri.split(",");
         }
 
+        for(String ch:imagesarray)
+        {
+
+            list.add(ch);
+        }
+
+        OmegaIntentBuilder.from(ProfileActivity.this)
+                .share()
+                //.emailTo("your_email_here@gmail.com")
+                //.subject("Great library")
+                .filesUrls()
+                .filesUrls(list)
+                // .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                .download(new DownloadCallback() {
+                    @Override
+                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+
+                        dismissProgress();
+                        contextIntentHandler.startActivity();
+                    }
+                });
+
     }
+
 
     public void blockuser(String blockerId) {
         BlockerInputs inputs = new BlockerInputs();

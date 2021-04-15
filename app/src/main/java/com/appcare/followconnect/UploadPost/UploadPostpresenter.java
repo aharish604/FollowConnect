@@ -230,4 +230,196 @@ public class UploadPostpresenter {
     }
 
 
+
+    public void uploadeditPost(UploadPostBean bean) {
+
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), bean.getUid());
+        RequestBody comment = RequestBody.create(MediaType.parse("text/plain"), bean.getFeedtext());
+        RequestBody address = RequestBody.create(MediaType.parse("text/plain"), bean.getAddress());
+        RequestBody privicy = RequestBody.create(MediaType.parse("text/plain"), bean.getPrivicy());
+        RequestBody ispoolvid = RequestBody.create(MediaType.parse("text/plain"), bean.getIsspoolvid());
+        RequestBody feed_id = RequestBody.create(MediaType.parse("text/plain"), bean.getFeed_id());
+
+
+        MultipartBody.Part[] multipartImages = new MultipartBody.Part[bean.getImages().length];
+
+        for (int index = 0; index < bean.getImages().length; index++) {
+            Log.d("Upload request", "requestUploadSurvey: survey image " + index + "  " + bean.getImages()[index]);
+            File file2 = new File(bean.getImages()[index]);
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
+            multipartImages[index] = MultipartBody.Part.createFormData("images[]", file2.getPath() + ".png", surveyBody);
+        }
+
+
+        MultipartBody.Part[] videosarray = new MultipartBody.Part[bean.getVideos().length];
+        for (int i = 0; i < bean.getVideos().length; i++) {
+            File file = new File(String.valueOf(bean.getVideos()[i]));
+            RequestBody mFile1 = RequestBody.create(MediaType.parse("video/*"), file);
+            videosarray[i] = MultipartBody.Part.createFormData("videos[]", file.getName() + ".mp4", mFile1);
+        }
+
+
+        if (bean.getVideos().length != 0) {
+
+            try {
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostVideos(uid, comment, ispoolvid, privicy,feed_id, videosarray);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+            }
+
+
+        } else if (bean.getImages().length != 0) {
+            try {
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy,feed_id, multipartImages);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+            }
+
+
+        } else {
+
+            try {
+                if (Constants.isNetworkAvailable(mcontext)) {
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy,feed_id, multipartImages);
+                    call.enqueue(new Callback<UploadPostResponse>() {
+                        @Override
+                        public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
+                            try {
+                                UploadPostResponse uploadPostResponse = response.body();
+                                apiResponse.dismissProgress();
+                                if (uploadPostResponse.getStatus()) {
+                                    apiResponse.onSuccess(uploadPostResponse);
+                                } else {
+                                    apiResponse.onServerError(uploadPostResponse.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                apiResponse.dismissProgress();
+                                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error) + "" + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UploadPostResponse> call, Throwable t) {
+                            call.cancel();
+
+                            ((Activity) mcontext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (apiResponse != null) {
+                                        apiResponse.dismissProgress();
+                                    }
+
+                                }
+                            });
+
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                            System.out.println("updateprofiledata is 11===  " + t.getMessage());
+                        }
+                    });
+                } else {
+                    apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+            }
+
+
+        }
+
+
+    }
 }

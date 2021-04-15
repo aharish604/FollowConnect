@@ -61,9 +61,20 @@ public class UploadPostBean {
     @Expose
     private String lng = "";
 
+    public String getFeed_id() {
+        return feed_id;
+    }
+
+    public void setFeed_id(String feed_id) {
+        this.feed_id = feed_id;
+    }
+
     @SerializedName("privicy")
     @Expose
     private String privicy = "";
+ @SerializedName("feed_id")
+    @Expose
+    private String feed_id = "";
 
     @SerializedName("images")
     @Expose

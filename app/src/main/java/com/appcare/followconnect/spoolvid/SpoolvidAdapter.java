@@ -59,12 +59,10 @@ public class SpoolvidAdapter extends RecyclerView.Adapter<SpoolvidAdapter.viewHo
 
                 Glide.with(mContext)
                 .load("http://13.126.39.225/socialmedia/uploads/feed/"+list.getVfThumb())
-                .placeholder(R.drawable.img_loading)
                 .into(holder.img_thumblain);
-
         Glide.with(mContext)
                 .load(bean.getProfilePic())
-                .placeholder(R.drawable.img_loading)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .into(holder.profile_image);
 
 

@@ -70,7 +70,7 @@ public class EditFeedPresenter {
 
         try {
             if (Constants.isNetworkAvailable(mcontext)) {
-                Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpost(uid_body,comment_body,ispoolvid_body,privicy_body, feedId_body, multipartImages,videosarray);
+                Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid_body,comment_body,comment_body,ispoolvid_body,privicy_body, feedId_body, multipartImages);
                 call.enqueue(new Callback<UploadPostResponse>() {
                     @Override
                     public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {

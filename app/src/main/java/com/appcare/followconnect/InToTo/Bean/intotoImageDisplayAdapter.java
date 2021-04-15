@@ -256,6 +256,32 @@ public class intotoImageDisplayAdapter extends RecyclerView.Adapter<intotoImageD
             }
         });
 
+
+        holder.img_private.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, ImageDisplayIntotoActivity.class);
+                Bundle args = new Bundle();
+                args.putStringArray("imagelistintoto",imagesarray);
+                //  args.putSerializable("imagelistintoto", (Serializable) list1);
+                i.putExtra("BUNDLE", args);
+                mContext.startActivity(i);
+
+            }
+        });
+
+        holder.video_private.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(mContext, VideodisplayIntotoActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable("imagelistintoto", (Serializable) list2);
+                i.putExtra("BUNDLE", args);
+                mContext.startActivity(i);
+
+            }
+        });
     }
 
     @Override

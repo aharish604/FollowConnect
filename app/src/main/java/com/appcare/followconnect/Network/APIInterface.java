@@ -112,6 +112,7 @@ public interface APIInterface {
                                         @Part MultipartBody.Part[] videosarray);
 
 
+
     @Multipart
     @POST("Feed/feedPost")
     Call<UploadPostResponse> uploadpostwithimages(@Part("uid") RequestBody uid,
@@ -239,13 +240,26 @@ public interface APIInterface {
 
     @Multipart
     @POST("Feed/feedEdit")
-    Call<UploadPostResponse> feeEditdpost(@Part("uid") RequestBody uid,
+    Call<UploadPostResponse> feeEditdpostImages(@Part("uid") RequestBody uid,
                                           @Part("feedtext") RequestBody comment,
+                                          @Part("address") RequestBody address,
                                           @Part("isspoolvid") RequestBody ispoolvid,
                                           @Part("privicy") RequestBody privicy,
                                           @Part("feed_id") RequestBody feed_id,
-                                          @Part MultipartBody.Part[] multipartImages,
-                                          @Part MultipartBody.Part videosarray);
+                                          @Part MultipartBody.Part[] multipartImages);
+
+
+
+    @Multipart
+    @POST("Feed/feedEdit")
+    Call<UploadPostResponse> feeEditdpostVideos(@Part("uid") RequestBody uid,
+                                                @Part("feedtext") RequestBody comment,
+                                                @Part("isspoolvid") RequestBody ispoolvid,
+                                                @Part("privicy") RequestBody privicy,
+                                                @Part("feed_id") RequestBody feed_id,
+                                                @Part MultipartBody.Part[] videosarray);
+
+
 
 
 

@@ -178,9 +178,25 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
                         switch (item.getItemId()) {
                             // item.setVisible(false);
                             case R.id.share_via:
-                                String fileuri = imagesarray[0];
-                                Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
-                                activity.whatsAppShare(fileuri, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
+                               // String fileuri = imagesarray[0];
+                              //  Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
+                                String url="";
+                                String imgurl = bean.getImgf();
+
+                                String videourl=bean.getVf();
+
+                                if(imgurl.equalsIgnoreCase(""))
+                                {
+                                    url=videourl;
+
+                                }else {
+                                    url=imgurl;
+                                }
+
+
+                               // activity.whatsAppShare(url,feedListbean.getSid(),feedListbean.getFeed());
+
+                                activity.whatsAppShare(url, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
                                 break;
                             case R.id.block_user:
                                 activity.blockuser(bean.getUserId());

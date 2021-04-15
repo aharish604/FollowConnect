@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appcare.followconnect.SignUp.Beans.RandomusernameBeanRequest;
 import com.appcare.followconnect.SignUp.Beans.SignUpBeanResponse;
@@ -109,7 +110,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void initUI() {
-
         sp_gender = findViewById(R.id.sp_gender);
         sp_counry = findViewById(R.id.sp_counry);
         imgbtn_signupback = findViewById(R.id.imgbtn_signupback);
@@ -517,7 +517,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             signupBeanRequest.setLng("");
             signupBeanRequest.setCountryCode(et_countrycode.getText().toString());
             signupBeanRequest.setDeviceid("");
-            signupBeanRequest.setDevicetoken("");
+            signupBeanRequest.setDevicetoken(AppPreference.getInstance().getString(Constants.Device_Token));
             signupBeanRequest.setDevicetype("Android");
             signupBeanRequest.setIp("192.168.0.1");
             signupBeanRequest.setUsername(et_userID.getText().toString().trim());

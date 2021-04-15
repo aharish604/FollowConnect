@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
@@ -41,6 +42,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ProgressDialog progressDialog = null;
     private GoogleSignInClient mGoogleSignInClient;
     LoginPresenter presenter = null;
+    String dvc_tkn = "";
     Button btn_sigin = null;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -71,6 +74,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.WHITE));
 
         mAuth = FirebaseAuth.getInstance();
+        dvc_tkn = FirebaseInstanceId.getInstance().getToken();
+        System.out.println("Device Token:-"+dvc_tkn);
+        AppPreference.getInstance().put(Constants.Device_Token, dvc_tkn);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -183,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             bean.setDeviceid(user.getUid());
                             bean.setFullname(user.getDisplayName());
                             bean.setSocial_uid(user.getUid());
-                            bean.setDevicetoken(user.getUid());
+                            bean.setDevicetoken(dvc_tkn);
                             bean.setDevicetype("Android");
 
                             presenter.postloginwithemail(bean, new ProfileCallback() {
@@ -277,13 +283,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (password.equalsIgnoreCase("")) {
             Constants.displayLongToast(LoginActivity.this, getString(R.string.alert_enterpassword));
         } else {
-
             LoginBean bean = new LoginBean();
             bean.setUsername(email);
             bean.setPassword(password);
             bean.setAPIKEY("");
             bean.setDevicetype("Android");
-            bean.setDevicetoken("");
+            bean.setDevicetoken(dvc_tkn);
             bean.setDeviceid("");
             presenter.doLogin(bean);
         }

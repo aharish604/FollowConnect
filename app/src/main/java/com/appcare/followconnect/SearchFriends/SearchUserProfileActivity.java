@@ -47,6 +47,7 @@ import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryResponseBean1;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
+import com.appcare.followconnect.SearchFriends.followandunfollow.followResponseBean;
 import com.appcare.followconnect.SearchFriends.followandunfollow.followrequestbean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
@@ -135,6 +136,9 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
 
                         @Override
                         public void responseSucess(Object object) {
+
+                            followResponseBean bean= (followResponseBean) object;
+                            Constants.displayLongToast(SearchUserProfileActivity.this,bean.getMessage());
 
                             getuserFeed();
 

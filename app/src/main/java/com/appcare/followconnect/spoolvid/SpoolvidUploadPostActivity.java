@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -32,6 +33,7 @@ import com.appcare.followconnect.BuildConfig;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
 import com.appcare.followconnect.Common.Utility;
+import com.appcare.followconnect.Home.HomeActivity;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.R;
 import com.appcare.followconnect.UploadPost.FileCompressor;
@@ -153,6 +155,7 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
         Constants.displayLongToast(SpoolvidUploadPostActivity.this, signUpResponse.getMessage());
 
 
+        openHomeActivity();
 
     }
 
@@ -191,7 +194,9 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
         switch (v.getId()) {
 
             case R.id.imgbtn_searchuserprofile:
-                finish();
+
+
+                openHomeActivity();
                 break;
             case R.id.video:
                 requestStoragePermission(true);
@@ -208,6 +213,17 @@ public class SpoolvidUploadPostActivity extends AppCompatActivity implements API
         }
 
     }
+
+
+    private void openHomeActivity() {
+        AppPreference.getInstance().put(Constants.loginStatus, true);
+        Intent i = new Intent(SpoolvidUploadPostActivity.this, HomeActivity.class);
+        i.putExtra("TabNumber","2");
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
+    }
+
 
     private void validate() {
 

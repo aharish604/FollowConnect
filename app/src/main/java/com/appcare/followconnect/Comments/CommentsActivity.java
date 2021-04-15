@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Comments.adapter.CommentsAdaper;
 import com.appcare.followconnect.Comments.model.CommentsListInputs;
@@ -14,11 +15,14 @@ import com.appcare.followconnect.Comments.model.CommentsListResponse;
 import com.appcare.followconnect.Comments.presenter.CommentsPresenter;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
+import com.appcare.followconnect.Home.HomeActivity;
 import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
 import com.appcare.followconnect.MyviewPostdisplay.FeedLikeResponse;
+import com.appcare.followconnect.Profile.FriendsList.CommonListActivity;
 import com.appcare.followconnect.R;
 
 import com.appcare.followconnect.Network.APIResponse;
+import com.appcare.followconnect.spoolvid.SpoolvidUploadPostActivity;
 
 import java.util.ArrayList;
 
@@ -38,7 +42,8 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<CommentsListResponse.CommentData> commentsArrayList;
     CommentsPresenter presenter;
     ProgressDialog progressDialog = null;
-    String feedid = "", postid = "", userid= "";
+    String feedid = "", postid = "", userid = "";
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,9 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
         presenter = new CommentsPresenter(CommentsActivity.this, CommentsActivity.this);
 
         Intent myIntent = getIntent();
-         feedid = myIntent.getStringExtra("FEEDID");
-         postid = myIntent.getStringExtra("POSTID");
-        userid= AppPreference.getInstance(CommentsActivity.this).getString(Constants.User_ID);
+        feedid = myIntent.getStringExtra("FEEDID");
+        postid = myIntent.getStringExtra("POSTID");
+        userid = AppPreference.getInstance(CommentsActivity.this).getString(Constants.User_ID);
         Intialize_RV();
     }
 
@@ -81,7 +86,7 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
                 CommentsListResponse chatHistoryBeanResponse = (CommentsListResponse) object;
                 commentsArrayList = chatHistoryBeanResponse.getData();
 
-                commentsAdaper=new CommentsAdaper(CommentsActivity.this,commentsArrayList);
+                commentsAdaper = new CommentsAdaper(CommentsActivity.this, commentsArrayList);
                 comments_rv.setAdapter(commentsAdaper);
 
             }
@@ -89,18 +94,16 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
-
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imgbtn_back:
-                finish();
+                openHomeActivity();
                 break;
             case R.id.send_btn:
-                if(et_comments.getText().toString().equals("")){
+                if (et_comments.getText().toString().equals("")) {
                     Constants.displayLongToast(CommentsActivity.this, "Enter Your Comments");
-                }else {
+                } else {
                     FeedLikeInputs inputs = new FeedLikeInputs();
                     inputs.setFeed_id(feedid);
                     inputs.setPoster_id(postid);
@@ -117,15 +120,23 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void openHomeActivity() {
+        AppPreference.getInstance().put(Constants.loginStatus, true);
+        Intent i = new Intent(CommentsActivity.this, HomeActivity.class);
+        i.putExtra("TabNumber", "0");
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
+    }
+
     private void commentsPost(FeedLikeInputs inputs) {
         presenter.postComments(inputs, new ResponseSucessCallback() {
             @Override
             public void responseSucess(Object object) {
-                FeedLikeResponse feedLikeResponse =  (FeedLikeResponse) object;
-                Toast.makeText(CommentsActivity.this, ""+feedLikeResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                FeedLikeResponse feedLikeResponse = (FeedLikeResponse) object;
+                Toast.makeText(CommentsActivity.this, "" + feedLikeResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-               finish();
-
+                openHomeActivity();
             }
         });
     }

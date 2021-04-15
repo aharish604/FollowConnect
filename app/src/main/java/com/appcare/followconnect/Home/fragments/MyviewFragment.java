@@ -35,6 +35,12 @@ import com.appcare.followconnect.UploadPost.UploadPostActivity;
 import com.appcare.followconnect.View.ViewBeanRequest;
 import com.appcare.followconnect.View.ViewBeanResponse;
 import com.appcare.followconnect.editfeed.EditFeedActivity;
+import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,24 +217,36 @@ public class MyviewFragment extends Fragment implements APIResponse {
 
     public void whatsAppShare(String fileuri, String sid, String feed) {
 
-        String imageurl = fileuri;
-        String postid = sid;
-        try {
-            //   Uri uri = Uri.parse(downloadImage(false));
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            String shareMessage = feed;
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            //    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            //  shareIntent.setType("image/jpeg");
-            shareIntent.setType("text/plain");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+        showProgress();
 
+        String[] imagesarray=null;
+        ArrayList<String> list=new ArrayList<>();
+        list.clear();
+        if (!fileuri.equalsIgnoreCase("")) {
+            imagesarray = fileuri.split(",");
         }
+
+        for(String ch:imagesarray)
+        {
+
+            list.add(ch);
+        }
+
+        OmegaIntentBuilder.from(getActivity())
+                .share()
+                //.emailTo("your_email_here@gmail.com")
+                //.subject("Great library")
+                .filesUrls()
+                .filesUrls(list)
+               // .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                .download(new DownloadCallback() {
+                    @Override
+                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+
+                        dismissProgress();
+                        contextIntentHandler.startActivity();
+                    }
+                });
 
     }
 
@@ -295,10 +313,11 @@ public class MyviewFragment extends Fragment implements APIResponse {
         startActivity(i);
     }
 
-    public void edit(String feedId,String url) {
+    public void edit(String feedId,String url,String feed) {
         Intent i = new Intent(getActivity(), UploadPostActivity.class);
         i.putExtra("FEEDID", feedId);
         i.putExtra("commingfrom", "editfeed");
+        i.putExtra("feedtext", feed);
         i.putExtra("Imageurls",url);
         startActivity(i);
     }

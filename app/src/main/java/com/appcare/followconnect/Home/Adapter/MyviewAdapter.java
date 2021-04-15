@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.appcare.followconnect.Home.fragments.MyviewFragment;
 import com.appcare.followconnect.MyviewPostdisplay.ImageSliderActivity;
 import com.appcare.followconnect.MyviewPostdisplay.bean.FeedList;
@@ -68,9 +69,9 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         int likeStatus = bean.getLikes();
 
 
-        if(likeStatus == 1){
+        if (likeStatus == 1) {
             holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like_blue));
-        }else{
+        } else {
             holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like));
         }
 
@@ -78,11 +79,10 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         holder.tv_posttime.setText("" + bean.getCd());
         holder.post_content.setText("" + feedListbean.getFeed());
 
-        holder.tv_commentscount.setText(""+bean.getCommentsCount());
-        holder.tv_likecount.setText(""+bean.getLikesCount());
-        holder.tv_dislikecount.setText(""+bean.getDislikeCount());
-        holder.tv_viewcounts.setText(""+bean.getViwes());
-
+        holder.tv_commentscount.setText("" + bean.getCommentsCount());
+        holder.tv_likecount.setText("" + bean.getLikesCount());
+        holder.tv_dislikecount.setText("" + bean.getDislikeCount());
+        holder.tv_viewcounts.setText("" + bean.getViwes());
 
 
         imagesarray = null;
@@ -91,8 +91,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         }
 
 
-        if(!bean.getVfThumbFile().isEmpty())
-        {
+        if (!bean.getVfThumbFile().isEmpty()) {
             holder.video_layout.setVisibility(View.VISIBLE);
             holder.btn_imgdisLike.setVisibility(View.VISIBLE);
             holder.tv_dislikecount.setVisibility(View.VISIBLE);
@@ -100,9 +99,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             Glide.with(mContext)
                     .load(bean.getVfThumbFile())
                     //  .placeholder(R.drawable.img3)
-                    .into(holder.img_thumblain  );
-        }
-        else {
+                    .into(holder.img_thumblain);
+        } else {
             holder.video_layout.setVisibility(View.GONE);
             holder.btn_imgdisLike.setVisibility(View.GONE);
             holder.tv_dislikecount.setVisibility(View.GONE);
@@ -113,8 +111,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         holder.videoplaybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, SpoolvidVideoPLayingActivity.class);
-                intent.putExtra("videourl",bean.getVfFile());
+                Intent intent = new Intent(mContext, SpoolvidVideoPLayingActivity.class);
+                intent.putExtra("videourl", bean.getVfFile());
                 mContext.startActivity(intent);
             }
         });
@@ -125,8 +123,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
                 myviewFragment.view(feedListbean.getSid(), position);
 
-                Intent intent=new Intent(mContext, ImageSliderActivity.class);
-                intent.putExtra("imageurl",bean.getImgfFile());
+                Intent intent = new Intent(mContext, ImageSliderActivity.class);
+                intent.putExtra("imageurl", bean.getImgfFile());
                 mContext.startActivity(intent);
 
             }
@@ -175,9 +173,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         }
 
 
-
-
-        if (i == 1 ) {
+        if (i == 1) {
             imageView.setPadding(0, 5, 0, 0);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
@@ -328,13 +324,13 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                     .into(imageView44);
 
 
-        }else if (i == 4) {
+        } else if (i == 4) {
 
             imageView41.setPadding(0, 5, 0, 0);
             imageView41.setLayoutParams(new FrameLayout.LayoutParams(width, height / 2));
             imageView41.setScaleType(ImageView.ScaleType.FIT_XY);
 
-               imageView42.setY(height / 2);
+            imageView42.setY(height / 2);
             imageView42.setPadding(0, 5, 5, 0);
             imageView42.setLayoutParams(new FrameLayout.LayoutParams(width / 3, height / 2));
             imageView42.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -394,9 +390,9 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
                 int likeStatus = bean.getLikes();
-                if(count == 0){
+                if (count == 0) {
 
-                }else{
+                } else {
                     myviewFragment.disLikes(position, feedid, postid, count, likeStatus);
                 }
 
@@ -417,17 +413,15 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         });
 
 
-
-
         holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 PopupMenu menu = new PopupMenu(view.getContext(), holder.imgbtn_more);
                 menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
-                if(userId.equals(feedListbean.getPuid())){
+                if (userId.equals(feedListbean.getPuid())) {
                     menu.getMenu().removeItem(R.id.block_user);
-                }else{
+                } else {
                     menu.getMenu().removeItem(R.id.edit);
                     menu.getMenu().removeItem(R.id.delete);
                 }
@@ -439,9 +433,30 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
 
                             case R.id.share_via:
-                                String fileuri = imagesarray[0];
-                                Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
-                                myviewFragment.whatsAppShare(fileuri, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
+
+                                String url="";
+                                String imgurl = bean.getImgfFile();
+
+                                String videourl=bean.getVfFile();
+
+                                if(imgurl.equalsIgnoreCase(""))
+                                {
+                                     url=videourl;
+
+                                }else {
+                                    url=imgurl;
+                                }
+
+
+                                myviewFragment.whatsAppShare(url,feedListbean.getSid(),feedListbean.getFeed());
+
+                               /* Intent sendInt = new Intent(Intent.ACTION_SEND);
+                                    sendInt.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.app_name));
+                                    sendInt.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_app_message)+" "+ fileuri);
+                                    sendInt.setType("text/plain");
+                                    mContext.startActivity(Intent.createChooser(sendInt, "Share"));
+*/
+
 
                                 break;
                             case R.id.block_user:
@@ -449,7 +464,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                                 myviewFragment.blockuser(bean.getUserId());
                                 break;
                             case R.id.edit:
-                                myviewFragment.edit(feedListbean.getSid(),bean.getImgfFile());
+                                myviewFragment.edit(feedListbean.getSid(), bean.getImgfFile(),feedListbean.getFeed());
                                 break;
                             case R.id.delete:
                                 myviewFragment.deleteFeed(feedListbean.getSid(), position);
@@ -495,10 +510,10 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         ImageView img_thumblain;
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
-        TextView tv_posttime = null,tv_likecount,tv_dislikecount,tv_viewcounts,tv_commentscount;
-        ImageButton videoplaybtn,btn_imgdisLike, btn_imgLike, imgbtn_more, btn_comments;
+        TextView tv_posttime = null, tv_likecount, tv_dislikecount, tv_viewcounts, tv_commentscount;
+        ImageButton videoplaybtn, btn_imgdisLike, btn_imgLike, imgbtn_more, btn_comments;
         TextView post_content = null;
-        RelativeLayout img_layout = null,video_layout;
+        RelativeLayout img_layout = null, video_layout;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -519,7 +534,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
             btn_imgLike = itemView.findViewById(R.id.btn_imgLike);
             imgbtn_more = itemView.findViewById(R.id.imgbtn_more);
             btn_comments = itemView.findViewById(R.id.btn_comments);
-
 
 
         }
