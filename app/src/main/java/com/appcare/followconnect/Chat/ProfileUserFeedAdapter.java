@@ -135,11 +135,9 @@ public class ProfileUserFeedAdapter extends RecyclerView.Adapter<ProfileUserFeed
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
                 int likeStatus = bean.getLikes();
-                if(count == 0){
 
-                }else{
-                    activity.disLikes(position, feedid, postid, count, likeStatus);
-                }
+                 activity.disLikes(position, feedid, postid, count, likeStatus);
+
 
             }
         });

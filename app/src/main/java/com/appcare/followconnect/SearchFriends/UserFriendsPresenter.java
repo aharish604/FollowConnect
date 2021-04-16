@@ -9,6 +9,8 @@ import com.appcare.followconnect.Network.APIInterface;
 import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Network.RequestClient;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfriendRequestBean;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfrinedResponseBean;
 import com.appcare.followconnect.SearchFriends.Bean.UserFriendsInuts;
 import com.appcare.followconnect.SearchFriends.followandunfollow.followResponseBean;
 import com.appcare.followconnect.SearchFriends.followandunfollow.followrequestbean;
@@ -151,4 +153,65 @@ public class UserFriendsPresenter {
 
     }
 
+    public void sendFriendRequest(AddfriendRequestBean bean, ResponseSucessCallback responseSucessCallback) {
+
+        ((Activity) mcontext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                apiResponse.showProgress();
+            }
+        });
+
+        try {
+            if (Constants.isNetworkAvailable(mcontext)) {
+                Call<AddfrinedResponseBean> call = RequestClient.getClient().create(APIInterface.class).addFriend(bean);
+                call.enqueue(new Callback<AddfrinedResponseBean>() {
+                    @Override
+                    public void onResponse(Call<AddfrinedResponseBean> call, retrofit2.Response<AddfrinedResponseBean> response) {
+                        try {
+                            AddfrinedResponseBean addfrinedResponseBean = response.body();
+                            apiResponse.dismissProgress();
+                            if (addfrinedResponseBean.getStatus()) {
+
+                                responseSucessCallback.responseSucess(addfrinedResponseBean);
+
+                            } else {
+                                apiResponse.onServerError(addfrinedResponseBean.getMessage());
+                            }
+
+                        } catch (Exception e) {
+                            apiResponse.dismissProgress();
+                            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddfrinedResponseBean> call, Throwable t) {
+                        call.cancel();
+
+                        ((Activity) mcontext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (apiResponse != null) {
+                                    apiResponse.dismissProgress();
+                                }
+
+                            }
+                        });
+
+                        apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+                        System.out.println("login is 11===  " + t.getMessage());
+                    }
+                });
+            } else {
+                apiResponse.networkError(mcontext.getResources().getString(R.string.check_network));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResponse.onServerError(mcontext.getResources().getString(R.string.server_error));
+        }
+
+
+    }
 }

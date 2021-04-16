@@ -67,8 +67,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         FeedList feedListbean = bean.getFeedList();
 
         int likeStatus = bean.getLikes();
-
-
         if (likeStatus == 1) {
             holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like_blue));
         } else {
@@ -390,11 +388,8 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
                 int likeStatus = bean.getLikes();
-                if (count == 0) {
 
-                } else {
-                    myviewFragment.disLikes(position, feedid, postid, count, likeStatus);
-                }
+                myviewFragment.disLikes(position, feedid, postid, count, likeStatus);
 
             }
         });
@@ -450,12 +445,6 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
 
                                 myviewFragment.whatsAppShare(url,feedListbean.getSid(),feedListbean.getFeed());
 
-                               /* Intent sendInt = new Intent(Intent.ACTION_SEND);
-                                    sendInt.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.app_name));
-                                    sendInt.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_app_message)+" "+ fileuri);
-                                    sendInt.setType("text/plain");
-                                    mContext.startActivity(Intent.createChooser(sendInt, "Share"));
-*/
 
 
                                 break;

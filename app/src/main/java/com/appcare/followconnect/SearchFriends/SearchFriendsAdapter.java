@@ -56,7 +56,7 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
 
         Glide.with(mContext)
                 .load(bean.getProfilePic())
-                .placeholder(R.drawable.update_profile)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .into(holder.profile_image);
 
         holder.tv_username.setText(""+bean.getFullname());

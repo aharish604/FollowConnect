@@ -34,6 +34,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeedAdapter.viewHolder> {
@@ -42,12 +43,12 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
     String[] imagesarray = null;
 
     List<UserFriendsFeedResponse.Datum> feedList = null;
-    SearchUserProfileActivity activity=null;
+    SearchUserProfileActivity activity = null;
 
-    public UsersFriendFeedAdapter(FragmentActivity context, List<UserFriendsFeedResponse.Datum> feedList,SearchUserProfileActivity activity) {
+    public UsersFriendFeedAdapter(FragmentActivity context, List<UserFriendsFeedResponse.Datum> feedList, SearchUserProfileActivity activity) {
         mContext = context;
         this.feedList = feedList;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @NonNull
@@ -66,24 +67,22 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         holder.tv_posttime.setText("" + bean.getCd());
         holder.post_content.setText("" + feedListbean.getFeed());
 
-        holder.tv_commentscount.setText(""+bean.getCommentsCount());
-        holder.tv_likecount.setText(""+bean.getLikesCount());
-        holder.tv_dislikecount.setText(""+bean.getDislikeCount());
-        holder.tv_viewcounts.setText(""+bean.getViwes());
-
+        holder.tv_commentscount.setText("" + bean.getCommentsCount());
+        holder.tv_likecount.setText("" + bean.getLikesCount());
+        holder.tv_dislikecount.setText("" + bean.getDislikeCount());
+        holder.tv_viewcounts.setText("" + bean.getViwes());
 
 
         holder.img_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(mContext, ImageSliderActivity.class);
-                intent.putExtra("imageurl",bean.getImgf());
+                Intent intent = new Intent(mContext, ImageSliderActivity.class);
+                intent.putExtra("imageurl", bean.getImgf());
                 mContext.startActivity(intent);
 
             }
         });
-
 
 
         imagesarray = null;
@@ -92,8 +91,7 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         }
 
 
-        if(!feedListbean.getVfThumb().isEmpty())
-        {
+        if (!feedListbean.getVfThumb().isEmpty()) {
             holder.video_layout.setVisibility(View.VISIBLE);
             holder.btn_imgdisLike.setVisibility(View.VISIBLE);
             holder.tv_dislikecount.setVisibility(View.VISIBLE);
@@ -101,9 +99,8 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
             Glide.with(mContext)
                     .load(feedListbean.getVfThumb())
                     //  .placeholder(R.drawable.img3)
-                    .into(holder.img_thumblain  );
-        }
-        else {
+                    .into(holder.img_thumblain);
+        } else {
             holder.video_layout.setVisibility(View.GONE);
             holder.btn_imgdisLike.setVisibility(View.GONE);
             holder.tv_dislikecount.setVisibility(View.GONE);
@@ -114,12 +111,11 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         holder.videoplaybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, SpoolvidVideoPLayingActivity.class);
-                intent.putExtra("videourl",bean.getVf());
+                Intent intent = new Intent(mContext, SpoolvidVideoPLayingActivity.class);
+                intent.putExtra("videourl", bean.getVf());
                 mContext.startActivity(intent);
             }
         });
-
 
 
         Glide.with(mContext)
@@ -174,9 +170,7 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         }
 
 
-
-
-        if (i == 1 ) {
+        if (i == 1) {
             // imageView.setImageResource(R.drawable.img3);
             imageView.setPadding(0, 5, 0, 0);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -344,8 +338,7 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
                     .into(imageView44);
 
 
-        }
-       else if (i > 4) {
+        } else if (i > 4) {
             //x=0,y=0
 
            /* imageView.setVisibility(View.GONE);
@@ -425,17 +418,11 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         int likeStatus = bean.getLikes();
 
 
-        if(likeStatus == 1){
+        if (likeStatus == 1) {
             holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like_blue));
-        }else{
+        } else {
             holder.btn_imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_like));
         }
-
-
-
-
-
-
 
 
         holder.btn_imgdisLike.setOnClickListener(new View.OnClickListener() {
@@ -446,11 +433,8 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
                 String postid = feedListbean.getPuid();
                 int count = bean.getLikesCount();
                 int likeStatus = bean.getLikes();
-                if(count == 0){
+                activity.disLikes(position, feedid, postid, count, likeStatus);
 
-                }else{
-                    activity.disLikes(position, feedid, postid, count, likeStatus);
-                }
 
             }
         });
@@ -469,17 +453,15 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         });
 
 
-
-
         holder.imgbtn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 PopupMenu menu = new PopupMenu(view.getContext(), holder.imgbtn_more);
                 menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
-                if(Constants.getUid(mContext).equals(feedListbean.getPuid())){
+                if (Constants.getUid(mContext).equals(feedListbean.getPuid())) {
                     menu.getMenu().removeItem(R.id.block_user);
-                }else{
+                } else {
                     menu.getMenu().removeItem(R.id.edit);
                     menu.getMenu().removeItem(R.id.delete);
                 }
@@ -489,9 +471,22 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
                         switch (item.getItemId()) {
                             // item.setVisible(false);
                             case R.id.share_via:
-                                String fileuri = imagesarray[0];
-                                Toast.makeText(mContext, ""+fileuri, Toast.LENGTH_SHORT).show();
-                                activity.whatsAppShare(fileuri, bean.getFeedList().getSid(), bean.getFeedList().getFeed());
+                                String url = "";
+                                String imgurl = bean.getImgf();
+
+                                String videourl = bean.getVf();
+
+                                if (imgurl.equalsIgnoreCase("")) {
+                                    url = videourl;
+
+                                } else {
+                                    url = imgurl;
+                                }
+
+
+                                activity.whatsAppShare(url, feedListbean.getSid(), feedListbean.getFeed());
+
+
                                 break;
                             case R.id.block_user:
                                 activity.blockuser(bean.getUserId());
@@ -522,11 +517,6 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         });
 
 
-
-
-
-
-
     }
 
     @Override
@@ -549,11 +539,11 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
         ImageView img_thumblain;
         CircleImageView profile_image = null;
         TextView profilename_tv = null;
-        TextView tv_posttime = null,tv_likecount,tv_dislikecount,tv_viewcounts,tv_commentscount;
-        ImageButton videoplaybtn,btn_comments,imgbtn_more;
+        TextView tv_posttime = null, tv_likecount, tv_dislikecount, tv_viewcounts, tv_commentscount;
+        ImageButton videoplaybtn, btn_comments, imgbtn_more;
         TextView post_content = null;
-        ImageView btn_imgdisLike,btn_imgLike;
-        RelativeLayout img_layout = null,video_layout;
+        ImageView btn_imgdisLike, btn_imgLike;
+        RelativeLayout img_layout = null, video_layout;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -574,7 +564,6 @@ public class UsersFriendFeedAdapter extends RecyclerView.Adapter<UsersFriendFeed
             btn_imgLike = itemView.findViewById(R.id.btn_imgLike);
             btn_comments = itemView.findViewById(R.id.btn_comments);
             imgbtn_more = itemView.findViewById(R.id.imgbtn_more);
-
 
 
         }

@@ -100,21 +100,20 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/signinbtnbackground"
-                android:gravity="center|start"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/rightmark"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:src="@drawable/ic_right" />
 
                 <TextView
                     android:id="@+id/tv_friends"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:gravity="center_horizontal"
                     android:text=""
                     android:textColor="@color/WHITE"

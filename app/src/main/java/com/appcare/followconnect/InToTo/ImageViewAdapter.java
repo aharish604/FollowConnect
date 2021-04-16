@@ -1,6 +1,8 @@
 package com.appcare.followconnect.InToTo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +47,33 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.view
                 .load(data[position])
                 .into(holder.ivChapter);
 
+        holder.ivChapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(mContext, IntotoImageViewActivity.class);
+                Bundle args = new Bundle();
+                args.putString("imageurl",data[position]);
+                i.putExtra("BUNDLE", args);
+                mContext.startActivity(i);
+
+
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+
+        if (data == null)
+
+            return 0;
+
+        else
+
+            return data.length;
+
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {

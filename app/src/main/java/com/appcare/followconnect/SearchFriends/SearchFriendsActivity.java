@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
+import com.appcare.followconnect.InToTo.IntotoImageViewActivity;
 import com.appcare.followconnect.Login.LoginResponse;
 import com.appcare.followconnect.Login.LoginResponseBean;
 import com.appcare.followconnect.LoginWithGoogle.ProfileCallback;
@@ -129,16 +130,18 @@ public class SearchFriendsActivity extends AppCompatActivity implements APIRespo
 
                 SearchDataInsertBeanRequest searchDataInsertBeanRequest = new SearchDataInsertBeanRequest();
 
-              /*  searchDataInsertBeanRequest.setFid(bean.getUserId());
+                /*searchDataInsertBeanRequest.setFid(bean.getUserId());
                 searchDataInsertBeanRequest.setQuery(bean.);
                 searchDataInsertBeanRequest.setUid(AppPreference.getInstance().getString(Constants.User_ID));
 
                 presenter.insertSearchData();*/
 
-                Constants.searchFriendsListData = bean;
+                Intent i = new Intent(SearchFriendsActivity.this, SearchUserProfileActivity.class);
+                Bundle args = new Bundle();
+                args.putString("fid",bean.getUserId());
+                i.putExtra("BUNDLE", args);
+                startActivity(i);
 
-                Intent i1 = new Intent(SearchFriendsActivity.this, SearchUserProfileActivity.class);
-                startActivity(i1);
 
             }
         });
@@ -150,8 +153,13 @@ public class SearchFriendsActivity extends AppCompatActivity implements APIRespo
         SearchDataInsertBeanResponse searchDataInsertBeanResponse = (SearchDataInsertBeanResponse) object;
         Constants.displayLongToast(SearchFriendsActivity.this, searchDataInsertBeanResponse.getMessage());
 
-        Intent i1 = new Intent(SearchFriendsActivity.this, SearchUserProfileActivity.class);
-        startActivity(i1);
+
+        Intent i = new Intent(SearchFriendsActivity.this, SearchUserProfileActivity.class);
+        Bundle args = new Bundle();
+        args.putString("fid",usernameSearchResponseBean.getUserId());
+        i.putExtra("BUNDLE", args);
+        startActivity(i);
+
 
 
     }
@@ -198,6 +206,9 @@ public class SearchFriendsActivity extends AppCompatActivity implements APIRespo
                             UserNameSearchBeanResponse userNameSearchBeanResponse = (UserNameSearchBeanResponse) object;
                             if (userNameSearchBeanResponse.getData().size() != 0) {
                                 usernameSearchResponseBean = userNameSearchBeanResponse.getData().get(0);
+
+                              //  Constants.searchFriendsListData = bean;
+
                                 SearchDataInsertBeanRequest searchDataInsertBeanRequest = new SearchDataInsertBeanRequest();
                                 searchDataInsertBeanRequest.setUid(Constants.getUid(SearchFriendsActivity.this));
                                 searchDataInsertBeanRequest.setQuery("" + searchfriends_et.getText().toString());

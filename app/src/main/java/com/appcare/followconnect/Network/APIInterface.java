@@ -35,6 +35,8 @@ import com.appcare.followconnect.Profile.FriendsList.Bean.FriendsListResponseBea
 import com.appcare.followconnect.ProfileUpdate.ProfileUpdateBeanResponse;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfileBean;
 import com.appcare.followconnect.ProfileUpdate.UpdateProfilePhotoResponse;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfriendRequestBean;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfrinedResponseBean;
 import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
@@ -103,14 +105,13 @@ public interface APIInterface {
     Call<ProfileUpdateBeanResponse> updateprofiledata(@Body UpdateProfileBean updateProfileBean);
 
     @Multipart
-        @POST("Feed/feedPost")
+    @POST("Feed/feedPost")
     Call<UploadPostResponse> uploadpostwithvideos(@Part("uid") RequestBody uid,
-                                        @Part("feedtext") RequestBody comment,
-                                        @Part("address") RequestBody address,
-                                        @Part("isspoolvid") RequestBody ispoolvid,
-                                        @Part("privicy") RequestBody privicy,
-                                        @Part MultipartBody.Part[] videosarray);
-
+                                                  @Part("feedtext") RequestBody comment,
+                                                  @Part("address") RequestBody address,
+                                                  @Part("isspoolvid") RequestBody ispoolvid,
+                                                  @Part("privicy") RequestBody privicy,
+                                                  @Part MultipartBody.Part[] videosarray);
 
 
     @Multipart
@@ -126,13 +127,12 @@ public interface APIInterface {
     @Multipart
     @POST("Feed/feedPost")
     Call<UploadPostResponse> uploadpost(@Part("uid") RequestBody uid,
-                                                  @Part("feedtext") RequestBody comment,
-                                                  @Part("address") RequestBody address,
-                                                  @Part("isspoolvid") RequestBody ispoolvid,
-                                                  @Part("privicy") RequestBody privicy,
-                                                  @Part MultipartBody.Part[] multipartImages,
-                                                  @Part MultipartBody.Part[] videosarray);
-
+                                        @Part("feedtext") RequestBody comment,
+                                        @Part("address") RequestBody address,
+                                        @Part("isspoolvid") RequestBody ispoolvid,
+                                        @Part("privicy") RequestBody privicy,
+                                        @Part MultipartBody.Part[] multipartImages,
+                                        @Part MultipartBody.Part[] videosarray);
 
 
     @POST("Feed/getFeed")
@@ -193,10 +193,10 @@ public interface APIInterface {
     @POST("Feed/getUserFriendStaus")
     Call<UserFriendsFeedResponse> friendsUserFeed(@Body UserFriendsInuts userFriendWrapper);
 
-   @POST("Networks/FriendsList")
+    @POST("Networks/FriendsList")
     Call<FriendsListResponseBean> getFreindsList(@Body FriendsListRequestBean friendsListRequestBean);
 
-@POST("Networks/FollowingList")
+    @POST("Networks/FollowingList")
     Call<FollowersResponseBean> getFollowersList(@Body FollowersRequestBean followersRequestBean);
 
     @POST("Feed/userFeddactivity")
@@ -212,10 +212,10 @@ public interface APIInterface {
     @POST("Register/account_delete")
     Call<AccountDeleteResponseBean> deleteAccount(@Body AccountDeleteRequestBean bean);
 
-  @POST("Networks/blockerList")
+    @POST("Networks/blockerList")
     Call<BlockerListResponseBean> getBlockerList(@Body BlockerListRequestBean bean);
 
-   @POST("Chat/unblock_user")
+    @POST("Chat/unblock_user")
     Call<UnblockResponseBean> unblockuser(@Body UnblockRequestBean bean);
 
 
@@ -228,26 +228,25 @@ public interface APIInterface {
     @POST("Feed/commentsList")
     Call<CommentsListResponse> getCommentsList(@Body CommentsListInputs inputs);
 
-@POST("Networks/unFriend")
+    @POST("Networks/unFriend")
     Call<UnfriendResponseBean> unfriend(@Body UnfriendRequestBean inputs);
 
     @POST("Networks/sendRequest")
     Call<followResponseBean> sendunfollowrequest(@Body followrequestbean inputs);
-  @POST("Feed/feedView")
-    Call<ViewBeanResponse> feedview(@Body ViewBeanRequest inputs);
 
+    @POST("Feed/feedView")
+    Call<ViewBeanResponse> feedview(@Body ViewBeanRequest inputs);
 
 
     @Multipart
     @POST("Feed/feedEdit")
     Call<UploadPostResponse> feeEditdpostImages(@Part("uid") RequestBody uid,
-                                          @Part("feedtext") RequestBody comment,
-                                          @Part("address") RequestBody address,
-                                          @Part("isspoolvid") RequestBody ispoolvid,
-                                          @Part("privicy") RequestBody privicy,
-                                          @Part("feed_id") RequestBody feed_id,
-                                          @Part MultipartBody.Part[] multipartImages);
-
+                                                @Part("feedtext") RequestBody comment,
+                                                @Part("address") RequestBody address,
+                                                @Part("isspoolvid") RequestBody ispoolvid,
+                                                @Part("privicy") RequestBody privicy,
+                                                @Part("feed_id") RequestBody feed_id,
+                                                @Part MultipartBody.Part[] multipartImages);
 
 
     @Multipart
@@ -260,8 +259,8 @@ public interface APIInterface {
                                                 @Part MultipartBody.Part[] videosarray);
 
 
-
-
+    @POST("Networks/addFriend")
+    Call<AddfrinedResponseBean> addFriend(@Body AddfriendRequestBean inputs);
 
 
 }

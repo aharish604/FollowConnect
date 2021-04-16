@@ -1,6 +1,7 @@
 package com.appcare.followconnect.SearchFriends;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,11 +17,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +36,7 @@ import com.appcare.followconnect.Chat.ResponseSucessCallback;
 import com.appcare.followconnect.Comments.CommentsActivity;
 import com.appcare.followconnect.Common.AppPreference;
 import com.appcare.followconnect.Common.Constants;
+import com.appcare.followconnect.Common.Utility;
 import com.appcare.followconnect.Home.Adapter.MyviewAdapter;
 import com.appcare.followconnect.Home.fragments.FeedLikeInputs;
 import com.appcare.followconnect.MyviewPostdisplay.FeedLikeResponse;
@@ -42,6 +49,8 @@ import com.appcare.followconnect.Network.APIResponse;
 import com.appcare.followconnect.Profile.Bean.ProfileResponseBean1;
 import com.appcare.followconnect.Profile.ProfileActivity;
 import com.appcare.followconnect.R;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfriendRequestBean;
+import com.appcare.followconnect.SearchFriends.AddasaFriend.AddfrinedResponseBean;
 import com.appcare.followconnect.SearchFriends.Bean.SearchDataInsertBeanResponse;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanRequest;
 import com.appcare.followconnect.SearchFriends.Bean.SearchHistoryBeanResponse;
@@ -51,9 +60,15 @@ import com.appcare.followconnect.SearchFriends.followandunfollow.followResponseB
 import com.appcare.followconnect.SearchFriends.followandunfollow.followrequestbean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendRequestBean;
 import com.appcare.followconnect.SearchFriends.unfriend.UnfriendResponseBean;
+import com.appcare.followconnect.Settings.PasswordChangeActivity;
 import com.appcare.followconnect.editfeed.EditFeedActivity;
 import com.bumptech.glide.Glide;
+import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +91,9 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
     ImageView rightmark=null;
     LinearLayout ll_follow;
     String api_TAG="";
-
+String fid="";
+String usernmae="";
+String fullname="";
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +103,14 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
         getSupportActionBar().hide();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        if(args!=null)
+        {
+            fid=args.getString("fid");
+            usernmae=args.getString(Constants.UserName);
+            fullname=args.getString(Constants.FullName);
+        }
 
         InitUI();
 
@@ -130,7 +155,7 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
                 {
                     followrequestbean inputbean=new followrequestbean();
                     inputbean.setUid(Constants.getUid(  SearchUserProfileActivity.this));
-                    inputbean.setFid(usersFeeddata.get(0).getUserId());
+                    inputbean.setFid(fid);
 
                     presenter.sendunfollowrequest(inputbean,new ResponseSucessCallback(){
 
@@ -152,15 +177,12 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
             }
         });
 
-        setData();
-
     }
 
     private void getuserFeed() {
 
         UserFriendsInuts inuts = new UserFriendsInuts();
         String uid = AppPreference.getInstance().getString(Constants.User_ID);
-        String fid = Constants.searchFriendsListData.getUserId();
         inuts.setUid(uid);
         inuts.setFid(fid);
         presenter.getFriendsData(inuts, new ResponseSucessCallback() {
@@ -185,7 +207,7 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
 
                     Glide.with(SearchUserProfileActivity.this)
                             .load(userinformation.get(i).getProfilePic())
-                            .placeholder(R.drawable.update_profile)
+                            .placeholder(R.drawable.ic_baseline_account_circle_24)
                             .into(edit_profilepicture);
 
                     //    frienduserid = userinformation.get(i).getUserId();
@@ -193,22 +215,17 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
                 }
 
 
-                if(usersFeeddata.get(0).getFriendStatus().equalsIgnoreCase("noFriend")) {
+                if(bean.getFriendStatus().equalsIgnoreCase("noFriend")) {
 
-                    if(usersFeeddata.get(0).getConnectionStatus().equalsIgnoreCase("noFollowing")) {
+                    if(bean.getConnectionStatus().equalsIgnoreCase("noFollowing")) {
                         tv_friends.setText("Follow");
                         rightmark.setVisibility(View.VISIBLE);
                     }else {
-                        tv_friends.setText("UnFollow");
-                        rightmark.setVisibility(View.GONE);
-
-                    }
-                    if(usersFeeddata.get(0).getConnectionStatus().equalsIgnoreCase("inFollowing"))
-                    {
                         tv_friends.setText("Following");
                         rightmark.setVisibility(View.GONE);
 
                     }
+
 
 
                 }else {
@@ -219,23 +236,97 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
 
                 }
 
-
-
-
-
                 usersFriendFeedAdapter = new UsersFriendFeedAdapter(SearchUserProfileActivity.this,usersFeeddata,SearchUserProfileActivity.this);
                 rv_profilefeed.setAdapter(usersFriendFeedAdapter);
+
+                setData(bean);
             }
         });
 
 
     }
 
-    private void setData() {
-//        profile_name.setText(Constants.searchFriendsListData.getFullname());
-        tv_username.setText(Constants.searchFriendsListData.getFullname());
+    private void setData(UserFriendsFeedResponse bean) {
+
+        option_Menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu menu = new PopupMenu(view.getContext(),option_Menu);
+                menu.getMenuInflater().inflate(R.menu.popup_menu_searchprofile, menu.getMenu());
+
+                if (bean.getFriendStatus().equalsIgnoreCase("noFriend")) {
+                    menu.getMenu().removeItem(R.id.unfriend);
+                    menu.getMenu().removeItem(R.id.blockuser);
+                } else {
+                    menu.getMenu().removeItem(R.id.addfriend);
+
+
+                }
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            // item.setVisible(false);
+
+
+                            case R.id.addfriend:
+
+                                showAlertAddfriend();
+
+                                break;
+                            case R.id.unfriend:
+
+                                UnfriendRequestBean inputs = new UnfriendRequestBean();
+                                inputs.setFid(userinformation.get(0).getUserId());
+                                inputs.setUid(Constants.getUid(SearchUserProfileActivity.this));
+                                MyviewPresenter   presenter = new MyviewPresenter(SearchUserProfileActivity.this, SearchUserProfileActivity.this);
+                                presenter.unfriend(inputs, new ResponseSucessCallback() {
+                                    @Override
+                                    public void responseSucess(Object object) {
+                                        UnfriendResponseBean blockResponse = (UnfriendResponseBean) object;
+                                        Toast.makeText(SearchUserProfileActivity.this, "" + blockResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        getuserFeed();
+
+                                    }
+
+                                });
+
+
+                                break;
+                            case R.id.blockuser:
+                                BlockerInputs inputs1 = new BlockerInputs();
+                                inputs1.setBlock_id(userinformation.get(0).getUserId());
+                                inputs1.setUser_id(Constants.getUid(SearchUserProfileActivity.this));
+
+                                MyviewPresenter   presenter1 = new MyviewPresenter(SearchUserProfileActivity.this, SearchUserProfileActivity.this);
+                                presenter1.block(inputs1, new ResponseSucessCallback() {
+                                    @Override
+                                    public void responseSucess(Object object) {
+                                        BlockResponse blockResponse = (BlockResponse) object;
+                                        Toast.makeText(SearchUserProfileActivity.this, "" + blockResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                });
+
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                menu.show();
+            }
+
+        });
+
 
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -257,20 +348,7 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
                     @Override
                     public void onClick(View v) {
 
-                        BlockerInputs inputs = new BlockerInputs();
-                        inputs.setBlock_id(userinformation.get(0).getUserId());
-                        inputs.setUser_id(Constants.getUid(SearchUserProfileActivity.this));
 
-                     MyviewPresenter   presenter = new MyviewPresenter(SearchUserProfileActivity.this, SearchUserProfileActivity.this);
-                     presenter.block(inputs, new ResponseSucessCallback() {
-                            @Override
-                            public void responseSucess(Object object) {
-                                BlockResponse blockResponse = (BlockResponse) object;
-                                Toast.makeText(SearchUserProfileActivity.this, "" + blockResponse.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        });
 
 
                     }
@@ -280,19 +358,6 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
                     @Override
                     public void onClick(View v) {
 
-                        UnfriendRequestBean inputs = new UnfriendRequestBean();
-                        inputs.setFid(userinformation.get(0).getUserId());
-                        inputs.setUid(Constants.getUid(SearchUserProfileActivity.this));
-                        MyviewPresenter   presenter = new MyviewPresenter(SearchUserProfileActivity.this, SearchUserProfileActivity.this);
-                        presenter.unfriend(inputs, new ResponseSucessCallback() {
-                            @Override
-                            public void responseSucess(Object object) {
-                                UnfriendResponseBean blockResponse = (UnfriendResponseBean) object;
-                                Toast.makeText(SearchUserProfileActivity.this, "" + blockResponse.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        });
 
 
                     }
@@ -350,27 +415,38 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
 
     }
 
-
     public void whatsAppShare(String fileuri, String sid, String feed) {
 
-        String imageurl = fileuri;
-        String  postid = sid;
-        try {
-            //   Uri uri = Uri.parse(downloadImage(false));
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            String shareMessage = feed;
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            //    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            //  shareIntent.setType("image/jpeg");
-            shareIntent.setType("text/plain");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(SearchUserProfileActivity.this, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+        showProgress();
 
+        String[] imagesarray=null;
+        ArrayList<String> list=new ArrayList<>();
+        list.clear();
+        if (!fileuri.equalsIgnoreCase("")) {
+            imagesarray = fileuri.split(",");
         }
+
+        for(String ch:imagesarray)
+        {
+
+            list.add(ch);
+        }
+
+        OmegaIntentBuilder.from(SearchUserProfileActivity.this)
+                .share()
+                //.emailTo("your_email_here@gmail.com")
+                //.subject("Great library")
+                .filesUrls()
+                .filesUrls(list)
+                // .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                .download(new DownloadCallback() {
+                    @Override
+                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+
+                        dismissProgress();
+                        contextIntentHandler.startActivity();
+                    }
+                });
 
     }
 
@@ -490,6 +566,89 @@ public class SearchUserProfileActivity extends AppCompatActivity implements View
         int countvalu = count-1;
         postLikes(inputs, position, api_TAG, countvalu, 0);
     }
-    
+
+    public void showAlertAddfriend() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View customLayout = getLayoutInflater().inflate(R.layout.layout_addfriend, null);
+
+
+        AlertDialog mDialog = builder.create();
+        Window window = mDialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.setView(customLayout, 110, 0, 110, 0);
+        mDialog.setCanceledOnTouchOutside(false);//Clicking on the screen does not disappear
+        mDialog.show();
+        WindowManager.LayoutParams params = mDialog.getWindow().getAttributes();
+        mDialog.getWindow().setAttributes(params);
+
+        mDialog.show();
+
+        TextView tv_cancel = customLayout.findViewById(R.id.tv_cancel);
+        TextView tv_logout = customLayout.findViewById(R.id.tv_logout);
+        EditText et_email = customLayout.findViewById(R.id.et_email);
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDialog.dismiss();
+            }
+        });
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Constants.isNetworkAvailable(SearchUserProfileActivity.this)) {
+                    mDialog.dismiss();
+
+                    validateemail(et_email.getText().toString().trim());
+
+                } else {
+
+                    Constants.displayLongToast(SearchUserProfileActivity.this, getResources().getString(R.string.check_network));
+
+                }
+
+            }
+
+
+        });
+
+
+    }
+
+    private void validateemail(String email) {
+
+        if (email.isEmpty()) {
+            Constants.displayLongToast(SearchUserProfileActivity.this, getString(R.string.alert_entereamil));
+        } else if (!Utility.isEmailValid(email)) {
+            Constants.displayLongToast(SearchUserProfileActivity.this, getString(R.string.alert_entervalidemail));
+        } else {
+            sendFriendRequest(email);
+        }
+
+
+    }
+
+    private void sendFriendRequest(String email) {
+        AddfriendRequestBean bean=new AddfriendRequestBean();
+        bean.setEmail(email);
+        bean.setUid(Constants.getUid(SearchUserProfileActivity.this));
+
+        presenter.sendFriendRequest(bean,new ResponseSucessCallback(){
+
+            @Override
+            public void responseSucess(Object object) {
+                AddfrinedResponseBean bean=(AddfrinedResponseBean) object;
+
+                Constants.displayLongToast(SearchUserProfileActivity.this,bean.getMessage());
+
+            }
+        });
+
+
+    }
+
 
 }
