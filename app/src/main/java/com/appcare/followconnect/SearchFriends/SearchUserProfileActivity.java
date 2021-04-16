@@ -261,7 +261,6 @@ String fullname="";
                 } else {
                     menu.getMenu().removeItem(R.id.addfriend);
 
-
                 }
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override

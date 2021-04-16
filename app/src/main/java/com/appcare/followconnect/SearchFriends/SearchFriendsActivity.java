@@ -221,7 +221,7 @@ public class SearchFriendsActivity extends AppCompatActivity implements APIRespo
                         }
                     });
                 }else {
-                    Constants.displayLongToast(SearchFriendsActivity.this,SearchFriendsActivity.this.getResources().getString(R.string.check_network));
+                    Constants.displayLongToast(SearchFriendsActivity.this,SearchFriendsActivity.this.getResources().getString(R.string.search_Alert));
                 }
 
                 break;

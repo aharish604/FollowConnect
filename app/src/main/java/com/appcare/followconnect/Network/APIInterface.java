@@ -131,8 +131,7 @@ public interface APIInterface {
                                         @Part("address") RequestBody address,
                                         @Part("isspoolvid") RequestBody ispoolvid,
                                         @Part("privicy") RequestBody privicy,
-                                        @Part MultipartBody.Part[] multipartImages,
-                                        @Part MultipartBody.Part[] videosarray);
+                                        @Part MultipartBody.Part[] multipartImages);
 
 
     @POST("Feed/getFeed")

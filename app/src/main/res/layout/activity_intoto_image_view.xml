@@ -31,7 +31,6 @@
         app:zoomage_animateOnReset="true"
         app:zoomage_autoResetMode="UNDER"
         app:zoomage_autoCenter="true"
-        android:scaleType="fitXY"
         app:zoomage_zoomable="true"
         app:zoomage_translatable="true"
         app:zoomage_minScale="0.6"

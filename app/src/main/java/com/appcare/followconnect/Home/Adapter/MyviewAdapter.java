@@ -109,6 +109,7 @@ public class MyviewAdapter extends RecyclerView.Adapter<MyviewAdapter.viewHolder
         holder.videoplaybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myviewFragment.view(feedListbean.getSid(), position);
                 Intent intent = new Intent(mContext, SpoolvidVideoPLayingActivity.class);
                 intent.putExtra("videourl", bean.getVfFile());
                 mContext.startActivity(intent);

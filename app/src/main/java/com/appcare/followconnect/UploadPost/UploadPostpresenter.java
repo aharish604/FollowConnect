@@ -49,8 +49,17 @@ public class UploadPostpresenter {
 
         RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), bean.getUid());
         RequestBody comment = RequestBody.create(MediaType.parse("text/plain"), bean.getFeedtext());
+
+        RequestBody privicy;
+
+
+        if (bean.getVideos().length == 0 && bean.getImages().length == 0) {
+            privicy = RequestBody.create(MediaType.parse("text/plain"), "Public");
+        } else {
+            privicy = RequestBody.create(MediaType.parse("text/plain"), bean.getPrivicy());
+        }
+
         RequestBody address = RequestBody.create(MediaType.parse("text/plain"), bean.getAddress());
-        RequestBody privicy = RequestBody.create(MediaType.parse("text/plain"), bean.getPrivicy());
         RequestBody ispoolvid = RequestBody.create(MediaType.parse("text/plain"), bean.getIsspoolvid());
 
 
@@ -177,7 +186,7 @@ public class UploadPostpresenter {
 
             try {
                 if (Constants.isNetworkAvailable(mcontext)) {
-                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpost(uid, comment, address, ispoolvid, privicy, multipartImages, videosarray);
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).uploadpost(uid, comment, address, ispoolvid, privicy, multipartImages);
                     call.enqueue(new Callback<UploadPostResponse>() {
                         @Override
                         public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
@@ -230,7 +239,6 @@ public class UploadPostpresenter {
     }
 
 
-
     public void uploadeditPost(UploadPostBean bean) {
 
         ((Activity) mcontext).runOnUiThread(new Runnable() {
@@ -270,7 +278,7 @@ public class UploadPostpresenter {
 
             try {
                 if (Constants.isNetworkAvailable(mcontext)) {
-                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostVideos(uid, comment, ispoolvid, privicy,feed_id, videosarray);
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostVideos(uid, comment, ispoolvid, privicy, feed_id, videosarray);
                     call.enqueue(new Callback<UploadPostResponse>() {
                         @Override
                         public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
@@ -320,7 +328,7 @@ public class UploadPostpresenter {
         } else if (bean.getImages().length != 0) {
             try {
                 if (Constants.isNetworkAvailable(mcontext)) {
-                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy,feed_id, multipartImages);
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy, feed_id, multipartImages);
                     call.enqueue(new Callback<UploadPostResponse>() {
                         @Override
                         public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {
@@ -371,7 +379,7 @@ public class UploadPostpresenter {
 
             try {
                 if (Constants.isNetworkAvailable(mcontext)) {
-                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy,feed_id, multipartImages);
+                    Call<UploadPostResponse> call = RequestClient.getClient().create(APIInterface.class).feeEditdpostImages(uid, comment, address, ispoolvid, privicy, feed_id, multipartImages);
                     call.enqueue(new Callback<UploadPostResponse>() {
                         @Override
                         public void onResponse(Call<UploadPostResponse> call, retrofit2.Response<UploadPostResponse> response) {

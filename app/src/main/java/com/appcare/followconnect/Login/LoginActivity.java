@@ -278,8 +278,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (email.isEmpty()) {
             Constants.displayLongToast(LoginActivity.this, getString(R.string.alert_entereamil));
-        } else if (!Utility.isEmailValid(email)) {
-            Constants.displayLongToast(LoginActivity.this, getString(R.string.alert_entervalidemail));
         } else if (password.equalsIgnoreCase("")) {
             Constants.displayLongToast(LoginActivity.this, getString(R.string.alert_enterpassword));
         } else {
